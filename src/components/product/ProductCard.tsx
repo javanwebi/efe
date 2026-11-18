@@ -101,11 +101,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <span>انتخاب سایز و خرید</span>
           </Link>
 
-          <div className="flex items-center justify-between text-[10.5px] text-slate-400 border-t border-slate-100 pt-2">
-            <span>{product.categoryName || 'قطعات صنعتی'}</span>
-            <span className="font-mono font-bold text-slate-500" dir="ltr">
+          <div className="flex items-center justify-between gap-2 text-[10.5px] text-slate-400 border-t border-slate-100 pt-2">
+            <span className="shrink-0">{product.categoryName || 'قطعات صنعتی'}</span>
+            <span className="font-mono font-bold text-slate-500 truncate" dir="ltr">
               {brandLabel ? `${brandLabel} · ` : ''}
-              {product.code}
+              <bdi dir="ltr">{product.code}</bdi>
             </span>
           </div>
         </div>

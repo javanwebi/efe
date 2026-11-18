@@ -50,7 +50,7 @@ export const DirectSkuDetailPage: React.FC = () => {
 
   if (status === 'not-found' || !item) {
     return (
-      <main dir="rtl" className="mx-auto max-w-4xl px-4 py-14 text-center space-y-4">
+      <div dir="rtl" className="mx-auto max-w-4xl px-4 py-14 text-center space-y-4">
         <Package className="w-10 h-10 text-[#E06518] mx-auto" />
         <h1 className="text-lg font-black text-[#2B313A]">کد کالای مستقیم یافت نشد</h1>
         <Link
@@ -60,7 +60,7 @@ export const DirectSkuDetailPage: React.FC = () => {
           <span>مشاهده کاتالوگ محصولات</span>
           <ChevronLeft className="w-4 h-4" />
         </Link>
-      </main>
+      </div>
     );
   }
 
@@ -68,7 +68,7 @@ export const DirectSkuDetailPage: React.FC = () => {
   const beltSkuMedia = getBeltSkuMedia(undefined, item.skuCode);
 
   return (
-    <main dir="rtl" className="mx-auto max-w-6xl px-4 py-8 space-y-6 text-right">
+    <div dir="rtl" className="mx-auto max-w-6xl px-4 py-8 space-y-6 text-right">
       <nav className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
         <Link to="/" className="hover:text-[#E06518]">صفحه اصلی</Link>
         <ChevronLeft className="w-3.5 h-3.5" />
@@ -83,12 +83,26 @@ export const DirectSkuDetailPage: React.FC = () => {
       </nav>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-start shadow-xs">
-        <div className="rounded-2xl border border-slate-200 bg-[#FAF8F5] p-6 aspect-[4/3] grid place-items-center">
-          <ProductImage
-            src={beltSkuMedia?.profileDrawingWebp || item.imageUrl}
-            alt={item.name}
-            className="max-h-72 w-full object-contain"
-          />
+        <div className="space-y-2.5">
+          <div className="rounded-2xl border border-slate-200 bg-[#FAF8F5] p-4 aspect-[4/3] grid place-items-center overflow-hidden">
+            <ProductImage
+              src={beltSkuMedia?.realProductImage || beltSkuMedia?.profileDrawingWebp || item.imageUrl}
+              alt={item.name}
+              className="max-h-72 w-full object-contain"
+            />
+          </div>
+          {beltSkuMedia && (
+            <div className="rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-[11px] flex flex-wrap items-center justify-between gap-2">
+              <span className="font-bold text-slate-700">
+                {beltSkuMedia.realImageStatus === 'EXACT_SKU_IMAGE_FOUND'
+                  ? 'عکس واقعی مارکینگ اختصاصی تاییدشده'
+                  : 'نقشه مهندسی پروفیل و ابعاد اختصاصی (بدون عکس واقعی مارکینگ)'}
+              </span>
+              <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-white border border-slate-200 text-[#E06518]" dir="ltr">
+                {beltSkuMedia.technicalDrawingStatus}
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="space-y-4">
@@ -151,7 +165,7 @@ export const DirectSkuDetailPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 };
 

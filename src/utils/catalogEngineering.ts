@@ -300,6 +300,32 @@ export function refineEngineeredSku(input: EngineeredSkuInput): EngineeredSkuOut
     return out;
   }
 
+  // Teflon & polymer round-belt guide rails ("ريل تفلوني زير تسمه گرد...", "ريل تفلوني راهنماي تسمه گرد...", "ريل زير تسمه گرد 12...") -> rails, never belts
+  if (
+    /^ریل\s*(?:تفلونی\s*)?(?:زیر\s*تسمه|راهنمای\s*تسمه)/.test(nameNorm) &&
+    !/دستگاه/.test(nameNorm) &&
+    !/آلومینیوم|استیل|گالوانیزه|آهن/.test(nameNorm)
+  ) {
+    out.productType = 'ریل راهنمای تسمه (تفلونی / پلیمری)';
+    out.material = 'تفلون صنعتی (PTFE / UHMWPE)';
+    out.construction = /چاک\s*دار/.test(nameNorm)
+      ? 'ریل راهنمای چاک‌دار زیر تسمه'
+      : /تزریقی/.test(nameNorm)
+        ? 'ریل راهنمای تزریقی زیر تسمه'
+        : /خم\s*90/.test(nameNorm)
+          ? 'ریل راهنمای خم ۹۰ درجه زیر تسمه'
+          : 'ریل راهنمای صنعتی زیر تسمه';
+    out.profile = /چاک\s*دار/.test(nameNorm)
+      ? 'GUIDE_RAIL_SLOTTED'
+      : /تزریقی/.test(nameNorm)
+        ? 'GUIDE_RAIL_INJECTION'
+        : 'GUIDE_RAIL_TEFLON';
+    out.standard = 'استاندارد قطعات راهنمای خط انتقال';
+    out.unit = /متری|3\s*متری/.test(nameNorm) ? 'شاخه' : out.unit || 'متر';
+    setMenuPath(out, 'excel-v2-6-1', 'بر اساس جنس', 'ریل راهنما تفلون و متعلقات');
+    return out;
+  }
+
   // Foil-backed refractory cloth misplaced in sponges ("پارچه نسوز ابریشمی فویل دار کد 101") + 1260/1430 ceramic fiber kiln diaphragms
   if (
     /پارچه\s*نسوز|پنبه\s*نسوز/.test(nameNorm) ||

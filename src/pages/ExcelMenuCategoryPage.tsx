@@ -359,13 +359,11 @@ export const ExcelMenuCategoryPage: React.FC = () => {
     for (const fam of families) {
       const prod = productMap.get(fam.code);
       if (prod && prod.stockKnown !== false && prod.stock > 0) inStock += 1;
-      if (
-        prod?.images?.length ||
-        getBeltFamilyMedia(fam.code, prod?.image, {
-          variants: prod?.variants,
-          legacyFamilyCodes: prod?.legacyFamilyCodes,
-        })
-      ) {
+      const beltMedia = getBeltFamilyMedia(fam.code, prod?.image, {
+        variants: prod?.variants,
+        legacyFamilyCodes: prod?.legacyFamilyCodes,
+      });
+      if (prod?.images?.length || beltMedia?.hasVerifiedRealPhoto) {
         withImage += 1;
       }
     }
@@ -406,13 +404,11 @@ export const ExcelMenuCategoryPage: React.FC = () => {
       if (inStockOnly && (!prod || !prod.stockKnown || prod.stock <= 0)) return false;
 
       if (imageOnly) {
-        const hasImg = Boolean(
-          prod?.images?.length ||
-            getBeltFamilyMedia(fam.code, prod?.image, {
-              variants: prod?.variants,
-              legacyFamilyCodes: prod?.legacyFamilyCodes,
-            }),
-        );
+        const beltMedia = getBeltFamilyMedia(fam.code, prod?.image, {
+          variants: prod?.variants,
+          legacyFamilyCodes: prod?.legacyFamilyCodes,
+        });
+        const hasImg = Boolean(prod?.images?.length || beltMedia?.hasVerifiedRealPhoto);
         if (!hasImg) return false;
       }
 
@@ -463,22 +459,16 @@ export const ExcelMenuCategoryPage: React.FC = () => {
     return [...matched].sort((a, b) => {
       const prodA = productMap.get(a.code);
       const prodB = productMap.get(b.code);
-      const hasA =
-        prodA?.images?.length ||
-        getBeltFamilyMedia(a.code, prodA?.image, {
-          variants: prodA?.variants,
-          legacyFamilyCodes: prodA?.legacyFamilyCodes,
-        })
-          ? 1
-          : 0;
-      const hasB =
-        prodB?.images?.length ||
-        getBeltFamilyMedia(b.code, prodB?.image, {
-          variants: prodB?.variants,
-          legacyFamilyCodes: prodB?.legacyFamilyCodes,
-        })
-          ? 1
-          : 0;
+      const beltA = getBeltFamilyMedia(a.code, prodA?.image, {
+        variants: prodA?.variants,
+        legacyFamilyCodes: prodA?.legacyFamilyCodes,
+      });
+      const beltB = getBeltFamilyMedia(b.code, prodB?.image, {
+        variants: prodB?.variants,
+        legacyFamilyCodes: prodB?.legacyFamilyCodes,
+      });
+      const hasA = prodA?.images?.length || beltA?.hasVerifiedRealPhoto ? 1 : 0;
+      const hasB = prodB?.images?.length || beltB?.hasVerifiedRealPhoto ? 1 : 0;
       if (hasB !== hasA) return hasB - hasA;
       return b.skuCount - a.skuCount;
     });

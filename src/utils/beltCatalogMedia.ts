@@ -2,10 +2,16 @@ import beltManifestRaw from '../generated/beltCatalogManifest';
 import type { Product, ProductGalleryImage } from '../types';
 
 export interface BeltManifestFamilyEntry {
-  s: 'excel-v2-1-1' | 'excel-v2-1-2' | 'excel-v2-1-3' | 'excel-v2-1-4';
+  s:
+    | 'excel-v2-1-1'
+    | 'excel-v2-1-2'
+    | 'excel-v2-1-3'
+    | 'excel-v2-1-4'
+    | 'excel-v2-1-5'
+    | 'excel-v2-2-1';
   d: string;
   db: string | null;
-  p: [string | null, string | null, string | null];
+  p: [string | null, string | null, string | null, string | null];
 }
 
 export interface BeltCatalogManifest {
@@ -22,6 +28,7 @@ export interface BeltCatalogManifest {
   excludedMixedSkuIds: string[];
   pendingReviewSkuIds?: string[];
   exactRealSkuIds: string[];
+  aliases?: Record<string, string>;
   families: Record<string, BeltManifestFamilyEntry>;
   skus: Record<string, string>;
 }
@@ -37,8 +44,10 @@ export interface BeltFamilyMedia {
   menuCategorySlug: string;
   dominantDivision: string;
   existingDbImage: string | null;
+  hasVerifiedRealPhoto: boolean;
+  cardPreviewSvg: string;
   primaryThumbnail: string;
-  familyPhotos: [string | null, string | null, string | null];
+  familyPhotos: [string | null, string | null, string | null, string | null];
   specSheetWebp: string | null;
   specSheetSvg: string | null;
 }
@@ -58,7 +67,10 @@ export interface BeltSkuMedia {
 
 function normalizeOfficialDbImage(candidate?: string | null): string | null {
   const clean = String(candidate || '').trim();
-  if (/^\/storage\/products\/(catalog\/e\([1-9]\d{0,3}\)\.png|thumbs\/e\([1-9]\d{0,3}\)\.webp)$/i.test(clean)) {
+  if (
+    /^\/belt-catalog\/owner-conveyor\/e\([1-9]\d{0,3}\)\.(png|webp|jpg)$/i.test(clean) ||
+    /^\/storage\/products\/(catalog\/e\([1-9]\d{0,3}\)\.png|thumbs\/e\([1-9]\d{0,3}\)\.webp)$/i.test(clean)
+  ) {
     return clean;
   }
   return null;
@@ -78,15 +90,26 @@ export function resolveBeltManifestFamilyCode(
   hints?: BeltFamilyHints,
 ): string | null {
   const clean = String(familyCode || '').trim();
-  if (clean && !EXCLUDED_FAMILY_SET.has(clean) && Object.prototype.hasOwnProperty.call(manifest.families, clean)) {
-    return clean;
+  if (clean && !EXCLUDED_FAMILY_SET.has(clean)) {
+    const aliased = manifest.aliases?.[clean];
+    if (aliased && Object.prototype.hasOwnProperty.call(manifest.families, aliased)) {
+      return aliased;
+    }
+    if (Object.prototype.hasOwnProperty.call(manifest.families, clean)) {
+      return clean;
+    }
   }
   if (clean && EXCLUDED_FAMILY_SET.has(clean)) {
     return null;
   }
   for (const legacy of hints?.legacyFamilyCodes || []) {
     const c = String(legacy || '').trim();
-    if (c && !EXCLUDED_FAMILY_SET.has(c) && Object.prototype.hasOwnProperty.call(manifest.families, c)) {
+    if (!c || EXCLUDED_FAMILY_SET.has(c)) continue;
+    const aliasedLegacy = manifest.aliases?.[c];
+    if (aliasedLegacy && Object.prototype.hasOwnProperty.call(manifest.families, aliasedLegacy)) {
+      return aliasedLegacy;
+    }
+    if (Object.prototype.hasOwnProperty.call(manifest.families, c)) {
       return c;
     }
   }
@@ -135,6 +158,9 @@ export function getBeltFamilyMedia(
   const photo1 = entry.p[0] ? `${base}/family-image-01.webp` : null;
   const photo2 = entry.p[1] ? `${base}/family-image-02.webp` : null;
   const photo3 = entry.p[2] ? `${base}/family-image-03.webp` : null;
+  const photo4 = entry.p[3] ? `${base}/family-image-04.webp` : null;
+  const hasVerifiedRealPhoto = Boolean(dbImg || photo1 || photo2 || photo3 || photo4);
+  const cardPreviewSvg = `${base}/card-preview.svg`;
   const hasSpecSheet = entry.d !== 'service-ambiguous';
   const specSheetWebp = hasSpecSheet ? `${base}/family-specifications.webp` : null;
   const specSheetSvg = hasSpecSheet ? `${base}/family-specifications.svg` : null;
@@ -144,8 +170,10 @@ export function getBeltFamilyMedia(
     menuCategorySlug: entry.s,
     dominantDivision: entry.d,
     existingDbImage: dbImg,
-    primaryThumbnail: dbImg || photo1 || photo2 || photo3 || specSheetWebp || '',
-    familyPhotos: [photo1, photo2, photo3],
+    hasVerifiedRealPhoto,
+    cardPreviewSvg,
+    primaryThumbnail: dbImg || photo1 || photo2 || photo3 || photo4 || cardPreviewSvg || '',
+    familyPhotos: [photo1, photo2, photo3, photo4],
     specSheetWebp,
     specSheetSvg,
   };
@@ -225,6 +253,7 @@ export function buildBeltGalleryImages(
     'نمای کلی تسمه (01-main)',
     'نمای زاویه و دندانه (02-angle)',
     'مقطع لایه‌ها و ساختار داخلی (03-detail)',
+    'نمای نزدیک و مارکینگ بدنه (04-closeup)',
   ];
   familyMedia.familyPhotos.forEach((url, idx) => {
     if (!url) return;
@@ -235,12 +264,20 @@ export function buildBeltGalleryImages(
       title: `تصویر واقعی اختصاصی خانواده ${product.name} — ${photoLabels[idx]}`,
     });
   });
+  if (!familyMedia.hasVerifiedRealPhoto && familyMedia.cardPreviewSvg) {
+    pushUnique({
+      id: `belt-fam-preview-${product.code}`,
+      url: familyMedia.cardPreviewSvg,
+      scope: 'family',
+      title: `شماتیک هندسی مقطع پروفیل خانواده ${product.name}`,
+    });
+  }
   if (familyMedia.specSheetWebp) {
     pushUnique({
       id: `belt-fam-spec-${product.code}`,
       url: familyMedia.specSheetWebp,
       scope: 'family',
-      title: `جدول مشخصات و استاندارد ابعاد خانواده ${product.name} (04-specifications)`,
+      title: `جدول مشخصات و استاندارد ابعاد خانواده ${product.name} (specifications)`,
     });
   }
   for (const variant of product.variants || []) {

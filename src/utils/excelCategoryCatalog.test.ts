@@ -13,6 +13,7 @@ import { resolveDisplayBrand } from './catalogBrands';
 import { toPersianDigits } from './formatters';
 import { buildBeltGalleryImages, getBeltFamilyMedia, getBeltSkuMedia } from './beltCatalogMedia';
 import { validateFamilyMenuAssignment } from '../data/catalogMenuSemanticGuard';
+import { STORE_ASSETS } from '../assets/images';
 
 test('normalizeCatalogText normalizes Arabic Kaf/Yeh and Persian digits', () => {
   assert.equal(normalizeCatalogText('تسمه تايمينگ ۱۲۳'), 'تسمه تایمینگ 123');
@@ -77,7 +78,7 @@ test('resolveDisplayBrand strips placeholders and extracts FORZA / Megadyne', ()
   assert.equal(toPersianDigits(52692), '۵۲۶۹۲');
 });
 
-test('beltCatalogMedia resolves PFAM family codes via legacyFamilyCodes and variant SKUs and enforces strict non-duplication', () => {
+test('beltCatalogMedia resolves PFAM family codes, aliases, local verified photos, and enforces strict non-duplication', () => {
   const pfam = 'PFAM-تسمه-تایمینگ-م-FORZA-AT20-015';
   const hints = {
     legacyFamilyCodes: ['FAM-52692'],
@@ -85,33 +86,85 @@ test('beltCatalogMedia resolves PFAM family codes via legacyFamilyCodes and vari
   };
   const famMedia = getBeltFamilyMedia(pfam, null, hints);
   assert.ok(famMedia);
-  assert.equal(famMedia.familyCode, 'FAM-52692');
-  // FAM-52692 has no unique verified real photo (no duplicate stock images allowed per Rule 4 & 5)
+  assert.equal(famMedia.familyCode, pfam);
+  assert.equal(famMedia.hasVerifiedRealPhoto, false);
   assert.equal(famMedia.familyPhotos[0], null);
-  assert.equal(famMedia.specSheetWebp, '/src/assets/catalog/belts/families/FAM-52692/family-specifications.webp');
+  assert.equal(
+    famMedia.primaryThumbnail,
+    `/src/assets/catalog/belts/families/${encodeURIComponent(pfam)}/card-preview.svg`,
+  );
+  assert.notEqual(famMedia.primaryThumbnail, famMedia.specSheetWebp);
+  assert.equal(
+    famMedia.specSheetWebp,
+    `/src/assets/catalog/belts/families/${encodeURIComponent(pfam)}/family-specifications.webp`,
+  );
 
-  // FAM-34388 (Optibelt ZR L) has its unique verified real photos
+  // All 11 upgraded families have 4 visually-verified unique real .webp photos (01-main .. 04-closeup)
+  const full4PhotoFamilies = [
+    'PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148',
+    'PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077',
+    'PFAM-تسمه-تایمینگ-م-OPTIBELT-8M-234',
+    'PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113',
+    'PFAM-تسمه-تایمینگ-م-MEGADYNE-8M-360',
+    'PFAM-تسمه-تایمینگ-ذ-MEGADYNE-H-106',
+    'PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134',
+    'PFAM-تسمه-تایمینگ-ذ-BANDO-H-554',
+    'PFAM-تسمه-گرد-جوشی-FOREIGN-CRC-386',
+    'PFAM-تسمه-جوشی-V-شک-ENGLAND-B-613',
+    'PFAM-نوار-نقاله-PVC-GENERIC-PVC-STONE-SU-013',
+  ];
+  for (const famCode of full4PhotoFamilies) {
+    const fm = getBeltFamilyMedia(famCode);
+    assert.ok(fm, `Expected family media for ${famCode}`);
+    assert.equal(fm.hasVerifiedRealPhoto, true, `Expected real photos on ${famCode}`);
+    assert.equal(fm.familyPhotos.length, 4, `Expected 4 photo slots on ${famCode}`);
+    for (let i = 0; i < 4; i++) {
+      assert.equal(
+        fm.familyPhotos[i],
+        `/src/assets/catalog/belts/families/${encodeURIComponent(famCode)}/family-image-0${i + 1}.webp`,
+        `Expected slot ${i + 1} on ${famCode}`,
+      );
+    }
+  }
+
+  // Optibelt ZR L alias resolution (FAM-34388 -> PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148)
+  const optiPfam = 'PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148';
   const optiFamMedia = getBeltFamilyMedia('FAM-34388');
   assert.ok(optiFamMedia);
-  assert.equal(optiFamMedia.familyPhotos[0], '/src/assets/catalog/belts/families/FAM-34388/family-image-01.webp');
-  assert.equal(optiFamMedia.familyPhotos[1], '/src/assets/catalog/belts/families/FAM-34388/family-image-02.webp');
-  assert.equal(optiFamMedia.familyPhotos[2], '/src/assets/catalog/belts/families/FAM-34388/family-image-03.webp');
+  assert.equal(optiFamMedia.familyCode, optiPfam);
+  assert.equal(
+    optiFamMedia.familyPhotos[3],
+    `/src/assets/catalog/belts/families/${encodeURIComponent(optiPfam)}/family-image-04.webp`,
+  );
 
   const skuMedia = getBeltSkuMedia(pfam, '52692', hints);
   assert.ok(skuMedia);
   assert.equal(skuMedia.profileDrawingWebp, '/src/assets/catalog/belts/skus/52692/profile-drawing.webp');
   assert.equal(skuMedia.realProductImage, null);
 
-  // Verified exact physical SKU photos (52009, 52050, 41349)
-  const sku52050 = getBeltSkuMedia('FAM-34388', '52050');
-  assert.ok(sku52050);
-  assert.equal(sku52050.realImageStatus, 'EXACT_SKU_IMAGE_FOUND');
-  assert.equal(sku52050.realProductImage, '/src/assets/catalog/belts/skus/52050/real-product-image.webp');
-
-  const sku41349 = getBeltSkuMedia('FAM-10111', '41349');
-  assert.ok(sku41349);
-  assert.equal(sku41349.realImageStatus, 'EXACT_SKU_IMAGE_FOUND');
-  assert.equal(sku41349.realProductImage, '/src/assets/catalog/belts/skus/41349/real-product-image.webp');
+  // All 14 visually-verified exact physical SKU marking photos
+  const exactSkuChecks: Array<[string, string]> = [
+    [optiPfam, '52009'],
+    [optiPfam, '52050'],
+    [optiPfam, '39130'],
+    ['PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077', '53301'],
+    ['PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077', '53283'],
+    ['PFAM-تسمه-تایمینگ-م-OPTIBELT-8M-234', '58357'],
+    ['PFAM-تسمه-تایمینگ-م-OPTIBELT-8M-234', '35271'],
+    ['PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113', '32121'],
+    ['PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113', '34029'],
+    ['PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113', '35116'],
+    ['PFAM-تسمه-تایمینگ-م-MEGADYNE-8M-360', '33016'],
+    ['PFAM-تسمه-تایمینگ-م-MEGADYNE-8M-360', '33042'],
+    ['PFAM-تسمه-تایمینگ-ذ-BANDO-DH-446', '41349'],
+    ['PFAM-تسمه-چندشیاری-DONGIL-PK-195', '38082'],
+  ];
+  for (const [fCode, sCode] of exactSkuChecks) {
+    const m = getBeltSkuMedia(fCode, sCode);
+    assert.ok(m, `Expected SKU media for ${sCode}`);
+    assert.equal(m.realImageStatus, 'EXACT_SKU_IMAGE_FOUND');
+    assert.equal(m.realProductImage, `/src/assets/catalog/belts/skus/${sCode}/real-product-image.webp`);
+  }
 
   // Pending review SKU without verified dimensions must not fabricate a technical drawing (Rule 1)
   const pendingSku = getBeltSkuMedia('FAM-10077', '10077');
@@ -131,7 +184,7 @@ test('beltCatalogMedia resolves PFAM family codes via legacyFamilyCodes and vari
     '52692',
   );
   assert.ok(gallery.some((g) => g.scope === 'variant' && g.variantCode === '52692' && g.url.includes('/52692/profile-drawing.webp')));
-  assert.ok(gallery.some((g) => g.scope === 'family' && g.url.includes('/FAM-52692/family-specifications.webp')));
+  assert.ok(gallery.some((g) => g.scope === 'family' && g.url.includes(`/${encodeURIComponent(pfam)}/family-specifications.webp`)));
 });
 
 test('validateFamilyMenuAssignment accepts restored DB leaf names and rejects false placements', () => {
@@ -542,8 +595,77 @@ test('all 17 Master Belt Deliverables exist and beltCatalogManifest enforces zer
       seenPhotoKeys.set(key, famId);
     }
     if (entry.db) {
-      assert.equal(famId, 'FAM-52858', `Unexpected db catalog image ${entry.db} on ${famId}`);
+      assert.equal(
+        famId === 'FAM-52858' || famId === 'PFAM-نوار-نقاله-PVC-GENERIC-PVC-STONE-SU-013',
+        true,
+        `Unexpected db catalog image ${entry.db} on ${famId}`,
+      );
     }
+  }
+
+  // Verify every STORE_ASSETS image is saved locally in /public/
+  const walkAssets = (node: unknown): string[] => {
+    if (typeof node === 'string') return [node];
+    if (node && typeof node === 'object') return Object.values(node).flatMap(walkAssets);
+    return [];
+  };
+  for (const relUrl of walkAssets(STORE_ASSETS)) {
+    const filePath = path.resolve(process.cwd(), 'public', relUrl.replace(/^\/+/, ''));
+    assert.equal(fs.existsSync(filePath), true, `Missing local storefront image in /public: ${relUrl}`);
+  }
+
+  // Verify every entry in image_manifest.json has a local structured genuine .webp file (RIFF....WEBP) in /public/
+  const assertGenuineWebpFile = (fullPath: string, label: string) => {
+    assert.equal(fullPath.endsWith('.webp'), true, `${label} must end in .webp: ${fullPath}`);
+    assert.equal(fs.existsSync(fullPath), true, `Missing local ${label} file: ${fullPath}`);
+    const head = fs.readFileSync(fullPath).subarray(0, 12);
+    assert.equal(head.subarray(0, 4).toString('ascii'), 'RIFF', `${label} missing RIFF header: ${fullPath}`);
+    assert.equal(head.subarray(8, 12).toString('ascii'), 'WEBP', `${label} missing WEBP signature: ${fullPath}`);
+  };
+
+  const imageManifest = JSON.parse(fs.readFileSync(path.join(delivDir, 'image_manifest.json'), 'utf8'));
+  const seenManifestKeys = new Set<string>();
+  for (const [famId, slots] of Object.entries<any[]>(imageManifest.verifiedFamilyPhotos || {})) {
+    for (const slot of slots) {
+      assert.equal(slot.visualAuditPassed, true, `Family ${famId} slot ${slot.slotIndex} missing visualAuditPassed`);
+      assert.equal(slot.format, 'webp', `Family ${famId} slot ${slot.slotIndex} format must be webp`);
+      assert.equal(seenManifestKeys.has(slot.key), false, `Duplicate manifest key: ${slot.key}`);
+      seenManifestKeys.add(slot.key);
+      assert.ok(slot.localPath, `Missing localPath for family ${famId} slot ${slot.slotIndex}`);
+      const relLocal = decodeURIComponent(String(slot.localPath).replace(/^\/+/, ''));
+      const fullLocal = path.resolve(process.cwd(), 'public', relLocal);
+      assertGenuineWebpFile(fullLocal, `family ${famId} slot ${slot.slotIndex}`);
+    }
+  }
+  for (const [skuId, info] of Object.entries<any>(imageManifest.verifiedSkuPhotos || {})) {
+    assert.equal(info.visualAuditPassed, true, `SKU ${skuId} missing visualAuditPassed`);
+    assert.equal(info.format, 'webp', `SKU ${skuId} format must be webp`);
+    assert.equal(seenManifestKeys.has(info.key), false, `Duplicate SKU manifest key: ${info.key}`);
+    seenManifestKeys.add(info.key);
+    assert.ok(info.localPath, `Missing localPath for SKU ${skuId}`);
+    const relLocal = decodeURIComponent(String(info.localPath).replace(/^\/+/, ''));
+    const fullLocal = path.resolve(process.cwd(), 'public', relLocal);
+    assertGenuineWebpFile(fullLocal, `SKU ${skuId}`);
+  }
+
+  // Ensure zero non-.webp files remain inside public/belt-catalog/families and public/belt-catalog/skus
+  const walkFiles = (dir: string): string[] => {
+    if (!fs.existsSync(dir)) return [];
+    const out: string[] = [];
+    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, ent.name);
+      if (ent.isDirectory()) out.push(...walkFiles(full));
+      else out.push(full);
+    }
+    return out;
+  };
+  const structuredFiles = [
+    ...walkFiles(path.resolve(process.cwd(), 'public/belt-catalog/families')),
+    ...walkFiles(path.resolve(process.cwd(), 'public/belt-catalog/skus')),
+  ];
+  assert.ok(structuredFiles.length >= 96, `Expected >=96 structured .webp files, got ${structuredFiles.length}`);
+  for (const f of structuredFiles) {
+    assertGenuineWebpFile(f, 'structured belt asset');
   }
 });
 

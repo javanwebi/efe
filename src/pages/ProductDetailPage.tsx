@@ -137,19 +137,22 @@ export const ProductDetailPage: React.FC = () => {
     [product],
   );
 
-  // Sync initial selected SKU from URL code or first variant
+  // Sync initial selected SKU from ?sku= query param, URL code, or first variant
   useEffect(() => {
     if (!product) return;
+    const searchParams = new URLSearchParams(location.search);
+    const querySku = (searchParams.get('sku') || searchParams.get('variant') || '').trim().toLowerCase();
     const lowerDecoded = decodedCode.toLowerCase();
     const aliasSkuHint = lowerDecoded.replace(/^fam-/i, '');
     const matched =
+      (querySku ? visibleVariants.find((v) => v.code.toLowerCase() === querySku) : undefined) ||
       visibleVariants.find((v) => v.code.toLowerCase() === lowerDecoded) ||
       visibleVariants.find((v) => v.code.toLowerCase() === aliasSkuHint);
     const initial = matched?.code || visibleVariants[0]?.code || '';
     setSelectedVariantCode(initial);
     pendingVariantFocusRef.current = initial || null;
     setQuantity(1);
-  }, [decodedCode, product?.code, visibleVariants]);
+  }, [decodedCode, location.search, product?.code, visibleVariants]);
 
   const galleryImages = useMemo(() => {
     if (!product) return [];

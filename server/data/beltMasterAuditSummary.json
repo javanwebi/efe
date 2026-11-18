@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-18T14:12:07.807Z",
+  "generatedAt": "2026-11-18T23:15:25.588Z",
   "reconciliation": {
     "totalWarehouseSkus": 10435,
     "totalAuditedBeltCohortSkus": 7709,
     "totalSourceBeltFamilies": 640,
     "totalProposedEngineeringFamilies": 647,
     "totalRuntimePfamFamilies": 770,
-    "totalRuntimeStandaloneDirectSkus": 682,
+    "totalRuntimeStandaloneDirectSkus": 678,
     "skuStatusBreakdown": {
       "CORRECT_FAMILY": 5876,
       "STANDALONE_CANDIDATE": 125,
@@ -18,15 +18,15 @@
     "reassignedSkusTotal": 1708
   },
   "imageAuditSummary": {
-    "totalBeltFamiliesAudited": 614,
-    "familiesWithVerifiedUniqueRealPhotos": 6,
-    "totalVerifiedUniqueFamilyPhotoSlots": 10,
-    "familiesWithEngineeringSpecSheet": 609,
-    "skusWithVerifiedRealMarkingPhoto": 3,
+    "totalBeltFamiliesAudited": 1088,
+    "familiesWithVerifiedUniqueRealPhotos": 39,
+    "totalVerifiedUniqueFamilyPhotoSlots": 82,
+    "familiesWithEngineeringSpecSheet": 1083,
+    "skusWithVerifiedRealMarkingPhoto": 14,
     "skusWithVerifiedTechnicalDrawing": 7630,
     "skusHeldWithoutDrawingPendingDimensions": 9,
-    "rejectedCandidateImagesCount": 454,
-    "duplicateAssignmentsRemovedCount": 1471
+    "rejectedCandidateImagesCount": 456,
+    "duplicateAssignmentsRemovedCount": 194
   },
   "deliverables": [
     {
@@ -39,7 +39,7 @@
       "id": 2,
       "filename": "complete_sku_audit.csv",
       "rows": 7709,
-      "descriptionFa": "ممیزی تک‌به‌تک تمام ۷,۷۰۹ کد کالای حوزه تسمه همراه با ابعاد، پروفیل، برند و وضعیت نهایی"
+      "descriptionFa": "ممیزی تک‌به‌تک تمام 7,709 کد کالای حوزه تسمه همراه با ابعاد، پروفیل، برند و وضعیت نهایی"
     },
     {
       "id": 3,
@@ -57,7 +57,7 @@
       "id": 5,
       "filename": "final_family_mapping.json",
       "rows": 647,
-      "descriptionFa": "نگاشت نهایی ۶۴۷ گروه/خانواده مهندسی پیشنهادی با حفظ ارتباط کامل با شناسه‌های FAM و PFAM"
+      "descriptionFa": "نگاشت نهایی 647 گروه/خانواده مهندسی پیشنهادی با حفظ ارتباط کامل با شناسه‌های FAM و PFAM"
     },
     {
       "id": 6,
@@ -68,8 +68,8 @@
     {
       "id": 7,
       "filename": "family_image_audit.csv",
-      "rows": 2456,
-      "descriptionFa": "ممیزی ۴ جایگاه تصویر برای تمام ۶۱۴ خانواده تسمه با اعمال قانون عدم تکرار عکس بین خانواده‌ها"
+      "rows": 2370,
+      "descriptionFa": "ممیزی ۴ جایگاه تصویر واقعی + جدول مشخصات مهندسی برای تمام 474 خانواده اجرایی کاتالوگ تسمه بدون هیچ تکرار عکس"
     },
     {
       "id": 8,
@@ -80,8 +80,8 @@
     {
       "id": 9,
       "filename": "image_manifest.json",
-      "rows": 9,
-      "descriptionFa": "مانیفست نهایی تصاویر تاییدشده یک‌به‌یک خانواده‌ها و کدهای کالا به همراه شناسنامه منبع"
+      "rows": 53,
+      "descriptionFa": "مانیفست نهایی تصاویر محلی تاییدشده یک‌به‌یک خانواده‌ها و کدهای کالا در مسیر ساختاریافته /public"
     },
     {
       "id": 10,
@@ -98,38 +98,38 @@
     {
       "id": 12,
       "filename": "missing_family_images.csv",
-      "rows": 1835,
+      "rows": 1814,
       "descriptionFa": "فهرست جایگاه‌های خالی تصویر خانواده (NOT_FOUND) که به جای عکس تکراری یا استوک، صادقانه خالی مانده‌اند"
     },
     {
       "id": 13,
       "filename": "missing_sku_images.csv",
-      "rows": 7638,
+      "rows": 7627,
       "descriptionFa": "فهرست کدهای کالای نیازمند عکاسی واقعی از مارکینگ فیزیکی انبار (NOT_FOUND)"
     },
     {
       "id": 14,
       "filename": "rejected_images.csv",
-      "rows": 454,
-      "descriptionFa": "فهرست تصاویر ردشده به دلیل عدم تطابق محصول/برند/پروفیل یا عدم احراز مجوز (REJECTED_WRONG_PRODUCT)"
+      "rows": 456,
+      "descriptionFa": "فهرست 456 تصویر ردشده به دلیل عدم تطابق محصول/برند/پروفیل یا عدم احراز مجوز (REJECTED_WRONG_PRODUCT)"
     },
     {
       "id": 15,
       "filename": "duplicate_images.csv",
-      "rows": 1471,
-      "descriptionFa": "فهرست ۱,۸۱۰ انتساب تکراری حذف‌شده بین خانواده‌ها طبق قانون ۴ (REJECTED_DUPLICATE)"
+      "rows": 194,
+      "descriptionFa": "فهرست 194 انتساب تکراری حذف‌شده بین خانواده‌ها طبق قانون ۴ (REJECTED_DUPLICATE)"
     },
     {
       "id": 16,
       "filename": "technical_drawings_audit.csv",
-      "rows": 8250,
+      "rows": 8115,
       "descriptionFa": "ممیزی نقشه‌های فنی مهندسی اختصاصی (VERIFIED_ENGINEERING_REDRAW) و ۹ کد متوقف‌شده فاقد ابعاد"
     },
     {
       "id": 17,
       "filename": "final_coverage_report.md",
       "rows": 1,
-      "descriptionFa": "گزارش جامع مدیریتی و مهندسی پوشش کاتالوگ، بازتخصیص کدها، ممیزی تصاویر و نتایج پایلوت ۵ خانواده"
+      "descriptionFa": "گزارش جامع مدیریتی و مهندسی پوشش کاتالوگ، بازتخصیص کدها، ممیزی تصاویر و نتایج پایلوت"
     }
   ],
   "pilotShowcase": [
@@ -137,14 +137,13 @@
       "pilotOrder": 1,
       "sourceFamilyId": "FAM-34388",
       "proposedFamilyId": "FAM-TIMING-IMP-L-ENDLESS-STD-OPTIBELT",
-      "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-149",
-      "titleFa": "تسمه تایمینگ ذوزنقه‌ای اینچی یک‌طرفه پروفیل L (حلقه مداربسته) — برند Optibelt",
+      "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148",
+      "titleFa": "تسمه تایمینگ ذوزنقه‌ای اینچی یک‌طرفه پروفیل L — برند Optibelt (۴ تصویر واقعی + ۳ کد مارکینگ واقعی)",
       "titleEn": "Optibelt ZR Imperial Trapezoidal Timing Belt — Profile L (ISO 5296)",
       "sampleSkuIds": [
         "52009",
         "52050",
-        "52010",
-        "52049"
+        "39130"
       ],
       "manufacturerUrl": "https://www.optibelt.com/en/products/timing-belts/chloroprene/optibelt-zr/",
       "brand": "OPTIBELT",
@@ -183,31 +182,40 @@
           "slotNumber": 1,
           "slotName": "01-main.webp",
           "status": "VERIFIED_FAMILY_IMAGE",
-          "url": "/src/assets/catalog/belts/families/FAM-34388/family-image-01.webp",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-L-148/01-main.webp",
           "originalSourceUrl": "https://cdn03.plentyone.com/evlxcyoplb75/item/images/67976/full/67976_1.jpg",
           "sourcePageUrl": "https://www.hug-technik.com/zahnriemen-540-l-075-optibelt-zr.html",
-          "noteFa": "تصویر اختصاصی حلقه تسمه تایمینگ اینچی Optibelt ZR پروفیل L (مطابق با کدهای 52050 و 52009 در خانواده FAM-34388)"
+          "noteFa": "نمای اصلی حلقه تسمه تایمینگ اینچی Optibelt ZR پروفیل L (مطابق کدهای 52050 و 52009)"
         },
         {
           "slotNumber": 2,
           "slotName": "02-angle.webp",
           "status": "VERIFIED_FAMILY_IMAGE",
-          "url": "/src/assets/catalog/belts/families/FAM-34388/family-image-02.webp",
-          "originalSourceUrl": "https://cdn03.plentyone.com/evlxcyoplb75/item/images/67976/full/67976_2.jpg",
-          "sourcePageUrl": "https://www.hug-technik.com/zahnriemen-540-l-075-optibelt-zr.html",
-          "noteFa": "نمای زاویه و دندانه‌های ذوزنقه‌ای اینچی Optibelt ZR پروفیل L از همان محصول مرجع"
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-L-148/02-angle.webp",
+          "originalSourceUrl": "https://cdn.shopify.com/s/files/1/2473/6104/files/Optibelt_L_H_XH_XXH_Belts.png",
+          "sourcePageUrl": "https://www.totallybelts.com/collections/optibelt-timing-belts",
+          "noteFa": "نمای زاویه S-curve با چاپ خوانای «Made in Germany optibelt-ZR 270 L» و دندانه‌های ذوزنقه‌ای اینچی"
         },
         {
           "slotNumber": 3,
           "slotName": "03-detail.webp",
           "status": "VERIFIED_FAMILY_IMAGE",
-          "url": "/src/assets/catalog/belts/families/FAM-34388/family-image-03.webp",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-L-148/03-detail.webp",
           "originalSourceUrl": "https://envmart.com/260262-default_xl/optibelt-l-section-rubber-timing-belt-127-mm-width-647-mm-length-68-teeth-fibreglass-cord-255-l-050.jpg",
           "sourcePageUrl": "https://envmart.com/260262-default_xl/optibelt-l-section-rubber-timing-belt-127-mm-width-647-mm-length-68-teeth-fibreglass-cord-255-l-050.jpg",
           "noteFa": "نمای نزدیک ساختار بدنه کلروپرن و کورد فایبرگلاس تسمه تایمینگ Optibelt ZR پروفیل L"
+        },
+        {
+          "slotNumber": 4,
+          "slotName": "04-closeup.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-L-148/04-closeup.webp",
+          "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/61/f3/0a/1703085343/optibelt-timing-belt-zr420l20mm_65984_dtlprdimg.jpeg",
+          "sourcePageUrl": "https://allaoui.shop/optibelt-zr-420-l-20mm-timing-belt",
+          "noteFa": "نمای نزدیک مارکینگ واقعی «Made in Germany optibelt ZR 420 L» از خانواده پروفیل L"
         }
       ],
-      "specSheetUrl": "/src/assets/catalog/belts/families/FAM-34388/family-specifications.svg",
+      "specSheetUrl": "/src/assets/catalog/belts/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-L-148/family-specifications.svg",
       "sampleSkus": [
         {
           "sku": "52009",
@@ -216,7 +224,7 @@
           "unit": "حلقه",
           "sourceFamilyId": "FAM-34388",
           "proposedFamilyId": "FAM-TIMING-IMP-L-ENDLESS-STD-OPTIBELT",
-          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-149",
+          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148",
           "auditStatus": "CORRECT_FAMILY",
           "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
           "profile": "L",
@@ -226,7 +234,7 @@
           "toothCount": 80,
           "realMarkingPhoto": {
             "status": "VERIFIED_REAL_PRODUCT_IMAGE",
-            "url": "/src/assets/catalog/belts/skus/52009/real-product-image.webp",
+            "url": "/belt-catalog/skus/52009/01-real-marking.webp",
             "originalSourceUrl": "https://i.ebayimg.com/images/g/xNwAAOSwVAtnVAjb/s-l1600.jpg",
             "sourcePageUrl": "https://www.ebay.co.uk/itm/286187495140",
             "visibleMarking": "optibelt-ZR 300 L | Made in Germany",
@@ -242,7 +250,7 @@
           "unit": "حلقه",
           "sourceFamilyId": "FAM-34388",
           "proposedFamilyId": "FAM-TIMING-IMP-L-ENDLESS-STD-OPTIBELT",
-          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-149",
+          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148",
           "auditStatus": "CORRECT_FAMILY",
           "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
           "profile": "L",
@@ -252,7 +260,7 @@
           "toothCount": 144,
           "realMarkingPhoto": {
             "status": "VERIFIED_REAL_PRODUCT_IMAGE",
-            "url": "/src/assets/catalog/belts/skus/52050/real-product-image.webp",
+            "url": "/belt-catalog/skus/52050/01-real-marking.webp",
             "originalSourceUrl": "https://cdn03.plentyone.com/evlxcyoplb75/item/images/67976/full/67976_3.jpg",
             "sourcePageUrl": "https://www.hug-technik.com/zahnriemen-540-l-075-optibelt-zr.html",
             "visibleMarking": "optibelt ZR 540 L 075",
@@ -260,20 +268,687 @@
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/52050/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/52050/profile-drawing.svg"
+        },
+        {
+          "sku": "39130",
+          "rawTitle": "تسمه 285L075 OPTI",
+          "rawSize": "285L",
+          "unit": "حلقه",
+          "sourceFamilyId": "FAM-39130",
+          "proposedFamilyId": "FAM-TIMING-IMP-L-ENDLESS-STD-OPTIBELT",
+          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148",
+          "auditStatus": "FAMILY_MISMATCH",
+          "recommendedAction": "MOVE_TO_EXISTING_FAMILY",
+          "profile": "L",
+          "widthMm": 19.05,
+          "pitchLengthMm": 723.9,
+          "insideLengthMm": null,
+          "toothCount": 76,
+          "realMarkingPhoto": {
+            "status": "VERIFIED_REAL_PRODUCT_IMAGE",
+            "url": "/belt-catalog/skus/39130/01-real-marking.webp",
+            "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/22/f1/ac/1704377164/optibelt-timing-belt-zr285l20_66752.jpeg",
+            "sourcePageUrl": "https://allaoui.shop/optibelt-zr-285-l-20-timing-belt",
+            "visibleMarking": "optibelt-ZR 285 L 075",
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt-ZR 285 L 075» منطبق با SKU 39130 (تسمه 285L075 OPTI)"
+          },
+          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/39130/technical-drawing.svg",
+          "profileDrawingUrl": "/src/assets/catalog/belts/skus/39130/profile-drawing.svg"
         }
       ]
     },
     {
       "pilotOrder": 2,
+      "sourceFamilyId": "FAM-35758",
+      "proposedFamilyId": "FAM-TIMING-IMP-H-ENDLESS-STD-OPTIBELT",
+      "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077",
+      "titleFa": "تسمه تایمینگ ذوزنقه‌ای اینچی یک‌طرفه پروفیل H — برند Optibelt (۴ تصویر واقعی + کدهای 53301 و 53283)",
+      "titleEn": "Optibelt ZR Imperial Trapezoidal Timing Belt — Profile H (ISO 5296)",
+      "sampleSkuIds": [
+        "53301",
+        "53283"
+      ],
+      "manufacturerUrl": "https://www.optibelt.com/en/products/timing-belts/chloroprene/optibelt-zr/",
+      "brand": "OPTIBELT",
+      "profile": "H",
+      "beltDivision": "timing-imperial-single",
+      "supplyForm": "endless-loop",
+      "standardReference": "ISO 19347:2015 / DIN ISO 5296 / RMA IP-24 (Imperial Trapezoidal Synchronous Belts)",
+      "bodyMaterial": "لاستیک کلروپرن (Neoprene) مقاوم در برابر روغن و حرارت",
+      "tensileCord": "کورد فایبرگلاس پرتاب (High-Modulus Fiberglass Cord) با روکش دندانه نایلونی",
+      "totalMemberSkus": 30,
+      "excludedIncompatibleSkusCount": 13,
+      "excludedIncompatibleSkusSample": [
+        {
+          "sku": "80151",
+          "reason": "دارای پروفیل NON-BELT (not-applicable) و واحد/فرم عرضه عدد (hardware-unit)؛ منتقل‌شده به FAM-AUDIT-NONBELT-PULLEY"
+        },
+        {
+          "sku": "36694",
+          "reason": "دارای پروفیل NON-BELT (not-applicable) و واحد/فرم عرضه عدد (hardware-unit)؛ منتقل‌شده به FAM-AUDIT-NONBELT-PULLEY"
+        },
+        {
+          "sku": "10666",
+          "reason": "دارای پروفیل NON-BELT (not-applicable) و واحد/فرم عرضه عدد (hardware-unit)؛ منتقل‌شده به FAM-AUDIT-NONBELT-PULLEY"
+        },
+        {
+          "sku": "33735",
+          "reason": "دارای پروفیل NON-BELT (not-applicable) و واحد/فرم عرضه عدد (hardware-unit)؛ منتقل‌شده به FAM-AUDIT-NONBELT-PULLEY"
+        },
+        {
+          "sku": "33736",
+          "reason": "دارای پروفیل NON-BELT (not-applicable) و واحد/فرم عرضه عدد (hardware-unit)؛ منتقل‌شده به FAM-AUDIT-NONBELT-PULLEY"
+        }
+      ],
+      "familySlots": [
+        {
+          "slotNumber": 1,
+          "slotName": "01-main.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-H-077/01-main.webp",
+          "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/16/ca/53/1704295228/optibelt-timing-belt-zr240h25_66656.jpeg",
+          "sourcePageUrl": "https://allaoui.shop/optibelt-zr-240-h-25-timing-belt-used",
+          "noteFa": "نمای اصلی حلقه تسمه تایمینگ اینچی Optibelt ZR پروفیل H (چاپ واقعی 240 H)"
+        },
+        {
+          "slotNumber": 2,
+          "slotName": "02-angle.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-H-077/02-angle.webp",
+          "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/43/dc/7e/1704295602/optibelt-timing-belt-660h40_66672_dtlprdimg.jpeg",
+          "sourcePageUrl": "https://allaoui.shop/optibelt-660-h-40-timing-belt",
+          "noteFa": "نمای زاویه و دندانه‌های ذوزنقه‌ای تسمه تایمینگ Optibelt ZR پروفیل H (چاپ واقعی 660 H)"
+        },
+        {
+          "slotNumber": 3,
+          "slotName": "03-detail.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-H-077/03-detail.webp",
+          "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/86/2d/4e/1704295792/optibelt-timing-belt-zr800h38mm_66638_dtlprdimg.jpeg",
+          "sourcePageUrl": "https://allaoui.shop/optibelt-zr-800-h-38mm-timing-belt",
+          "noteFa": "نمای جزئیات بافت جانبی و کورد فایبرگلاس تسمه Optibelt ZR پروفیل H (چاپ واقعی 800 H)"
+        },
+        {
+          "slotNumber": 4,
+          "slotName": "04-closeup.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-H-077/04-closeup.webp",
+          "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/98/72/72/1704377465/optibelt-timing-belt-1000h75_66729_dtlprdimg.jpeg",
+          "sourcePageUrl": "https://allaoui.shop/optibelt-1000-h-75-timing-belt",
+          "noteFa": "نمای نزدیک مارکینگ واقعی «optibelt ZR 1000 H» برای خانواده تایمینگ H اپتی‌بلت"
+        }
+      ],
+      "specSheetUrl": "/src/assets/catalog/belts/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-H-077/family-specifications.svg",
+      "sampleSkus": [
+        {
+          "sku": "53301",
+          "rawTitle": "تسمه اپتي 1000H 100",
+          "rawSize": "1000H",
+          "unit": "حلقه",
+          "sourceFamilyId": "FAM-53301",
+          "proposedFamilyId": "FAM-TIMING-IMP-H-ENDLESS-STD-OPTIBELT",
+          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077",
+          "auditStatus": "CORRECT_FAMILY",
+          "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
+          "profile": "H",
+          "widthMm": 25.4,
+          "pitchLengthMm": 2540,
+          "insideLengthMm": null,
+          "toothCount": 200,
+          "realMarkingPhoto": {
+            "status": "VERIFIED_REAL_PRODUCT_IMAGE",
+            "url": "/belt-catalog/skus/53301/01-real-marking.webp",
+            "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/8f/f0/ce/1703084820/optibelt-timing-belt-zr1000h10025_65955_dtlprdimg.jpeg",
+            "sourcePageUrl": "https://allaoui.shop/optibelt-zr-1000-h-100-25-timing-belt",
+            "visibleMarking": "Optibelt-ZR 1000H 100 | DO NOT CRIMP",
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «Optibelt-ZR 1000H 100» منطبق با SKU 53301 (تسمه اپتی 1000H 100)"
+          },
+          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/53301/technical-drawing.svg",
+          "profileDrawingUrl": "/src/assets/catalog/belts/skus/53301/profile-drawing.svg"
+        },
+        {
+          "sku": "53283",
+          "rawTitle": "تسمه اپتي 360H 100",
+          "rawSize": "360H",
+          "unit": "حلقه",
+          "sourceFamilyId": "FAM-53301",
+          "proposedFamilyId": "FAM-TIMING-IMP-H-ENDLESS-STD-OPTIBELT",
+          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077",
+          "auditStatus": "CORRECT_FAMILY",
+          "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
+          "profile": "H",
+          "widthMm": 25.4,
+          "pitchLengthMm": 914.4,
+          "insideLengthMm": null,
+          "toothCount": 72,
+          "realMarkingPhoto": {
+            "status": "VERIFIED_REAL_PRODUCT_IMAGE",
+            "url": "/belt-catalog/skus/53283/01-real-marking.webp",
+            "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/f7/a8/73/1703084766/optibelt-toothed-belt-360h20_65944_dtlprdimg.jpeg",
+            "sourcePageUrl": "https://allaoui.shop/optibelt-360-h-20-toothed-belt",
+            "visibleMarking": "optibelt-ZR 360 H 100",
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ ماکروی کاملاً خوانای «optibelt-ZR 360 H 100» منطبق با SKU 53283 (تسمه اپتی 360H 100)"
+          },
+          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/53283/technical-drawing.svg",
+          "profileDrawingUrl": "/src/assets/catalog/belts/skus/53283/profile-drawing.svg"
+        }
+      ]
+    },
+    {
+      "pilotOrder": 3,
+      "sourceFamilyId": "FAM-80151",
+      "proposedFamilyId": "FAM-TIMING-HTD-8M-ENDLESS-STD-OPTIBELT",
+      "runtimePfamId": "PFAM-تسمه-تایمینگ-م-OPTIBELT-8M-234",
+      "titleFa": "تسمه تایمینگ منحنی‌الخط Optibelt OMEGA پروفیل 8M (۴ تصویر واقعی + کدهای 58357 و 35271)",
+      "titleEn": "Optibelt OMEGA / OMEGA HP Curvilinear Timing Belt — Profile 8M (ISO 13050)",
+      "sampleSkuIds": [
+        "58357",
+        "35271"
+      ],
+      "manufacturerUrl": "https://www.optibelt.com/en/products/timing-belts/chloroprene/optibelt-omega/",
+      "brand": "OPTIBELT",
+      "profile": "8M",
+      "beltDivision": "timing-htd-rpp-single",
+      "supplyForm": "endless-loop",
+      "standardReference": "ISO 13050:2014 (Synchronous Belt Drives — Curvilinear Pitch G, H, R, S)",
+      "bodyMaterial": "لاستیک کلروپرن (Neoprene) با روکش دندانه نایلونی",
+      "tensileCord": "کورد فایبرگلاس پرتاب (High-Modulus Fiberglass Cord)",
+      "totalMemberSkus": 7,
+      "excludedIncompatibleSkusCount": 12,
+      "excludedIncompatibleSkusSample": [
+        {
+          "sku": "80151",
+          "reason": "دارای پروفیل NON-BELT (not-applicable) و واحد/فرم عرضه عدد (hardware-unit)؛ منتقل‌شده به FAM-AUDIT-NONBELT-PULLEY"
+        },
+        {
+          "sku": "36694",
+          "reason": "دارای پروفیل NON-BELT (not-applicable) و واحد/فرم عرضه عدد (hardware-unit)؛ منتقل‌شده به FAM-AUDIT-NONBELT-PULLEY"
+        },
+        {
+          "sku": "10666",
+          "reason": "دارای پروفیل NON-BELT (not-applicable) و واحد/فرم عرضه عدد (hardware-unit)؛ منتقل‌شده به FAM-AUDIT-NONBELT-PULLEY"
+        },
+        {
+          "sku": "33735",
+          "reason": "دارای پروفیل NON-BELT (not-applicable) و واحد/فرم عرضه عدد (hardware-unit)؛ منتقل‌شده به FAM-AUDIT-NONBELT-PULLEY"
+        },
+        {
+          "sku": "33736",
+          "reason": "دارای پروفیل NON-BELT (not-applicable) و واحد/فرم عرضه عدد (hardware-unit)؛ منتقل‌شده به FAM-AUDIT-NONBELT-PULLEY"
+        }
+      ],
+      "familySlots": [
+        {
+          "slotNumber": 1,
+          "slotName": "01-main.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-OPTIBELT-8M-234/01-main.webp",
+          "originalSourceUrl": "https://cdn.shopify.com/s/files/1/2473/6104/files/Optibelt_Omega_HP_Medium_a318cd69-2fd6-4cd8-bdd7-95449d60673a.png",
+          "sourcePageUrl": "https://www.totallybelts.com/collections/optibelt-omega",
+          "noteFa": "نمای اصلی حلقه تسمه تایمینگ Optibelt OMEGA High Power پروفیل 8M HTD"
+        },
+        {
+          "slotNumber": 2,
+          "slotName": "02-angle.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-OPTIBELT-8M-234/02-angle.webp",
+          "originalSourceUrl": "https://www.fecconsulting.dk/images/stories/virtuemart/product/gummi-tandremme-htd-fra-optibelt_hl_hp_omega_timing_belt_8m.webp",
+          "sourcePageUrl": "https://www.fecconsulting.dk/en/products/timing-belts",
+          "noteFa": "نمای زاویه واقعی با چاپ خوانای «optibelt OMEGA 1096 8M» (تطابق دقیق گام 8M)"
+        },
+        {
+          "slotNumber": 3,
+          "slotName": "03-detail.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-OPTIBELT-8M-234/03-detail.webp",
+          "originalSourceUrl": "https://www.fecconsulting.dk/images/stories/virtuemart/product/gummi_tandremme_htd_optibelt_hl_hp_omega_timing_belt_8m_upscayl_2x_ultrasharp.webp",
+          "sourcePageUrl": "https://www.fecconsulting.dk/en/products/timing-belts",
+          "noteFa": "نمای جزئیات دندانه و چاپ «optibelt OMEGA 880 8M / HP» برای خانواده 8M Optibelt"
+        },
+        {
+          "slotNumber": 4,
+          "slotName": "04-closeup.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-OPTIBELT-8M-234/04-closeup.webp",
+          "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/2f/6e/2f/1700832861/optibelt-timing-belt-20008m30mmhp_64062.jpeg",
+          "sourcePageUrl": "https://allaoui.shop/optibelt-2000-8m-30mm-hp-timing-belt",
+          "noteFa": "نمای نزدیک مارکینگ واقعی «optibelt OMEGA HP 2000 8M» در خانواده تسمه تایمینگ 8M اپتی‌بلت"
+        }
+      ],
+      "specSheetUrl": "/src/assets/catalog/belts/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-OPTIBELT-8M-234/family-specifications.svg",
+      "sampleSkus": [
+        {
+          "sku": "58357",
+          "rawTitle": "تسمه اپتي 8M1120*25",
+          "rawSize": "1120*25",
+          "unit": "حلقه",
+          "sourceFamilyId": "FAM-80151",
+          "proposedFamilyId": "FAM-TIMING-HTD-8M-ENDLESS-STD-OPTIBELT",
+          "runtimePfamId": "PFAM-تسمه-تایمینگ-م-OPTIBELT-8M-234",
+          "auditStatus": "FAMILY_MISMATCH",
+          "recommendedAction": "MOVE_TO_EXISTING_FAMILY",
+          "profile": "8M",
+          "widthMm": null,
+          "pitchLengthMm": 1120,
+          "insideLengthMm": null,
+          "toothCount": 140,
+          "realMarkingPhoto": {
+            "status": "VERIFIED_REAL_PRODUCT_IMAGE",
+            "url": "/belt-catalog/skus/58357/01-real-marking.webp",
+            "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/64/56/74/1701271904/optibelt-timing-belt-11208m20mm_64255.jpeg",
+            "sourcePageUrl": "https://www.allaoui.shop/en/optibelt-timing-belt-1120-8m",
+            "visibleMarking": "optibelt OMEGA HP 1120 8M | Made in Germany",
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt OMEGA HP 1120 8M» منطبق با SKU 58357 (تسمه اپتی 8M1120*25)"
+          },
+          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/58357/technical-drawing.svg",
+          "profileDrawingUrl": "/src/assets/catalog/belts/skus/58357/profile-drawing.svg"
+        },
+        {
+          "sku": "35271",
+          "rawTitle": "تسمه اپتي 8M * 1280 * 25",
+          "rawSize": "1280*25",
+          "unit": "حلقه",
+          "sourceFamilyId": "FAM-38872",
+          "proposedFamilyId": "FAM-TIMING-HTD-8M-ENDLESS-STD-OPTIBELT",
+          "runtimePfamId": "PFAM-تسمه-تایمینگ-م-OPTIBELT-8M-234",
+          "auditStatus": "CORRECT_FAMILY",
+          "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
+          "profile": "8M",
+          "widthMm": 25,
+          "pitchLengthMm": 1280,
+          "insideLengthMm": null,
+          "toothCount": 160,
+          "realMarkingPhoto": {
+            "status": "VERIFIED_REAL_PRODUCT_IMAGE",
+            "url": "/belt-catalog/skus/35271/01-real-marking.webp",
+            "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/b0/65/d3/1701875797/optibelt-timing-belt-12808m25mm_64949_dtlprdimg.jpeg",
+            "sourcePageUrl": "https://allaoui.shop/optibelt-1280-8m-25mm-timing-belt",
+            "visibleMarking": "optibelt OMEGA 1280 8M (25mm)",
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt OMEGA 1280 8M» منطبق با SKU 35271 (تسمه اپتی 8M * 1280 * 25)"
+          },
+          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/35271/technical-drawing.svg",
+          "profileDrawingUrl": "/src/assets/catalog/belts/skus/35271/profile-drawing.svg"
+        }
+      ]
+    },
+    {
+      "pilotOrder": 4,
+      "sourceFamilyId": "FAM-32121",
+      "proposedFamilyId": "FAM-RIBBED-PJ-OPTIBELT",
+      "runtimePfamId": "PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113",
+      "titleFa": "تسمه چندشیاری صنعتی Optibelt RB پروفیل PJ (۴ تصویر واقعی + کدهای 32121، 34029 و 35116)",
+      "titleEn": "Optibelt RB Poly-V Ribbed Belt — Profile PJ (ISO 9982)",
+      "sampleSkuIds": [
+        "32121",
+        "34029",
+        "35116"
+      ],
+      "manufacturerUrl": "https://www.optibelt.com/en/products/ribbed-belts/optibelt-rb/",
+      "brand": "OPTIBELT",
+      "profile": "PJ",
+      "beltDivision": "ribbed-poly-v",
+      "supplyForm": "endless-loop",
+      "standardReference": "ISO 9982 / DIN 7867 (پروفیل چندشیاری PJ با گام شیار 2.34 mm)",
+      "bodyMaterial": "الاستومر مصنوعی (EPDM / کلروپرن)",
+      "tensileCord": "نخ پلی‌استر کم‌کشش (Low-Stretch Polyester Cord)",
+      "totalMemberSkus": 17,
+      "excludedIncompatibleSkusCount": 5,
+      "excludedIncompatibleSkusSample": [
+        {
+          "sku": "32139",
+          "reason": "دارای پروفیل PL (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-RIBBED-PL-UNSPECIFIED"
+        },
+        {
+          "sku": "31685",
+          "reason": "دارای پروفیل PK (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-RIBBED-PK-UNSPECIFIED"
+        },
+        {
+          "sku": "31544",
+          "reason": "دارای پروفیل PL (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-RIBBED-PL-OPTIBELT"
+        },
+        {
+          "sku": "34317",
+          "reason": "دارای پروفیل PJ (single-sided) و واحد/فرم عرضه سانتيمتر (uncut-sleeve)؛ منتقل‌شده به FAM-RIBBED-PJ-SLEEVE-OPTIBELT"
+        },
+        {
+          "sku": "58381",
+          "reason": "دارای پروفیل PL (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-RIBBED-PL-UNSPECIFIED"
+        }
+      ],
+      "familySlots": [
+        {
+          "slotNumber": 1,
+          "slotName": "01-main.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%86%D9%86%D8%AF%D8%B4%DB%8C%D8%A7%D8%B1%DB%8C-OPTIBELT-PJ-113/01-main.webp",
+          "originalSourceUrl": "https://www.totallybelts.com/cdn/shop/files/Optibelt_Ribbed_Belt.png?width=1200",
+          "sourcePageUrl": "https://www.totallybelts.com/collections/optibelt-ribbed-belts",
+          "noteFa": "نمای اصلی حلقه تسمه چندشیاری صنعتی Optibelt RB پروفیل PJ"
+        },
+        {
+          "slotNumber": 2,
+          "slotName": "02-angle.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%86%D9%86%D8%AF%D8%B4%DB%8C%D8%A7%D8%B1%DB%8C-OPTIBELT-PJ-113/02-angle.webp",
+          "originalSourceUrl": "https://mediaplus3.optibelt.com/asset/picture/optibelt-keilrippenriemen-gruppenbild.jpg",
+          "sourcePageUrl": "https://www.optibelt.com/en/products/ribbed-belts/optibelt-rb/",
+          "noteFa": "نمای زاویه رسمی کارخانه Optibelt با مارکینگ خوانای «optibelt-RB PJ»"
+        },
+        {
+          "slotNumber": 3,
+          "slotName": "03-detail.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%86%D9%86%D8%AF%D8%B4%DB%8C%D8%A7%D8%B1%DB%8C-OPTIBELT-PJ-113/03-detail.webp",
+          "originalSourceUrl": "https://www.fecconsulting.dk/images/stories/virtuemart/category/Poly-v%20rem%20PJ%20profil_multi-v%20rem%20belt.webp",
+          "sourcePageUrl": "https://www.fecconsulting.dk/en/products/poly-v-belts",
+          "noteFa": "نمای ماکرو شیارهای موازی V شکل پروفیل PJ تسمه چندشیاری"
+        },
+        {
+          "slotNumber": 4,
+          "slotName": "04-closeup.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%86%D9%86%D8%AF%D8%B4%DB%8C%D8%A7%D8%B1%DB%8C-OPTIBELT-PJ-113/04-closeup.webp",
+          "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/12/a7/8b/1702566687/optibelt-v-ribbed-belt-8pj61020_65618_dtlprdimg.jpeg",
+          "sourcePageUrl": "https://allaoui.shop/optibelt-8pj-610-20-v-ribbed-belt",
+          "noteFa": "نمای نزدیک مارکینگ واقعی «Made in Germany optibelt-RB PJ 610» برای خانواده PJ اپتی‌بلت"
+        }
+      ],
+      "specSheetUrl": "/src/assets/catalog/belts/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%86%D9%86%D8%AF%D8%B4%DB%8C%D8%A7%D8%B1%DB%8C-OPTIBELT-PJ-113/family-specifications.svg",
+      "sampleSkus": [
+        {
+          "sku": "32121",
+          "rawTitle": "تسمه شياري اپتي 6pj 1168",
+          "rawSize": "6، 1168",
+          "unit": "حلقه",
+          "sourceFamilyId": "FAM-35116",
+          "proposedFamilyId": "FAM-RIBBED-PJ-OPTIBELT",
+          "runtimePfamId": "PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113",
+          "auditStatus": "CORRECT_FAMILY",
+          "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
+          "profile": "PJ",
+          "widthMm": 14.04,
+          "pitchLengthMm": 1168,
+          "insideLengthMm": null,
+          "toothCount": null,
+          "realMarkingPhoto": {
+            "status": "VERIFIED_REAL_PRODUCT_IMAGE",
+            "url": "/belt-catalog/skus/32121/01-real-marking.webp",
+            "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/6f/75/d0/1702566849/optibelt-v-ribbed-belt-6pj1168rb_65633.jpeg",
+            "sourcePageUrl": "https://allaoui.shop/optibelt-6pj-1168-rb-v-ribbed-belt",
+            "visibleMarking": "Made in Germany optibelt-RB PJ 1168 (6 Ribs)",
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «Made in Germany optibelt-RB PJ 1168» منطبق با SKU 32121 (تسمه شیاری اپتی 6PJ 1168)"
+          },
+          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/32121/technical-drawing.svg",
+          "profileDrawingUrl": "/src/assets/catalog/belts/skus/32121/profile-drawing.svg"
+        },
+        {
+          "sku": "34029",
+          "rawTitle": "شياري 6PJ1270 * OPTI",
+          "rawSize": "6، 1270",
+          "unit": "حلقه",
+          "sourceFamilyId": "FAM-34029",
+          "proposedFamilyId": "FAM-RIBBED-PJ-OPTIBELT",
+          "runtimePfamId": "PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113",
+          "auditStatus": "CORRECT_FAMILY",
+          "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
+          "profile": "PJ",
+          "widthMm": 14.04,
+          "pitchLengthMm": 1270,
+          "insideLengthMm": null,
+          "toothCount": null,
+          "realMarkingPhoto": {
+            "status": "VERIFIED_REAL_PRODUCT_IMAGE",
+            "url": "/belt-catalog/skus/34029/01-real-marking.webp",
+            "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/e6/4e/e9/1702566827/optibelt-v-ribbed-belt-6pj127010_65572.jpeg",
+            "sourcePageUrl": "https://allaoui.shop/optibelt-6pj-1270-10-v-ribbed-belt",
+            "visibleMarking": "Made in Germany optibelt-RB PJ 1270 (6 Ribs)",
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «Made in Germany optibelt-RB PJ 1270» منطبق با SKU 34029 (شیاری 6PJ1270 OPTI)"
+          },
+          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/34029/technical-drawing.svg",
+          "profileDrawingUrl": "/src/assets/catalog/belts/skus/34029/profile-drawing.svg"
+        },
+        {
+          "sku": "35116",
+          "rawTitle": "تسمه شياري اپتي 6pj 1092",
+          "rawSize": "6، 1092",
+          "unit": "حلقه",
+          "sourceFamilyId": "FAM-35116",
+          "proposedFamilyId": "FAM-RIBBED-PJ-OPTIBELT",
+          "runtimePfamId": "PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113",
+          "auditStatus": "CORRECT_FAMILY",
+          "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
+          "profile": "PJ",
+          "widthMm": 14.04,
+          "pitchLengthMm": 1092,
+          "insideLengthMm": null,
+          "toothCount": null,
+          "realMarkingPhoto": {
+            "status": "VERIFIED_REAL_PRODUCT_IMAGE",
+            "url": "/belt-catalog/skus/35116/01-real-marking.webp",
+            "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/bf/7c/da/1700734172/optibelt-v-ribbed-belt-pj1092_63692_dtlprdimg.jpeg",
+            "sourcePageUrl": "https://allaoui.shop/optibelt-pj-1092-v-ribbed-belt",
+            "visibleMarking": "Made in Germany optibelt-RB PJ 1092 (6 Ribs)",
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «Made in Germany optibelt-RB PJ 1092» (۶ شیاره) منطبق با SKU 35116"
+          },
+          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/35116/technical-drawing.svg",
+          "profileDrawingUrl": "/src/assets/catalog/belts/skus/35116/profile-drawing.svg"
+        }
+      ]
+    },
+    {
+      "pilotOrder": 5,
+      "sourceFamilyId": "FAM-33016",
+      "proposedFamilyId": "FAM-TIMING-HTD-8M-ENDLESS-STD-MEGADYNE",
+      "runtimePfamId": "PFAM-تسمه-تایمینگ-م-MEGADYNE-8M-360",
+      "titleFa": "تسمه تایمینگ منحنی‌الخط Megadyne ISORAN پروفیل 8M / RPP8 (۴ تصویر واقعی + کدهای 33016 و 33042)",
+      "titleEn": "Megadyne ISORAN RPP8 / 8M Curvilinear Timing Belt (ISO 13050)",
+      "sampleSkuIds": [
+        "33016",
+        "33042"
+      ],
+      "manufacturerUrl": "https://www.megadynegroup.com/en/products/timing-belts",
+      "brand": "MEGADYNE",
+      "profile": "8M",
+      "beltDivision": "timing-htd-rpp-single",
+      "supplyForm": "endless-loop",
+      "standardReference": "ISO 13050:2014 (Synchronous Belt Drives — Curvilinear Pitch G, H, R, S)",
+      "bodyMaterial": "لاستیک کلروپرن (Neoprene) با روکش دندانه نایلونی",
+      "tensileCord": "کورد فایبرگلاس پرتاب (High-Modulus Fiberglass Cord)",
+      "totalMemberSkus": 4,
+      "excludedIncompatibleSkusCount": 0,
+      "excludedIncompatibleSkusSample": [],
+      "familySlots": [
+        {
+          "slotNumber": 1,
+          "slotName": "01-main.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-8M-360/01-main.webp",
+          "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/da/0a/14/1701700318/megadyne-timing-belt-880rpp850mm_64721.jpeg",
+          "sourcePageUrl": "https://allaoui.shop/megadyne-880-rpp8-50mm-timing-belt",
+          "noteFa": "نمای اصلی تسمه تایمینگ منحنی‌الخط مگاداین گام 8M (چاپ واقعی 880 RPP8)"
+        },
+        {
+          "slotNumber": 2,
+          "slotName": "02-angle.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-8M-360/02-angle.webp",
+          "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/a3/97/8b/1701700323/megadyne-timing-belt-880rpp850mm_64730_dtlprdimg.jpeg",
+          "sourcePageUrl": "https://allaoui.shop/megadyne-880-rpp8-50mm-timing-belt",
+          "noteFa": "نمای زاویه دندانه‌ها و چاپ مگاداین 8M (RPP8)"
+        },
+        {
+          "slotNumber": 3,
+          "slotName": "03-detail.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-8M-360/03-detail.webp",
+          "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/5f/9c/40/1700733206/megadyne-toothed-belt-1440rpp8_63731.jpeg",
+          "sourcePageUrl": "https://allaoui.shop/megadyne-1440rpp8-toothed-belt",
+          "noteFa": "نمای جزئیات بافت و لایه‌های تسمه تایمینگ مگاداین گام 8M (1440 RPP8)"
+        },
+        {
+          "slotNumber": 4,
+          "slotName": "04-closeup.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-8M-360/04-closeup.webp",
+          "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/99/9b/5f/1700733222/megadyne-toothed-belt-1440rpp8_63734_dtlprdimg.jpeg",
+          "sourcePageUrl": "https://allaoui.shop/megadyne-1440rpp8-toothed-belt",
+          "noteFa": "نمای نزدیک بدنه و مارکینگ مگاداین 8M (RPP8)"
+        }
+      ],
+      "specSheetUrl": "/src/assets/catalog/belts/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-8M-360/family-specifications.svg",
+      "sampleSkus": [
+        {
+          "sku": "33016",
+          "rawTitle": "تسمه مگادين 8M * 1120 * 20",
+          "rawSize": "1120*20",
+          "unit": "حلقه",
+          "sourceFamilyId": "FAM-38077",
+          "proposedFamilyId": "FAM-TIMING-HTD-8M-ENDLESS-STD-MEGADYNE",
+          "runtimePfamId": "PFAM-تسمه-تایمینگ-م-MEGADYNE-8M-360",
+          "auditStatus": "CORRECT_FAMILY",
+          "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
+          "profile": "8M",
+          "widthMm": 20,
+          "pitchLengthMm": 1120,
+          "insideLengthMm": null,
+          "toothCount": 140,
+          "realMarkingPhoto": {
+            "status": "VERIFIED_REAL_PRODUCT_IMAGE",
+            "url": "/belt-catalog/skus/33016/01-real-marking.webp",
+            "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/81/39/cc/1701700262/megadyne-timing-belt-1120rpp820mm_64727_dtlprdimg.jpeg",
+            "sourcePageUrl": "https://allaoui.shop/megadyne-1120-rpp8-20mm-timing-belt",
+            "visibleMarking": "MEGADYNE ISORAN 1120 RPP8 (20mm)",
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «MEGADYNE ISORAN 1120 RPP8» منطبق با SKU 33016 (تسمه مگاداین 8M * 1120 * 20)"
+          },
+          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/33016/technical-drawing.svg",
+          "profileDrawingUrl": "/src/assets/catalog/belts/skus/33016/profile-drawing.svg"
+        },
+        {
+          "sku": "33042",
+          "rawTitle": "تسمه تايمينگ مگداين 8m * 1040 * 30",
+          "rawSize": "1040*30",
+          "unit": "حلقه",
+          "sourceFamilyId": "FAM-33042",
+          "proposedFamilyId": "FAM-TIMING-HTD-8M-ENDLESS-STD-MEGADYNE",
+          "runtimePfamId": "PFAM-تسمه-تایمینگ-م-MEGADYNE-8M-360",
+          "auditStatus": "CORRECT_FAMILY",
+          "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
+          "profile": "8M",
+          "widthMm": 30,
+          "pitchLengthMm": 1040,
+          "insideLengthMm": null,
+          "toothCount": 130,
+          "realMarkingPhoto": {
+            "status": "VERIFIED_REAL_PRODUCT_IMAGE",
+            "url": "/belt-catalog/skus/33042/01-real-marking.webp",
+            "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/db/4e/8e/1701875785/megadyne-timing-belt-1040rpp830mm_64792_dtlprdimg.jpeg",
+            "sourcePageUrl": "https://allaoui.shop/megadyne-1040-rpp8-30mm-timing-belt",
+            "visibleMarking": "MEGADYNE ISORAN 1040 RPP8 (30mm)",
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «MEGADYNE ISORAN 1040 RPP8» منطبق با SKU 33042 (تسمه تایمینگ مگاداین 8M * 1040 * 30)"
+          },
+          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/33042/technical-drawing.svg",
+          "profileDrawingUrl": "/src/assets/catalog/belts/skus/33042/profile-drawing.svg"
+        }
+      ]
+    },
+    {
+      "pilotOrder": 6,
+      "sourceFamilyId": "FAM-35525",
+      "proposedFamilyId": "FAM-WELDED-ROUND-CRC-REINFORCED-FOREIGN",
+      "runtimePfamId": "PFAM-تسمه-گرد-جوشی-FOREIGN-CRC-386",
+      "titleFa": "تسمه جوشی گرد پلی‌یورتان نخ‌دار خارجی (۴ تصویر واقعی — شامل کد 38925)",
+      "titleEn": "Reinforced Thermoplastic PU Welded Round Belt — Profile CRC",
+      "sampleSkuIds": [
+        "38925"
+      ],
+      "manufacturerUrl": "https://www.behabelt.com/en/products/pu-belting/round-belts/",
+      "brand": "FOREIGN-OEM",
+      "profile": "CRC",
+      "beltDivision": "vbelt-classical",
+      "supplyForm": "heat-weldable-meter",
+      "standardReference": "TPU Weldable Round Cord",
+      "bodyMaterial": "پلی‌یورتان ترموپلاستیک (TPU)",
+      "tensileCord": "تسمه گرد جوشی نخ‌دار (کورد تقویت‌شده)",
+      "totalMemberSkus": 1,
+      "excludedIncompatibleSkusCount": 0,
+      "excludedIncompatibleSkusSample": [],
+      "familySlots": [
+        {
+          "slotNumber": 1,
+          "slotName": "01-main.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%AF%D8%B1%D8%AF-%D8%AC%D9%88%D8%B4%DB%8C-FOREIGN-CRC-386/01-main.webp",
+          "originalSourceUrl": "https://www.polyurethaneproduct.com/wp-content/uploads/2025/07/Urethane-Round-Belts.jpg",
+          "sourcePageUrl": "https://www.polyurethaneproduct.com/urethane-round-belts/",
+          "noteFa": "نمای اصلی رول‌های واقعی تسمه گرد پلی‌یورتان جوش‌پذیر (مطابق خانواده SKU 38925)"
+        },
+        {
+          "slotNumber": 2,
+          "slotName": "02-angle.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%AF%D8%B1%D8%AF-%D8%AC%D9%88%D8%B4%DB%8C-FOREIGN-CRC-386/02-angle.webp",
+          "originalSourceUrl": "https://www.fecconsulting.dk/images/stories/virtuemart/category/Rundremme_rundrem_rundsnor_roundbelt_pu_belt.webp",
+          "sourcePageUrl": "https://www.fecconsulting.dk/en/products/round-belts",
+          "noteFa": "نمای زاویه انحنا و سطح تسمه گرد پلی‌یورتان جوش‌پذیر خارجی"
+        },
+        {
+          "slotNumber": 3,
+          "slotName": "03-detail.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%AF%D8%B1%D8%AF-%D8%AC%D9%88%D8%B4%DB%8C-FOREIGN-CRC-386/03-detail.webp",
+          "originalSourceUrl": "https://www.behabelt.com/site/assets/files/5756/rr_pu85a_gruen_geraut_aramid.jpg",
+          "sourcePageUrl": "https://www.behabelt.com/en/products/pu-belting/round-belts/",
+          "noteFa": "نمای ماکرو مقطع تسمه گرد پلی‌یورتان سبز زبر نخ‌دار با کورد کششی آرامید داخلی (مطابق SKU 38925)"
+        },
+        {
+          "slotNumber": 4,
+          "slotName": "04-closeup.webp",
+          "status": "VERIFIED_FAMILY_IMAGE",
+          "url": "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%AF%D8%B1%D8%AF-%D8%AC%D9%88%D8%B4%DB%8C-FOREIGN-CRC-386/04-closeup.webp",
+          "originalSourceUrl": "https://www.behabelt.com/site/assets/files/5750/rr_pu80a_orange_glatt_polyester.jpg",
+          "sourcePageUrl": "https://www.behabelt.com/en/products/pu-belting/round-belts/",
+          "noteFa": "نمای نزدیک مقطع و ساختار کورد داخلی تسمه گرد جوشی پلی‌یورتان نخ‌دار"
+        }
+      ],
+      "specSheetUrl": "/src/assets/catalog/belts/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%AF%D8%B1%D8%AF-%D8%AC%D9%88%D8%B4%DB%8C-FOREIGN-CRC-386/family-specifications.svg",
+      "sampleSkus": [
+        {
+          "sku": "38925",
+          "rawTitle": "تسمه جوشي گرد نمره 6 نخ دار خارجي",
+          "rawSize": "6",
+          "unit": "متر",
+          "sourceFamilyId": "FAM-35525",
+          "proposedFamilyId": "FAM-WELDED-PU-ROUND-SMOOTH-CORDED-FOREIGN-OEM",
+          "runtimePfamId": "PFAM-تسمه-گرد-جوشی-FOREIGN-CRC-386",
+          "auditStatus": "FAMILY_MISMATCH",
+          "recommendedAction": "MOVE_TO_EXISTING_FAMILY",
+          "profile": "ROUND",
+          "widthMm": 6,
+          "pitchLengthMm": null,
+          "insideLengthMm": null,
+          "toothCount": null,
+          "realMarkingPhoto": {
+            "status": "NOT_FOUND",
+            "url": null,
+            "originalSourceUrl": null,
+            "sourcePageUrl": null,
+            "visibleMarking": null,
+            "noteFa": "تصویر واقعی با مارکینگ خوانای این سایز یافت نشد؛ جایگاه خالی (NOT_FOUND) طبق قانون ۵"
+          },
+          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/38925/technical-drawing.svg",
+          "profileDrawingUrl": "/src/assets/catalog/belts/skus/38925/profile-drawing.svg"
+        }
+      ]
+    },
+    {
+      "pilotOrder": 7,
       "sourceFamilyId": "FAM-10111",
       "proposedFamilyId": "FAM-TIMING-IMP-DH-SLEEVE-STD-BANDO",
-      "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-BANDO-DH-444",
-      "titleFa": "تسمه تایمینگ ذوزنقه‌ای اینچی دوطرفه پروفیل DH (آستین برش‌نخورده) — برند Bando",
+      "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-BANDO-DH-446",
+      "titleFa": "تسمه تایمینگ ذوزنقه‌ای اینچی دوطرفه پروفیل DH (آستین Bando — کد 41349)",
       "titleEn": "Bando Synchro-Link Double-Sided Timing Belt Sleeve — Profile DH (ISO 5296)",
       "sampleSkuIds": [
-        "41349",
-        "36468",
-        "41291"
+        "41349"
       ],
       "manufacturerUrl": "https://www.bando.de/produkte/antriebsriemen/zahnriemen/",
       "brand": "BANDO",
@@ -334,9 +1009,18 @@
           "originalSourceUrl": null,
           "sourcePageUrl": null,
           "noteFa": "بدون تصویر تکراری یا عمومی (NOT_FOUND طبق قوانین ۴ و ۵)"
+        },
+        {
+          "slotNumber": 4,
+          "slotName": "04-closeup.webp",
+          "status": "NOT_FOUND",
+          "url": null,
+          "originalSourceUrl": null,
+          "sourcePageUrl": null,
+          "noteFa": "بدون تصویر تکراری یا عمومی (NOT_FOUND طبق قوانین ۴ و ۵)"
         }
       ],
-      "specSheetUrl": "/src/assets/catalog/belts/families/FAM-10111/family-specifications.svg",
+      "specSheetUrl": "/src/assets/catalog/belts/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-BANDO-DH-446/family-specifications.svg",
       "sampleSkus": [
         {
           "sku": "41349",
@@ -345,7 +1029,7 @@
           "unit": "سانتيمتر",
           "sourceFamilyId": "FAM-10111",
           "proposedFamilyId": "FAM-TIMING-IMP-DH-SLEEVE-STD-BANDO",
-          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-BANDO-DH-444",
+          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-BANDO-DH-446",
           "auditStatus": "FAMILY_MISMATCH",
           "recommendedAction": "MOVE_TO_EXISTING_FAMILY",
           "profile": "DH",
@@ -355,7 +1039,7 @@
           "toothCount": 280,
           "realMarkingPhoto": {
             "status": "VERIFIED_REAL_PRODUCT_IMAGE",
-            "url": "/src/assets/catalog/belts/skus/41349/real-product-image.webp",
+            "url": "/belt-catalog/skus/41349/01-real-marking.webp",
             "originalSourceUrl": "https://i.ebayimg.com/images/g/g9QAAOSw3kRlG7s-/s-l1200.jpg",
             "sourcePageUrl": "https://www.ebay.com/itm/266441566039",
             "visibleMarking": "BANDO SYNCHRO-LINK 1400DH SLEEVE",
@@ -363,106 +1047,30 @@
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/41349/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/41349/profile-drawing.svg"
-        },
-        {
-          "sku": "36468",
-          "rawTitle": "تسمه تايمينگ آستين(BANDO) 1000DH",
-          "rawSize": "1000",
-          "unit": "سانتيمتر",
-          "sourceFamilyId": "FAM-36468",
-          "proposedFamilyId": "FAM-TIMING-IMP-DH-SLEEVE-STD-BANDO",
-          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-BANDO-DH-444",
-          "auditStatus": "CORRECT_FAMILY",
-          "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
-          "profile": "DH",
-          "widthMm": null,
-          "pitchLengthMm": 2540,
-          "insideLengthMm": null,
-          "toothCount": 200,
-          "realMarkingPhoto": {
-            "status": "NOT_FOUND",
-            "url": null,
-            "originalSourceUrl": null,
-            "sourcePageUrl": null,
-            "visibleMarking": null,
-            "noteFa": "تصویر واقعی با مارکینگ خوانای این سایز یافت نشد؛ جایگاه خالی (NOT_FOUND) طبق قانون ۵"
-          },
-          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/36468/technical-drawing.svg",
-          "profileDrawingUrl": "/src/assets/catalog/belts/skus/36468/profile-drawing.svg"
-        },
-        {
-          "sku": "41291",
-          "rawTitle": "تسمه BANDO ) 1400DH150 )",
-          "rawSize": "1400، 150",
-          "unit": "حلقه",
-          "sourceFamilyId": "FAM-10111",
-          "proposedFamilyId": "FAM-TIMING-IMP-DH-ENDLESS-STD-BANDO",
-          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-BANDO-DH-278",
-          "auditStatus": "FAMILY_MISMATCH",
-          "recommendedAction": "MOVE_TO_EXISTING_FAMILY",
-          "profile": "DH",
-          "widthMm": 38.1,
-          "pitchLengthMm": 3556,
-          "insideLengthMm": null,
-          "toothCount": 280,
-          "realMarkingPhoto": {
-            "status": "NOT_FOUND",
-            "url": null,
-            "originalSourceUrl": null,
-            "sourcePageUrl": null,
-            "visibleMarking": null,
-            "noteFa": "تصویر واقعی با مارکینگ خوانای این سایز یافت نشد؛ جایگاه خالی (NOT_FOUND) طبق قانون ۵"
-          },
-          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/41291/technical-drawing.svg",
-          "profileDrawingUrl": "/src/assets/catalog/belts/skus/41291/profile-drawing.svg"
         }
       ]
     },
     {
-      "pilotOrder": 3,
-      "sourceFamilyId": "FAM-52692",
-      "proposedFamilyId": "FAM-TIMING-PU-AT20-ENDLESS-6APL-FORZA",
-      "runtimePfamId": "PFAM-تسمه-تایمینگ-م-FORZA-AT20-015",
-      "titleFa": "تسمه تایمینگ پلی‌یورتان متریک پروفیل AT20 با روکش 6APL خط سرامیک — برند FORZA",
-      "titleEn": "FORZA Metric PU Timing Belt — Profile AT20 with 6APL Ceramic Cleat (DIN 7721)",
+      "pilotOrder": 8,
+      "sourceFamilyId": "FAM-38082",
+      "proposedFamilyId": "FAM-RIBBED-PK-DONGIL",
+      "runtimePfamId": "PFAM-تسمه-چندشیاری-DONGIL-PK-195",
+      "titleFa": "تسمه چندشیاری صنعتی و خودرویی DRB Dongil پروفیل PK (مارکینگ واقعی SKU 38082)",
+      "titleEn": "DRB Dongil Super Star Poly-V Ribbed Belt — Profile PK (ISO 9982)",
       "sampleSkuIds": [
-        "52692",
-        "52634",
-        "52690",
-        "52769"
+        "38082"
       ],
-      "manufacturerUrl": "https://www.megadynegroup.com/en/products/timing-belts",
-      "brand": "FORZA",
-      "profile": "AT20",
-      "beltDivision": "timing-metric-single",
+      "manufacturerUrl": "https://www.drbworld.com/eng/product/power_01.asp",
+      "brand": "DONGIL",
+      "profile": "PK",
+      "beltDivision": "ribbed-poly-v",
       "supplyForm": "endless-loop",
-      "standardReference": "DIN 7721 / ISO 17396 (تسمه‌های سنکرون متریک پروفیل T و AT)",
-      "bodyMaterial": "پلی‌یورتان ترموپلاستیک (TPU 92 ShA)",
-      "tensileCord": "کورد فولادی گالوانیزه (Steel Cord)",
-      "totalMemberSkus": 100,
-      "excludedIncompatibleSkusCount": 12,
-      "excludedIncompatibleSkusSample": [
-        {
-          "sku": "10338",
-          "reason": "دارای پروفیل AT20 (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-TIMING-PU-AT20-ENDLESS-3APL-FORZA"
-        },
-        {
-          "sku": "52690",
-          "reason": "دارای پروفیل AT20 (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-TIMING-PU-AT20-ENDLESS-3APL-FORZA"
-        },
-        {
-          "sku": "53272",
-          "reason": "دارای پروفیل AT20 (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-TIMING-PU-AT20-ENDLESS-3APL-FORZA"
-        },
-        {
-          "sku": "10341",
-          "reason": "دارای پروفیل AT20 (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-TIMING-PU-AT20-ENDLESS-3APL-FORZA"
-        },
-        {
-          "sku": "10346",
-          "reason": "دارای پروفیل AT20 (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-TIMING-PU-AT20-ENDLESS-3APL-FORZA"
-        }
-      ],
+      "standardReference": "ISO 9982 / DIN 7867 (پروفیل چندشیاری PK با گام شیار 3.56 mm)",
+      "bodyMaterial": "الاستومر مصنوعی (EPDM / کلروپرن)",
+      "tensileCord": "نخ پلی‌استر کم‌کشش (Low-Stretch Polyester Cord)",
+      "totalMemberSkus": 9,
+      "excludedIncompatibleSkusCount": 0,
+      "excludedIncompatibleSkusSample": [],
       "familySlots": [
         {
           "slotNumber": 1,
@@ -490,423 +1098,44 @@
           "originalSourceUrl": null,
           "sourcePageUrl": null,
           "noteFa": "بدون تصویر تکراری یا عمومی (NOT_FOUND طبق قوانین ۴ و ۵)"
+        },
+        {
+          "slotNumber": 4,
+          "slotName": "04-closeup.webp",
+          "status": "NOT_FOUND",
+          "url": null,
+          "originalSourceUrl": null,
+          "sourcePageUrl": null,
+          "noteFa": "بدون تصویر تکراری یا عمومی (NOT_FOUND طبق قوانین ۴ و ۵)"
         }
       ],
-      "specSheetUrl": "/src/assets/catalog/belts/families/FAM-52692/family-specifications.svg",
+      "specSheetUrl": "/src/assets/catalog/belts/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%86%D9%86%D8%AF%D8%B4%DB%8C%D8%A7%D8%B1%DB%8C-DONGIL-PK-195/family-specifications.svg",
       "sampleSkus": [
         {
-          "sku": "52692",
-          "rawTitle": "تسمه چمفر ( FORZA ) 100AT20 * 10180 * 6APL",
-          "rawSize": "100AT20، 20*10180*6",
+          "sku": "38082",
+          "rawTitle": "تسمه دانگيل 4PK990",
+          "rawSize": "4، 990",
           "unit": "حلقه",
-          "sourceFamilyId": "FAM-52692",
-          "proposedFamilyId": "FAM-TIMING-PU-AT20-ENDLESS-6APL-FORZA",
-          "runtimePfamId": "PFAM-تسمه-تایمینگ-م-FORZA-AT20-015",
-          "auditStatus": "FAMILY_MISMATCH",
-          "recommendedAction": "MOVE_TO_EXISTING_FAMILY",
-          "profile": "AT20",
-          "widthMm": 100,
-          "pitchLengthMm": 10180,
-          "insideLengthMm": null,
-          "toothCount": 509,
-          "realMarkingPhoto": {
-            "status": "NOT_FOUND",
-            "url": null,
-            "originalSourceUrl": null,
-            "sourcePageUrl": null,
-            "visibleMarking": null,
-            "noteFa": "تصویر واقعی با مارکینگ خوانای این سایز یافت نشد؛ جایگاه خالی (NOT_FOUND) طبق قانون ۵"
-          },
-          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/52692/technical-drawing.svg",
-          "profileDrawingUrl": "/src/assets/catalog/belts/skus/52692/profile-drawing.svg"
-        },
-        {
-          "sku": "52634",
-          "rawTitle": "تسمه چمفر ( FORZA ) 50AT20 * 9760 * 6APL",
-          "rawSize": "50AT20، 20*9760*6",
-          "unit": "حلقه",
-          "sourceFamilyId": "FAM-52692",
-          "proposedFamilyId": "FAM-TIMING-PU-AT20-ENDLESS-6APL-FORZA",
-          "runtimePfamId": "PFAM-تسمه-تایمینگ-م-FORZA-AT20-015",
-          "auditStatus": "FAMILY_MISMATCH",
-          "recommendedAction": "MOVE_TO_EXISTING_FAMILY",
-          "profile": "AT20",
-          "widthMm": 50,
-          "pitchLengthMm": 9760,
-          "insideLengthMm": null,
-          "toothCount": 488,
-          "realMarkingPhoto": {
-            "status": "NOT_FOUND",
-            "url": null,
-            "originalSourceUrl": null,
-            "sourcePageUrl": null,
-            "visibleMarking": null,
-            "noteFa": "تصویر واقعی با مارکینگ خوانای این سایز یافت نشد؛ جایگاه خالی (NOT_FOUND) طبق قانون ۵"
-          },
-          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/52634/technical-drawing.svg",
-          "profileDrawingUrl": "/src/assets/catalog/belts/skus/52634/profile-drawing.svg"
-        },
-        {
-          "sku": "52690",
-          "rawTitle": "تسمه چمفر ( FORZA ) 100AT20 * 11420 * 3 APL",
-          "rawSize": "100AT20، 20*11420*3",
-          "unit": "حلقه",
-          "sourceFamilyId": "FAM-52692",
-          "proposedFamilyId": "FAM-TIMING-PU-AT20-ENDLESS-3APL-FORZA",
-          "runtimePfamId": "PFAM-تسمه-تایمینگ-م-FORZA-AT20-053",
-          "auditStatus": "FAMILY_MISMATCH",
-          "recommendedAction": "MOVE_TO_EXISTING_FAMILY",
-          "profile": "AT20",
-          "widthMm": 100,
-          "pitchLengthMm": 11420,
-          "insideLengthMm": null,
-          "toothCount": 571,
-          "realMarkingPhoto": {
-            "status": "NOT_FOUND",
-            "url": null,
-            "originalSourceUrl": null,
-            "sourcePageUrl": null,
-            "visibleMarking": null,
-            "noteFa": "تصویر واقعی با مارکینگ خوانای این سایز یافت نشد؛ جایگاه خالی (NOT_FOUND) طبق قانون ۵"
-          },
-          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/52690/technical-drawing.svg",
-          "profileDrawingUrl": "/src/assets/catalog/belts/skus/52690/profile-drawing.svg"
-        },
-        {
-          "sku": "52769",
-          "rawTitle": "تسمه چمفر ( FORZA ) 50AT20 * 12000 * 6APL",
-          "rawSize": "50AT20، 20*12000*6",
-          "unit": "حلقه",
-          "sourceFamilyId": "FAM-52692",
-          "proposedFamilyId": "FAM-TIMING-PU-AT20-ENDLESS-6APL-FORZA",
-          "runtimePfamId": "PFAM-تسمه-تایمینگ-م-FORZA-AT20-015",
-          "auditStatus": "FAMILY_MISMATCH",
-          "recommendedAction": "MOVE_TO_EXISTING_FAMILY",
-          "profile": "AT20",
-          "widthMm": 50,
-          "pitchLengthMm": 12000,
-          "insideLengthMm": null,
-          "toothCount": 600,
-          "realMarkingPhoto": {
-            "status": "NOT_FOUND",
-            "url": null,
-            "originalSourceUrl": null,
-            "sourcePageUrl": null,
-            "visibleMarking": null,
-            "noteFa": "تصویر واقعی با مارکینگ خوانای این سایز یافت نشد؛ جایگاه خالی (NOT_FOUND) طبق قانون ۵"
-          },
-          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/52769/technical-drawing.svg",
-          "profileDrawingUrl": "/src/assets/catalog/belts/skus/52769/profile-drawing.svg"
-        }
-      ]
-    },
-    {
-      "pilotOrder": 4,
-      "sourceFamilyId": "FAM-24508",
-      "proposedFamilyId": "FAM-VBELT-XPB-STD-SWR",
-      "runtimePfamId": "PFAM-تسمه-V-شکل-بار-SWR-XPB-028",
-      "titleFa": "تسمه V شکل باریک دنده‌ای لبه‌خام پروفیل XPB — برند SWR",
-      "titleEn": "SWR Raw-Edge Molded Cogged Narrow Wedge Belt — Profile XPB (DIN 7753)",
-      "sampleSkuIds": [
-        "52396",
-        "24508",
-        "40943"
-      ],
-      "manufacturerUrl": "https://www.swr-europe.com",
-      "brand": "SWR",
-      "profile": "XPB",
-      "beltDivision": "vbelt-narrow-wedge",
-      "supplyForm": "endless-loop",
-      "standardReference": "DIN 7753-1 / ISO 4184 (پروفیل باریک دنده‌ای XPB 16.3×13 mm)",
-      "bodyMaterial": "لاستیک کلروپرن با روکش بافت پارچه‌ای (Wrapped V-Belt)",
-      "tensileCord": "کورد پلی‌استر کم‌کشش (Polyester Tensile Cord)",
-      "totalMemberSkus": 60,
-      "excludedIncompatibleSkusCount": 12,
-      "excludedIncompatibleSkusSample": [
-        {
-          "sku": "24508",
-          "reason": "دارای پروفیل SPA (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-VBELT-SPA-STD-SWR"
-        },
-        {
-          "sku": "10661",
-          "reason": "دارای پروفیل SPA (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-VBELT-SPA-STD-SWR"
-        },
-        {
-          "sku": "10637",
-          "reason": "دارای پروفیل SPA (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-VBELT-SPA-STD-SWR"
-        },
-        {
-          "sku": "52642",
-          "reason": "دارای پروفیل SPB (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-VBELT-SPB-STD-SWR"
-        },
-        {
-          "sku": "52828",
-          "reason": "دارای پروفیل SPB (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-VBELT-SPB-STD-SWR"
-        }
-      ],
-      "familySlots": [
-        {
-          "slotNumber": 1,
-          "slotName": "01-main.webp",
-          "status": "NOT_FOUND",
-          "url": null,
-          "originalSourceUrl": null,
-          "sourcePageUrl": null,
-          "noteFa": "بدون تصویر تکراری یا عمومی (NOT_FOUND طبق قوانین ۴ و ۵)"
-        },
-        {
-          "slotNumber": 2,
-          "slotName": "02-angle.webp",
-          "status": "NOT_FOUND",
-          "url": null,
-          "originalSourceUrl": null,
-          "sourcePageUrl": null,
-          "noteFa": "بدون تصویر تکراری یا عمومی (NOT_FOUND طبق قوانین ۴ و ۵)"
-        },
-        {
-          "slotNumber": 3,
-          "slotName": "03-detail.webp",
-          "status": "NOT_FOUND",
-          "url": null,
-          "originalSourceUrl": null,
-          "sourcePageUrl": null,
-          "noteFa": "بدون تصویر تکراری یا عمومی (NOT_FOUND طبق قوانین ۴ و ۵)"
-        }
-      ],
-      "specSheetUrl": "/src/assets/catalog/belts/families/FAM-24508/family-specifications.svg",
-      "sampleSkus": [
-        {
-          "sku": "52396",
-          "rawTitle": "تسمه XPB1980 SWR",
-          "rawSize": "XPB1980",
-          "unit": "حلقه",
-          "sourceFamilyId": "FAM-24508",
-          "proposedFamilyId": "FAM-VBELT-XPB-STD-SWR",
-          "runtimePfamId": "PFAM-تسمه-V-شکل-بار-SWR-XPB-028",
+          "sourceFamilyId": "FAM-38082",
+          "proposedFamilyId": "FAM-RIBBED-PK-DONGIL",
+          "runtimePfamId": "PFAM-تسمه-چندشیاری-DONGIL-PK-195",
           "auditStatus": "CORRECT_FAMILY",
           "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
-          "profile": "XPB",
-          "widthMm": 16.3,
-          "pitchLengthMm": 1980,
+          "profile": "PK",
+          "widthMm": 14.24,
+          "pitchLengthMm": 990,
           "insideLengthMm": null,
           "toothCount": null,
           "realMarkingPhoto": {
-            "status": "NOT_FOUND",
-            "url": null,
-            "originalSourceUrl": null,
-            "sourcePageUrl": null,
-            "visibleMarking": null,
-            "noteFa": "تصویر واقعی با مارکینگ خوانای این سایز یافت نشد؛ جایگاه خالی (NOT_FOUND) طبق قانون ۵"
+            "status": "VERIFIED_REAL_PRODUCT_IMAGE",
+            "url": "/belt-catalog/skus/38082/01-real-marking.webp",
+            "originalSourceUrl": "https://pidbir.parts/imgs/dongil-rubber-belt-drb/4pk990.webp",
+            "sourcePageUrl": "https://pidbir.parts/en/dongil-rubber-belt-drb/4pk990",
+            "visibleMarking": "SUPER STAR 4PK 990 MADE IN KOREA (DRB DONGIL)",
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «SUPER STAR 4PK 990 MADE IN KOREA» منطبق با SKU 38082 (تسمه دانگیل 4PK990)"
           },
-          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/52396/technical-drawing.svg",
-          "profileDrawingUrl": "/src/assets/catalog/belts/skus/52396/profile-drawing.svg"
-        },
-        {
-          "sku": "24508",
-          "rawTitle": "تسمه SPA1200 SWR",
-          "rawSize": "SPA1200",
-          "unit": "حلقه",
-          "sourceFamilyId": "FAM-24508",
-          "proposedFamilyId": "FAM-VBELT-SPA-STD-SWR",
-          "runtimePfamId": "PFAM-تسمه-V-شکل-بار-SWR-SPA-033",
-          "auditStatus": "CORRECT_FAMILY",
-          "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
-          "profile": "SPA",
-          "widthMm": 12.7,
-          "pitchLengthMm": 1200,
-          "insideLengthMm": null,
-          "toothCount": null,
-          "realMarkingPhoto": {
-            "status": "NOT_FOUND",
-            "url": null,
-            "originalSourceUrl": null,
-            "sourcePageUrl": null,
-            "visibleMarking": null,
-            "noteFa": "تصویر واقعی با مارکینگ خوانای این سایز یافت نشد؛ جایگاه خالی (NOT_FOUND) طبق قانون ۵"
-          },
-          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/24508/technical-drawing.svg",
-          "profileDrawingUrl": "/src/assets/catalog/belts/skus/24508/profile-drawing.svg"
-        },
-        {
-          "sku": "40943",
-          "rawTitle": "تسمه XPC4650 SWR",
-          "rawSize": "XPC4650",
-          "unit": "حلقه",
-          "sourceFamilyId": "FAM-24508",
-          "proposedFamilyId": "FAM-VBELT-XPC-STD-SWR",
-          "runtimePfamId": "PFAM-تسمه-V-شکل-بار-SWR-XPC-091",
-          "auditStatus": "CORRECT_FAMILY",
-          "recommendedAction": "KEEP_IN_CURRENT_FAMILY",
-          "profile": "XPC",
-          "widthMm": 22,
-          "pitchLengthMm": 4650,
-          "insideLengthMm": null,
-          "toothCount": null,
-          "realMarkingPhoto": {
-            "status": "NOT_FOUND",
-            "url": null,
-            "originalSourceUrl": null,
-            "sourcePageUrl": null,
-            "visibleMarking": null,
-            "noteFa": "تصویر واقعی با مارکینگ خوانای این سایز یافت نشد؛ جایگاه خالی (NOT_FOUND) طبق قانون ۵"
-          },
-          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/40943/technical-drawing.svg",
-          "profileDrawingUrl": "/src/assets/catalog/belts/skus/40943/profile-drawing.svg"
-        }
-      ]
-    },
-    {
-      "pilotOrder": 5,
-      "sourceFamilyId": "FAM-37769",
-      "proposedFamilyId": "FAM-CROWNED-ENDLESS-CRC-MEGADYNE",
-      "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-MEGADYNE-L-365",
-      "titleFa": "تسمه بارکش تاج‌دار خط لعاب سرامیک پروفیل CRC — برند Megadyne",
-      "titleEn": "Megadyne Crowned Ceramic Glaze Line Haul-Off Belt — Profile CRC",
-      "sampleSkuIds": [
-        "52205",
-        "42386",
-        "54394"
-      ],
-      "manufacturerUrl": "https://www.megadynegroup.com/en/products/v-belts",
-      "brand": "MEGADYNE",
-      "profile": "CRC",
-      "beltDivision": "vbelt-crowned-crc",
-      "supplyForm": "endless-loop",
-      "standardReference": "Ceramic Tile Roller Kiln & Glazing Line Ridge-Top C-Belt Standard",
-      "bodyMaterial": "لاستیک کلروپرن/طبیعی ضدسایش با تاج محدب (Crowned Top)",
-      "tensileCord": "کورد پلی‌استر پرتاب (High-Tensile Polyester Cord)",
-      "totalMemberSkus": 20,
-      "excludedIncompatibleSkusCount": 12,
-      "excludedIncompatibleSkusSample": [
-        {
-          "sku": "37769",
-          "reason": "دارای پروفیل 5M (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-TIMING-HTD-5M-ENDLESS-STD-MEGADYNE"
-        },
-        {
-          "sku": "38023",
-          "reason": "دارای پروفیل H (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-TIMING-IMP-H-ENDLESS-STD-MEGADYNE"
-        },
-        {
-          "sku": "38190",
-          "reason": "دارای پروفیل H (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-TIMING-IMP-H-ENDLESS-STD-MEGADYNE"
-        },
-        {
-          "sku": "54394",
-          "reason": "دارای پروفیل H (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-TIMING-IMP-H-ENDLESS-STD-MEGADYNE"
-        },
-        {
-          "sku": "37040",
-          "reason": "دارای پروفیل XL (single-sided) و واحد/فرم عرضه حلقه (endless-loop)؛ منتقل‌شده به FAM-TIMING-IMP-XL-ENDLESS-STD-MEGADYNE"
-        }
-      ],
-      "familySlots": [
-        {
-          "slotNumber": 1,
-          "slotName": "01-main.webp",
-          "status": "NOT_FOUND",
-          "url": null,
-          "originalSourceUrl": null,
-          "sourcePageUrl": null,
-          "noteFa": "بدون تصویر تکراری یا عمومی (NOT_FOUND طبق قوانین ۴ و ۵)"
-        },
-        {
-          "slotNumber": 2,
-          "slotName": "02-angle.webp",
-          "status": "NOT_FOUND",
-          "url": null,
-          "originalSourceUrl": null,
-          "sourcePageUrl": null,
-          "noteFa": "بدون تصویر تکراری یا عمومی (NOT_FOUND طبق قوانین ۴ و ۵)"
-        },
-        {
-          "slotNumber": 3,
-          "slotName": "03-detail.webp",
-          "status": "NOT_FOUND",
-          "url": null,
-          "originalSourceUrl": null,
-          "sourcePageUrl": null,
-          "noteFa": "بدون تصویر تکراری یا عمومی (NOT_FOUND طبق قوانین ۴ و ۵)"
-        }
-      ],
-      "specSheetUrl": "/src/assets/catalog/belts/families/FAM-37769/family-specifications.svg",
-      "sampleSkus": [
-        {
-          "sku": "52205",
-          "rawTitle": "تسمه مگادين 202L15M",
-          "rawSize": "202L",
-          "unit": "حلقه",
-          "sourceFamilyId": "FAM-37769",
-          "proposedFamilyId": "FAM-TIMING-IMP-L-ENDLESS-STD-MEGADYNE",
-          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-MEGADYNE-L-365",
-          "auditStatus": "FAMILY_MISMATCH",
-          "recommendedAction": "MOVE_TO_EXISTING_FAMILY",
-          "profile": "L",
-          "widthMm": 15,
-          "pitchLengthMm": 514.35,
-          "insideLengthMm": null,
-          "toothCount": 54,
-          "realMarkingPhoto": {
-            "status": "NOT_FOUND",
-            "url": null,
-            "originalSourceUrl": null,
-            "sourcePageUrl": null,
-            "visibleMarking": null,
-            "noteFa": "تصویر واقعی با مارکینگ خوانای این سایز یافت نشد؛ جایگاه خالی (NOT_FOUND) طبق قانون ۵"
-          },
-          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/52205/technical-drawing.svg",
-          "profileDrawingUrl": "/src/assets/catalog/belts/skus/52205/profile-drawing.svg"
-        },
-        {
-          "sku": "42386",
-          "rawTitle": "تسمه مگادين CRC 305",
-          "rawSize": "305",
-          "unit": "حلقه",
-          "sourceFamilyId": "FAM-37769",
-          "proposedFamilyId": "FAM-CROWNED-ENDLESS-CRC-MEGADYNE",
-          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-MEGADYNE-L-365",
-          "auditStatus": "FAMILY_MISMATCH",
-          "recommendedAction": "MOVE_TO_EXISTING_FAMILY",
-          "profile": "CRC",
-          "widthMm": 22,
-          "pitchLengthMm": 305,
-          "insideLengthMm": 305,
-          "toothCount": null,
-          "realMarkingPhoto": {
-            "status": "NOT_FOUND",
-            "url": null,
-            "originalSourceUrl": null,
-            "sourcePageUrl": null,
-            "visibleMarking": null,
-            "noteFa": "تصویر واقعی با مارکینگ خوانای این سایز یافت نشد؛ جایگاه خالی (NOT_FOUND) طبق قانون ۵"
-          },
-          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/42386/technical-drawing.svg",
-          "profileDrawingUrl": "/src/assets/catalog/belts/skus/42386/profile-drawing.svg"
-        },
-        {
-          "sku": "54394",
-          "rawTitle": "تسمه مگادين 1250H075",
-          "rawSize": "1250H",
-          "unit": "حلقه",
-          "sourceFamilyId": "FAM-37769",
-          "proposedFamilyId": "FAM-TIMING-IMP-H-ENDLESS-STD-MEGADYNE",
-          "runtimePfamId": "PFAM-تسمه-تایمینگ-ذ-MEGADYNE-H-106",
-          "auditStatus": "FAMILY_MISMATCH",
-          "recommendedAction": "MOVE_TO_EXISTING_FAMILY",
-          "profile": "H",
-          "widthMm": 19.05,
-          "pitchLengthMm": 3175,
-          "insideLengthMm": null,
-          "toothCount": 250,
-          "realMarkingPhoto": {
-            "status": "NOT_FOUND",
-            "url": null,
-            "originalSourceUrl": null,
-            "sourcePageUrl": null,
-            "visibleMarking": null,
-            "noteFa": "تصویر واقعی با مارکینگ خوانای این سایز یافت نشد؛ جایگاه خالی (NOT_FOUND) طبق قانون ۵"
-          },
-          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/54394/technical-drawing.svg",
-          "profileDrawingUrl": "/src/assets/catalog/belts/skus/54394/profile-drawing.svg"
+          "technicalDrawingUrl": "/src/assets/catalog/belts/skus/38082/technical-drawing.svg",
+          "profileDrawingUrl": "/src/assets/catalog/belts/skus/38082/profile-drawing.svg"
         }
       ]
     }
@@ -1145,7 +1374,7 @@
       "directive_audit_status": "FAMILY_MISMATCH",
       "target_audit_family_id": "FAM-TIMING-PU-AT5-ENDLESS-STD-UNSPECIFIED",
       "target_audit_family_name_fa": "تسمه تایمینگ AT5 پلی‌یورتان سیم‌دار مداربسته",
-      "target_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-GENERIC-AT5-572",
+      "target_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-GENERIC-AT5-571",
       "target_category_path": "تسمه تایمینگ > انواع گام و کدهای تایمینگ > T5 , AT5 , AT10 , AT20",
       "reassignment_type": "MOVE_TO_OTHER_CATEGORY",
       "engineering_justification_fa": "تسمه سنکرون متریک AT5 با گام 5 میلی‌متر مطابق DIN 7721."
@@ -1159,7 +1388,7 @@
       "directive_audit_status": "FAMILY_MISMATCH",
       "target_audit_family_id": "FAM-BELT-WELDING-CLAMP-UNSPECIFIED",
       "target_audit_family_name_fa": "دستگاه و گیره آپارات جوش تسمه پلی‌یورتان (UNSPECIFIED)",
-      "target_runtime_pfam_id": "QUARANTINED",
+      "target_runtime_pfam_id": "DIRECT-110049",
       "target_category_path": "تسمه بارکش و تجهیزات جوشی > دستگاه‌های تسمه جوشی > دستگاه جوش تسمه صنعتی",
       "reassignment_type": "MOVE_TO_OTHER_CATEGORY",
       "engineering_justification_fa": "در ساختار منوی اکسل تأییدشده، زیرشاخه اختصاصی `excel-v2-1-4` («دستگاه‌های تسمه جوشی > دستگاه جوش تسمه صنعتی») تعریف شده است؛ این ابزار از دسته عمومی «دستگاه صنعتی» به زیرشاخه تخصصی خود منتقل می‌شود و به دلیل نام عمومی بدون برند تاییدشده در لایه داده داخلی قرار می‌گیرد."
@@ -1173,7 +1402,7 @@
       "directive_audit_status": "FAMILY_MISMATCH",
       "target_audit_family_id": "FAM-BELT-WELDING-CLAMP-FOREIGN-OEM",
       "target_audit_family_name_fa": "دستگاه و گیره آپارات جوش تسمه پلی‌یورتان (FOREIGN-OEM)",
-      "target_runtime_pfam_id": "QUARANTINED",
+      "target_runtime_pfam_id": "DIRECT-35852",
       "target_category_path": "تسمه بارکش و تجهیزات جوشی > دستگاه‌های تسمه جوشی > دستگاه جوش تسمه صنعتی",
       "reassignment_type": "MOVE_TO_OTHER_CATEGORY",
       "engineering_justification_fa": "در ساختار منوی اکسل تأییدشده، زیرشاخه اختصاصی `excel-v2-1-4` («دستگاه‌های تسمه جوشی > دستگاه جوش تسمه صنعتی») تعریف شده است؛ این ابزار از دسته عمومی «دستگاه صنعتی» به زیرشاخه تخصصی خود منتقل می‌شود و به دلیل نام عمومی بدون برند تاییدشده در لایه داده داخلی قرار می‌گیرد."
@@ -1187,7 +1416,7 @@
       "directive_audit_status": "FAMILY_MISMATCH",
       "target_audit_family_id": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE",
       "target_audit_family_name_fa": "تسمه تایمینگ T5 پلی‌یورتان سیم‌دار (پشت پارچه‌ای سبز/تخصصی چاپ کاشی (Megadyne TNX / Printing Spec)) مداربسته MEGADYNE",
-      "target_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135",
+      "target_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134",
       "target_category_path": "تسمه تایمینگ > انواع گام و کدهای تایمینگ > T5 , AT5 , AT10 , AT20",
       "reassignment_type": "MOVE_TO_OTHER_CATEGORY",
       "engineering_justification_fa": "تسمه تایمینگ پلی‌یورتان T5 دستگاه چاپ کاشی مگادین ایتالیا که از دسته قطعات چاپ به دسته اصلی تسمه تایمینگ (T5 , AT5 , AT10 , AT20) منتقل شد."
@@ -1201,7 +1430,7 @@
       "directive_audit_status": "FAMILY_MISMATCH",
       "target_audit_family_id": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE",
       "target_audit_family_name_fa": "تسمه تایمینگ T5 پلی‌یورتان سیم‌دار (پشت پارچه‌ای سبز/تخصصی چاپ کاشی (Megadyne TNX / Printing Spec)) مداربسته MEGADYNE",
-      "target_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135",
+      "target_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134",
       "target_category_path": "تسمه تایمینگ > انواع گام و کدهای تایمینگ > T5 , AT5 , AT10 , AT20",
       "reassignment_type": "MOVE_TO_OTHER_CATEGORY",
       "engineering_justification_fa": "تسمه تایمینگ پلی‌یورتان T5 دستگاه چاپ کاشی مگادین ایتالیا که از دسته قطعات چاپ به دسته اصلی تسمه تایمینگ (T5 , AT5 , AT10 , AT20) منتقل شد."
@@ -1215,7 +1444,7 @@
       "directive_audit_status": "FAMILY_MISMATCH",
       "target_audit_family_id": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE",
       "target_audit_family_name_fa": "تسمه تایمینگ T5 پلی‌یورتان سیم‌دار (پشت پارچه‌ای سبز/تخصصی چاپ کاشی (Megadyne TNX / Printing Spec)) مداربسته MEGADYNE",
-      "target_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135",
+      "target_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134",
       "target_category_path": "تسمه تایمینگ > انواع گام و کدهای تایمینگ > T5 , AT5 , AT10 , AT20",
       "reassignment_type": "MOVE_TO_OTHER_CATEGORY",
       "engineering_justification_fa": "تسمه تایمینگ پلی‌یورتان T5 دستگاه چاپ کاشی مگادین ایتالیا که از دسته قطعات چاپ به دسته اصلی تسمه تایمینگ (T5 , AT5 , AT10 , AT20) منتقل شد."
@@ -1229,7 +1458,7 @@
       "directive_audit_status": "FAMILY_MISMATCH",
       "target_audit_family_id": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE",
       "target_audit_family_name_fa": "تسمه تایمینگ T5 پلی‌یورتان سیم‌دار (پشت پارچه‌ای سبز/تخصصی چاپ کاشی (Megadyne TNX / Printing Spec)) مداربسته MEGADYNE",
-      "target_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135",
+      "target_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134",
       "target_category_path": "تسمه تایمینگ > انواع گام و کدهای تایمینگ > T5 , AT5 , AT10 , AT20",
       "reassignment_type": "MOVE_TO_OTHER_CATEGORY",
       "engineering_justification_fa": "تسمه تایمینگ پلی‌یورتان T5 دستگاه چاپ کاشی مگادین ایتالیا که از دسته قطعات چاپ به دسته اصلی تسمه تایمینگ (T5 , AT5 , AT10 , AT20) منتقل شد."
@@ -1243,7 +1472,7 @@
       "directive_audit_status": "FAMILY_MISMATCH",
       "target_audit_family_id": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE",
       "target_audit_family_name_fa": "تسمه تایمینگ T5 پلی‌یورتان سیم‌دار (پشت پارچه‌ای سبز/تخصصی چاپ کاشی (Megadyne TNX / Printing Spec)) مداربسته MEGADYNE",
-      "target_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135",
+      "target_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134",
       "target_category_path": "تسمه تایمینگ > انواع گام و کدهای تایمینگ > T5 , AT5 , AT10 , AT20",
       "reassignment_type": "MOVE_TO_OTHER_CATEGORY",
       "engineering_justification_fa": "تسمه تایمینگ پلی‌یورتان T5 دستگاه چاپ کاشی مگادین ایتالیا که از دسته قطعات چاپ به دسته اصلی تسمه تایمینگ (T5 , AT5 , AT10 , AT20) منتقل شد."
@@ -1257,7 +1486,7 @@
       "directive_audit_status": "FAMILY_MISMATCH",
       "target_audit_family_id": "FAM-RIBBED-PJ-PRINT-MEGADYNE",
       "target_audit_family_name_fa": "تسمه چندشیاری چاپ PJ (MEGADYNE)",
-      "target_runtime_pfam_id": "QUARANTINED",
+      "target_runtime_pfam_id": "DIRECT-58129",
       "target_category_path": "تسمه وی‌بلت (V-Belt) > تسمه اسپشیال > SPA , SPB , SPC و دندانه‌دار",
       "reassignment_type": "MOVE_TO_OTHER_CATEGORY",
       "engineering_justification_fa": "تسمه چندشیاری PJ مخصوص دستگاه چاپ کاشی (Megadyne 1270PJ8) که از دسته تجهیزات کاشی به خانواده تسمه‌های چندشیاری PJ منتقل شد."
@@ -1547,9 +1776,9 @@
       "extracted_brand": "UNSPECIFIED",
       "extracted_dimensions": "W=25mm | Lp=1420mm | Li=-mm",
       "mismatch_reason": "تسمه سنکرون متریک AT5 با گام 5 میلی‌متر مطابق DIN 7721.",
-      "candidate_target_families": "FAM-TIMING-PU-AT5-ENDLESS-STD-UNSPECIFIED (PFAM-تسمه-تایمینگ-م-GENERIC-AT5-572)",
+      "candidate_target_families": "FAM-TIMING-PU-AT5-ENDLESS-STD-UNSPECIFIED (PFAM-تسمه-تایمینگ-م-GENERIC-AT5-571)",
       "final_assigned_family": "FAM-TIMING-PU-AT5-ENDLESS-STD-UNSPECIFIED",
-      "final_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-GENERIC-AT5-572",
+      "final_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-GENERIC-AT5-571",
       "global_pool_status": "REASSIGNED_TO_VERIFIED_TARGET_BELT_FAMILY",
       "confidence_level": "ALGORITHMIC_STANDARD_ONLY"
     },
@@ -1564,9 +1793,9 @@
       "extracted_brand": "UNSPECIFIED",
       "extracted_dimensions": "W=-mm | Lp=-mm | Li=-mm",
       "mismatch_reason": "در ساختار منوی اکسل تأییدشده، زیرشاخه اختصاصی `excel-v2-1-4` («دستگاه‌های تسمه جوشی > دستگاه جوش تسمه صنعتی») تعریف شده است؛ این ابزار از دسته عمومی «دستگاه صنعتی» به زیرشاخه تخصصی خود منتقل می‌شود و به دلیل نام عمومی بدون برند تاییدشده در لایه داده داخلی قرار می‌گیرد.",
-      "candidate_target_families": "FAM-BELT-WELDING-CLAMP-UNSPECIFIED (QUARANTINED)",
+      "candidate_target_families": "FAM-BELT-WELDING-CLAMP-UNSPECIFIED (DIRECT-110049)",
       "final_assigned_family": "FAM-BELT-WELDING-CLAMP-UNSPECIFIED",
-      "final_runtime_pfam_id": "QUARANTINED",
+      "final_runtime_pfam_id": "DIRECT-110049",
       "global_pool_status": "REASSIGNED_TO_VERIFIED_TARGET_BELT_FAMILY",
       "confidence_level": "ALGORITHMIC_STANDARD_ONLY"
     },
@@ -1581,9 +1810,9 @@
       "extracted_brand": "FOREIGN-OEM",
       "extracted_dimensions": "W=-mm | Lp=-mm | Li=-mm",
       "mismatch_reason": "در ساختار منوی اکسل تأییدشده، زیرشاخه اختصاصی `excel-v2-1-4` («دستگاه‌های تسمه جوشی > دستگاه جوش تسمه صنعتی») تعریف شده است؛ این ابزار از دسته عمومی «دستگاه صنعتی» به زیرشاخه تخصصی خود منتقل می‌شود و به دلیل نام عمومی بدون برند تاییدشده در لایه داده داخلی قرار می‌گیرد.",
-      "candidate_target_families": "FAM-BELT-WELDING-CLAMP-FOREIGN-OEM (QUARANTINED)",
+      "candidate_target_families": "FAM-BELT-WELDING-CLAMP-FOREIGN-OEM (DIRECT-35852)",
       "final_assigned_family": "FAM-BELT-WELDING-CLAMP-FOREIGN-OEM",
-      "final_runtime_pfam_id": "QUARANTINED",
+      "final_runtime_pfam_id": "DIRECT-35852",
       "global_pool_status": "REASSIGNED_TO_VERIFIED_TARGET_BELT_FAMILY",
       "confidence_level": "ALGORITHMIC_STANDARD_ONLY"
     },
@@ -1598,9 +1827,9 @@
       "extracted_brand": "MEGADYNE",
       "extracted_dimensions": "W=20mm | Lp=1275mm | Li=-mm",
       "mismatch_reason": "تسمه تایمینگ پلی‌یورتان T5 دستگاه چاپ کاشی مگادین ایتالیا که از دسته قطعات چاپ به دسته اصلی تسمه تایمینگ (T5 , AT5 , AT10 , AT20) منتقل شد.",
-      "candidate_target_families": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE (PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135)",
+      "candidate_target_families": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE (PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134)",
       "final_assigned_family": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE",
-      "final_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135",
+      "final_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134",
       "global_pool_status": "REASSIGNED_TO_VERIFIED_TARGET_BELT_FAMILY",
       "confidence_level": "SERIES_VERIFIED"
     },
@@ -1615,9 +1844,9 @@
       "extracted_brand": "MEGADYNE",
       "extracted_dimensions": "W=20mm | Lp=1280mm | Li=-mm",
       "mismatch_reason": "تسمه تایمینگ پلی‌یورتان T5 دستگاه چاپ کاشی مگادین ایتالیا که از دسته قطعات چاپ به دسته اصلی تسمه تایمینگ (T5 , AT5 , AT10 , AT20) منتقل شد.",
-      "candidate_target_families": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE (PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135)",
+      "candidate_target_families": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE (PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134)",
       "final_assigned_family": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE",
-      "final_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135",
+      "final_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134",
       "global_pool_status": "REASSIGNED_TO_VERIFIED_TARGET_BELT_FAMILY",
       "confidence_level": "SERIES_VERIFIED"
     },
@@ -1632,9 +1861,9 @@
       "extracted_brand": "MEGADYNE",
       "extracted_dimensions": "W=25mm | Lp=1215mm | Li=-mm",
       "mismatch_reason": "تسمه تایمینگ پلی‌یورتان T5 دستگاه چاپ کاشی مگادین ایتالیا که از دسته قطعات چاپ به دسته اصلی تسمه تایمینگ (T5 , AT5 , AT10 , AT20) منتقل شد.",
-      "candidate_target_families": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE (PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135)",
+      "candidate_target_families": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE (PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134)",
       "final_assigned_family": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE",
-      "final_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135",
+      "final_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134",
       "global_pool_status": "REASSIGNED_TO_VERIFIED_TARGET_BELT_FAMILY",
       "confidence_level": "SERIES_VERIFIED"
     },
@@ -1649,9 +1878,9 @@
       "extracted_brand": "MEGADYNE",
       "extracted_dimensions": "W=25mm | Lp=1900mm | Li=-mm",
       "mismatch_reason": "تسمه تایمینگ پلی‌یورتان T5 دستگاه چاپ کاشی مگادین ایتالیا که از دسته قطعات چاپ به دسته اصلی تسمه تایمینگ (T5 , AT5 , AT10 , AT20) منتقل شد.",
-      "candidate_target_families": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE (PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135)",
+      "candidate_target_families": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE (PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134)",
       "final_assigned_family": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE",
-      "final_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135",
+      "final_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134",
       "global_pool_status": "REASSIGNED_TO_VERIFIED_TARGET_BELT_FAMILY",
       "confidence_level": "SERIES_VERIFIED"
     },
@@ -1666,9 +1895,9 @@
       "extracted_brand": "MEGADYNE",
       "extracted_dimensions": "W=25mm | Lp=2280mm | Li=-mm",
       "mismatch_reason": "تسمه تایمینگ پلی‌یورتان T5 دستگاه چاپ کاشی مگادین ایتالیا که از دسته قطعات چاپ به دسته اصلی تسمه تایمینگ (T5 , AT5 , AT10 , AT20) منتقل شد.",
-      "candidate_target_families": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE (PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135)",
+      "candidate_target_families": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE (PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134)",
       "final_assigned_family": "FAM-TIMING-PU-T5-ENDLESS-PRINT-MEGADYNE",
-      "final_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-135",
+      "final_runtime_pfam_id": "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134",
       "global_pool_status": "REASSIGNED_TO_VERIFIED_TARGET_BELT_FAMILY",
       "confidence_level": "SERIES_VERIFIED"
     },
@@ -1683,9 +1912,9 @@
       "extracted_brand": "MEGADYNE",
       "extracted_dimensions": "W=18.72mm | Lp=1270mm | Li=-mm",
       "mismatch_reason": "تسمه چندشیاری PJ مخصوص دستگاه چاپ کاشی (Megadyne 1270PJ8) که از دسته تجهیزات کاشی به خانواده تسمه‌های چندشیاری PJ منتقل شد.",
-      "candidate_target_families": "FAM-RIBBED-PJ-PRINT-MEGADYNE (QUARANTINED)",
+      "candidate_target_families": "FAM-RIBBED-PJ-PRINT-MEGADYNE (DIRECT-58129)",
       "final_assigned_family": "FAM-RIBBED-PJ-PRINT-MEGADYNE",
-      "final_runtime_pfam_id": "QUARANTINED",
+      "final_runtime_pfam_id": "DIRECT-58129",
       "global_pool_status": "REASSIGNED_TO_VERIFIED_TARGET_BELT_FAMILY",
       "confidence_level": "DATASHEET_VERIFIED"
     }
@@ -1699,33 +1928,6 @@
       "source_page_url": "https://www.totallybelts.com/collections/optibelt-imperial-timing-belts",
       "rejection_status": "RIGHTS_NOT_VERIFIED",
       "rejection_reason_fa": "مسدود بودن دسترسی مستقیم سرور مرجع (HTTP 403) و عدم احراز مجوز بازنشر تجاری مستقل (RIGHTS_NOT_VERIFIED)"
-    },
-    {
-      "entity_type": "MASTER_POOL_CANDIDATE",
-      "entity_id": "imp_gen_loops",
-      "slot_name": "imp_gen_loops.webp",
-      "candidate_url": "https://cgbelting.com/wp-content/uploads/2024/10/Imperial-Type-Timing-Belts.png",
-      "source_page_url": "",
-      "rejection_status": "REJECTED_WRONG_PRODUCT",
-      "rejection_reason_fa": "عدم تطابق اختصاصی یک‌به‌یک با خانواده/برند کاتالوگ یا تصویر استوک عمومی توزیع‌کننده (قانون ۴: تصاویر عمومی و تکرار بین خانواده‌ها ممنوع)"
-    },
-    {
-      "entity_type": "MASTER_POOL_CANDIDATE",
-      "entity_id": "imp_gen_coil",
-      "slot_name": "imp_gen_coil.webp",
-      "candidate_url": "https://cgbelting.com/wp-content/uploads/2024/10/Imperial-Type-Timing-Belts-.png",
-      "source_page_url": "",
-      "rejection_status": "REJECTED_WRONG_PRODUCT",
-      "rejection_reason_fa": "عدم تطابق اختصاصی یک‌به‌یک با خانواده/برند کاتالوگ یا تصویر استوک عمومی توزیع‌کننده (قانون ۴: تصاویر عمومی و تکرار بین خانواده‌ها ممنوع)"
-    },
-    {
-      "entity_type": "MASTER_POOL_CANDIDATE",
-      "entity_id": "imp_open_roll",
-      "slot_name": "imp_open_roll.webp",
-      "candidate_url": "https://www.frkpower.com/Uploads/pro/OPEN-ENDED-BELT.15.3-2.jpg",
-      "source_page_url": "https://www.frkpower.com/product/OPEN-ENDED-BELT.html",
-      "rejection_status": "REJECTED_WRONG_PRODUCT",
-      "rejection_reason_fa": "عدم تطابق اختصاصی یک‌به‌یک با خانواده/برند کاتالوگ یا تصویر استوک عمومی توزیع‌کننده (قانون ۴: تصاویر عمومی و تکرار بین خانواده‌ها ممنوع)"
     },
     {
       "entity_type": "MASTER_POOL_CANDIDATE",
@@ -1744,24 +1946,6 @@
       "source_page_url": "https://www.totallybelts.com",
       "rejection_status": "RIGHTS_NOT_VERIFIED",
       "rejection_reason_fa": "مسدود بودن دسترسی مستقیم سرور مرجع (HTTP 403) و عدم احراز مجوز بازنشر تجاری مستقل (RIGHTS_NOT_VERIFIED)"
-    },
-    {
-      "entity_type": "MASTER_POOL_CANDIDATE",
-      "entity_id": "dbl_closeup",
-      "slot_name": "dbl_closeup.webp",
-      "candidate_url": "https://cgbelting.com/wp-content/uploads/2024/10/Double-Sided-Timing-Belts.png",
-      "source_page_url": "",
-      "rejection_status": "REJECTED_WRONG_PRODUCT",
-      "rejection_reason_fa": "عدم تطابق اختصاصی یک‌به‌یک با خانواده/برند کاتالوگ یا تصویر استوک عمومی توزیع‌کننده (قانون ۴: تصاویر عمومی و تکرار بین خانواده‌ها ممنوع)"
-    },
-    {
-      "entity_type": "MASTER_POOL_CANDIDATE",
-      "entity_id": "dbl_cutaway",
-      "slot_name": "dbl_cutaway.webp",
-      "candidate_url": "https://www.frkpower.com/Uploads/pro/DOUBLE-SIDED-TEETH.13.3-2.JPG",
-      "source_page_url": "https://www.frkpower.com/product/DOUBLE-SIDED-TEETH.html",
-      "rejection_status": "REJECTED_WRONG_PRODUCT",
-      "rejection_reason_fa": "عدم تطابق اختصاصی یک‌به‌یک با خانواده/برند کاتالوگ یا تصویر استوک عمومی توزیع‌کننده (قانون ۴: تصاویر عمومی و تکرار بین خانواده‌ها ممنوع)"
     },
     {
       "entity_type": "MASTER_POOL_CANDIDATE",
@@ -1792,6 +1976,15 @@
     },
     {
       "entity_type": "MASTER_POOL_CANDIDATE",
+      "entity_id": "htd_opti_cut",
+      "slot_name": "htd_opti_cut.webp",
+      "candidate_url": "https://www.nk-technics.com/images/stories/virtuemart/product/optibelt-omega-rubber-timing-belt.jpg",
+      "source_page_url": "",
+      "rejection_status": "REJECTED_WRONG_PRODUCT",
+      "rejection_reason_fa": "عدم تطابق اختصاصی یک‌به‌یک با خانواده/برند کاتالوگ یا تصویر استوک عمومی توزیع‌کننده (قانون ۴: تصاویر عمومی و تکرار بین خانواده‌ها ممنوع)"
+    },
+    {
+      "entity_type": "MASTER_POOL_CANDIDATE",
       "entity_id": "htd_bando_cut",
       "slot_name": "htd_bando_cut.webp",
       "candidate_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/hp-sts_s8m_cded0d38-7ff2-4a41-9d44-e175e6fdea7e.jpg",
@@ -1807,15 +2000,6 @@
       "source_page_url": "https://www.totallybelts.com",
       "rejection_status": "REJECTED_WRONG_PRODUCT",
       "rejection_reason_fa": "برند تصویر (Gates Corporation) با برند خانواده‌های هدف در کاتالوگ مطابقت ندارد"
-    },
-    {
-      "entity_type": "MASTER_POOL_CANDIDATE",
-      "entity_id": "htd_gen_sleeves",
-      "slot_name": "htd_gen_sleeves.webp",
-      "candidate_url": "https://cgbelting.com/wp-content/uploads/2024/10/HTD-Type-Timing-Belts-copy.-.png",
-      "source_page_url": "",
-      "rejection_status": "REJECTED_WRONG_PRODUCT",
-      "rejection_reason_fa": "عدم تطابق اختصاصی یک‌به‌یک با خانواده/برند کاتالوگ یا تصویر استوک عمومی توزیع‌کننده (قانون ۴: تصاویر عمومی و تکرار بین خانواده‌ها ممنوع)"
     },
     {
       "entity_type": "MASTER_POOL_CANDIDATE",
@@ -1900,19 +2084,64 @@
     },
     {
       "entity_type": "MASTER_POOL_CANDIDATE",
-      "entity_id": "pu_at_coil",
-      "slot_name": "pu_at_coil.webp",
-      "candidate_url": "https://cgbelting.com/wp-content/uploads/2024/10/Open-End-Timing-Belts.png",
+      "entity_id": "pu_t10_close",
+      "slot_name": "pu_t10_close.webp",
+      "candidate_url": "https://cgbelting.com/wp-content/uploads/2024/10/Metric-Timing-belts.png",
       "source_page_url": "",
       "rejection_status": "REJECTED_WRONG_PRODUCT",
       "rejection_reason_fa": "عدم تطابق اختصاصی یک‌به‌یک با خانواده/برند کاتالوگ یا تصویر استوک عمومی توزیع‌کننده (قانون ۴: تصاویر عمومی و تکرار بین خانواده‌ها ممنوع)"
     },
     {
       "entity_type": "MASTER_POOL_CANDIDATE",
-      "entity_id": "pu_t10_close",
-      "slot_name": "pu_t10_close.webp",
-      "candidate_url": "https://cgbelting.com/wp-content/uploads/2024/10/Metric-Timing-belts.png",
+      "entity_id": "pu_blue_pulley",
+      "slot_name": "pu_blue_pulley.webp",
+      "candidate_url": "https://www.behabelt.com/site/assets/files/2292/slip-free-at5-conveyor-belts-1000x600-1.jpg",
       "source_page_url": "",
+      "rejection_status": "REJECTED_WRONG_PRODUCT",
+      "rejection_reason_fa": "عدم تطابق اختصاصی یک‌به‌یک با خانواده/برند کاتالوگ یا تصویر استوک عمومی توزیع‌کننده (قانون ۴: تصاویر عمومی و تکرار بین خانواده‌ها ممنوع)"
+    },
+    {
+      "entity_type": "MASTER_POOL_CANDIDATE",
+      "entity_id": "vb_opti_wrap",
+      "slot_name": "vb_opti_wrap.webp",
+      "candidate_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/AGRO_POWER_V-BELT.png",
+      "source_page_url": "https://www.totallybelts.com",
+      "rejection_status": "RIGHTS_NOT_VERIFIED",
+      "rejection_reason_fa": "مسدود بودن دسترسی مستقیم سرور مرجع (HTTP 403) و عدم احراز مجوز بازنشر تجاری مستقل (RIGHTS_NOT_VERIFIED)"
+    },
+    {
+      "entity_type": "MASTER_POOL_CANDIDATE",
+      "entity_id": "vb_wedge_stack",
+      "slot_name": "vb_wedge_stack.webp",
+      "candidate_url": "https://cgbelting.com/wp-content/uploads/2024/10/Metric-Wrapped-Wedge-V-Belts5.png",
+      "source_page_url": "",
+      "rejection_status": "REJECTED_WRONG_PRODUCT",
+      "rejection_reason_fa": "عدم تطابق اختصاصی یک‌به‌یک با خانواده/برند کاتالوگ یا تصویر استوک عمومی توزیع‌کننده (قانون ۴: تصاویر عمومی و تکرار بین خانواده‌ها ممنوع)"
+    },
+    {
+      "entity_type": "MASTER_POOL_CANDIDATE",
+      "entity_id": "vb_cog_pix",
+      "slot_name": "vb_cog_pix.webp",
+      "candidate_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/PIX_PIX_Force.png",
+      "source_page_url": "https://www.totallybelts.com",
+      "rejection_status": "REJECTED_WRONG_PRODUCT",
+      "rejection_reason_fa": "برند تصویر (PIX Transmissions) با برند خانواده‌های هدف در کاتالوگ مطابقت ندارد"
+    },
+    {
+      "entity_type": "MASTER_POOL_CANDIDATE",
+      "entity_id": "vb_cog_agx",
+      "slot_name": "vb_cog_agx.webp",
+      "candidate_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Super_AGX.png",
+      "source_page_url": "https://www.totallybelts.com",
+      "rejection_status": "RIGHTS_NOT_VERIFIED",
+      "rejection_reason_fa": "مسدود بودن دسترسی مستقیم سرور مرجع (HTTP 403) و عدم احراز مجوز بازنشر تجاری مستقل (RIGHTS_NOT_VERIFIED)"
+    },
+    {
+      "entity_type": "MASTER_POOL_CANDIDATE",
+      "entity_id": "vb_cog_bando_cut",
+      "slot_name": "vb_cog_bando_cut.webp",
+      "candidate_url": "https://ik.imagekit.io/xphwcncc40f/wp-content/uploads/2014/09/bando.de_20-V-Belt-RPF_FHD.jpg",
+      "source_page_url": "https://www.bando.de/produkte/antriebsriemen/keilriemen/",
       "rejection_status": "REJECTED_WRONG_PRODUCT",
       "rejection_reason_fa": "عدم تطابق اختصاصی یک‌به‌یک با خانواده/برند کاتالوگ یا تصویر استوک عمومی توزیع‌کننده (قانون ۴: تصاویر عمومی و تکرار بین خانواده‌ها ممنوع)"
     }
@@ -1920,253 +2149,253 @@
   "sampleDuplicateImages": [
     {
       "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-39436",
-      "family_name": "APL AT10",
+      "entity_id": "FAM-38181",
+      "family_name": "تسمه آستین تایمینگ1150DH",
       "slot_name": "01-main.webp",
-      "duplicate_photo_key": "coat_red_loop",
-      "source_url": "https://www.frkpower.com/Uploads/pro/COATING-TIMING-BELT.14.3-2.jpg",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
       "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (coat_red_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
     },
     {
       "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-39436",
-      "family_name": "APL AT10",
+      "entity_id": "FAM-38872",
+      "family_name": "تسمه اپتی 8M",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "htd_opti_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Optibelt_Omega_Short.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_opti_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-38872",
+      "family_name": "تسمه اپتی 8M",
       "slot_name": "02-angle.webp",
-      "duplicate_photo_key": "coat_linatex_coils",
-      "source_url": "https://cgbelting.com/wp-content/uploads/2024/10/Linatex_Top-Coating-Timing-belts.png",
+      "duplicate_photo_key": "htd_opti_hp",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Optibelt_Omega_HP_Short.png",
       "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (coat_linatex_coils) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_opti_hp) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
     },
     {
       "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-39436",
-      "family_name": "APL AT10",
-      "slot_name": "03-detail.webp",
-      "duplicate_photo_key": "coat_beha_cut",
-      "source_url": "https://www.behabelt.com/site/assets/files/2301/beschichtungen.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (coat_beha_cut) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-38079",
-      "family_name": "تسمه 14M خارجی",
+      "entity_id": "FAM-37713",
+      "family_name": "تسمه اپتی آستین 8M",
       "slot_name": "01-main.webp",
-      "duplicate_photo_key": "htd_gen_sleeves",
-      "source_url": "https://cgbelting.com/wp-content/uploads/2024/10/HTD-Type-Timing-Belts-copy.-.png",
+      "duplicate_photo_key": "htd_opti_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Optibelt_Omega_Short.png",
       "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_gen_sleeves) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_opti_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
     },
     {
       "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-38079",
-      "family_name": "تسمه 14M خارجی",
-      "slot_name": "03-detail.webp",
-      "duplicate_photo_key": "pt_htd_struct",
-      "source_url": "https://www.protorque.net/_assets/images/products/htd-timing-belts/HTD-timing-belt-structure.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (pt_htd_struct) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-41572",
-      "family_name": "تسمه 5M",
-      "slot_name": "01-main.webp",
-      "duplicate_photo_key": "htd_gen_sleeves",
-      "source_url": "https://cgbelting.com/wp-content/uploads/2024/10/HTD-Type-Timing-Belts-copy.-.png",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_gen_sleeves) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-41572",
-      "family_name": "تسمه 5M",
-      "slot_name": "03-detail.webp",
-      "duplicate_photo_key": "pt_htd_struct",
-      "source_url": "https://www.protorque.net/_assets/images/products/htd-timing-belts/HTD-timing-belt-structure.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (pt_htd_struct) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-38047",
-      "family_name": "تسمه 5M خارجی",
-      "slot_name": "01-main.webp",
-      "duplicate_photo_key": "htd_gen_sleeves",
-      "source_url": "https://cgbelting.com/wp-content/uploads/2024/10/HTD-Type-Timing-Belts-copy.-.png",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_gen_sleeves) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-38047",
-      "family_name": "تسمه 5M خارجی",
-      "slot_name": "03-detail.webp",
-      "duplicate_photo_key": "pt_htd_struct",
-      "source_url": "https://www.protorque.net/_assets/images/products/htd-timing-belts/HTD-timing-belt-structure.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (pt_htd_struct) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-10005",
-      "family_name": "تسمه 5M مگادین",
-      "slot_name": "01-main.webp",
-      "duplicate_photo_key": "htd_blue_pu",
-      "source_url": "https://www.frkpower.com/Uploads/pro/products-5-57.10.3-1.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_blue_pu) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-10005",
-      "family_name": "تسمه 5M مگادین",
+      "entity_id": "FAM-37713",
+      "family_name": "تسمه اپتی آستین 8M",
       "slot_name": "02-angle.webp",
-      "duplicate_photo_key": "htd_blue_pu_cu",
-      "source_url": "https://www.frkpower.com/Uploads/pro/products-5-57.10.3-2.jpg",
+      "duplicate_photo_key": "htd_opti_hp",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Optibelt_Omega_HP_Short.png",
       "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_blue_pu_cu) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_opti_hp) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
     },
     {
       "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-10005",
-      "family_name": "تسمه 5M مگادین",
-      "slot_name": "03-detail.webp",
-      "duplicate_photo_key": "pt_pu_struct",
-      "source_url": "https://www.protorque.net/_assets/images/products/polyurethane-timing-belts/polyurethane-timing-belt-structure.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (pt_pu_struct) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-31396",
-      "family_name": "تسمه 8M \"",
+      "entity_id": "FAM-39283",
+      "family_name": "تسمه تایمینگ 1150DH150 UNITECH",
       "slot_name": "01-main.webp",
-      "duplicate_photo_key": "htd_gen_sleeves",
-      "source_url": "https://cgbelting.com/wp-content/uploads/2024/10/HTD-Type-Timing-Belts-copy.-.png",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
       "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_gen_sleeves) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
     },
     {
       "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-31396",
-      "family_name": "تسمه 8M \"",
-      "slot_name": "03-detail.webp",
-      "duplicate_photo_key": "pt_htd_struct",
-      "source_url": "https://www.protorque.net/_assets/images/products/htd-timing-belts/HTD-timing-belt-structure.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (pt_htd_struct) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-32416",
-      "family_name": "تسمه 8M APL FORZA",
+      "entity_id": "FAM-39613",
+      "family_name": "تسمه تایمینگ 1250DH UNITECH",
       "slot_name": "01-main.webp",
-      "duplicate_photo_key": "coat_red_loop",
-      "source_url": "https://www.frkpower.com/Uploads/pro/COATING-TIMING-BELT.14.3-2.jpg",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
       "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (coat_red_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
     },
     {
       "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-32416",
-      "family_name": "تسمه 8M APL FORZA",
+      "entity_id": "FAM-38027",
+      "family_name": "تسمه تایمینگ 1400DH050",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-38019",
+      "family_name": "تسمه تایمینگ 590DH100",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-33804",
+      "family_name": "تسمه تایمینگ 600DH",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-37044",
+      "family_name": "تسمه تایمینگ 600DL100",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-37681",
+      "family_name": "تسمه تایمینگ 660DL100",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-39908",
+      "family_name": "تسمه تایمینگ 800DH",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-37734",
+      "family_name": "تسمه تایمینگ 900DH100",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-36378",
+      "family_name": "تسمه تایمینگ 1000DH100",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-38040",
+      "family_name": "تسمه تایمینگ 420DL100",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-38264",
+      "family_name": "تسمه تایمینگ TES 1100DH100",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-39897",
+      "family_name": "تسمه تایمینگ UNITECH 600DL",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-36468",
+      "family_name": "تسمه تایمینگ آستین 1000DH BANDO",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-36467",
+      "family_name": "تسمه تایمینگ آستین 1400DH",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-40692",
+      "family_name": "تسمه تایمینگ آستین MARSHALL 1000DH",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-37739",
+      "family_name": "تسمه تایمینگ آستین UNITECH 900DH",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-38933",
+      "family_name": "تسمه تایمینگ آستین UNITECH 1100DH",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "dbl_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Isolated_Black_Toothed_Timing_Belt_Loop.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (dbl_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-33135",
+      "family_name": "تسمه تایمینگ اپتی 8M",
+      "slot_name": "01-main.webp",
+      "duplicate_photo_key": "htd_opti_loop",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Optibelt_Omega_Short.png",
+      "rejection_status": "REJECTED_DUPLICATE",
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_opti_loop) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+    },
+    {
+      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
+      "entity_id": "FAM-33135",
+      "family_name": "تسمه تایمینگ اپتی 8M",
       "slot_name": "02-angle.webp",
-      "duplicate_photo_key": "coat_linatex_coils",
-      "source_url": "https://cgbelting.com/wp-content/uploads/2024/10/Linatex_Top-Coating-Timing-belts.png",
+      "duplicate_photo_key": "htd_opti_hp",
+      "source_url": "https://cdn.shopify.com/s/files/1/2473/6104/files/Optibelt_Omega_HP_Short.png",
       "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (coat_linatex_coils) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-32416",
-      "family_name": "تسمه 8M APL FORZA",
-      "slot_name": "03-detail.webp",
-      "duplicate_photo_key": "coat_beha_cut",
-      "source_url": "https://www.behabelt.com/site/assets/files/2301/beschichtungen.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (coat_beha_cut) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-35488",
-      "family_name": "تسمه 8M BRAVO",
-      "slot_name": "01-main.webp",
-      "duplicate_photo_key": "htd_gen_sleeves",
-      "source_url": "https://cgbelting.com/wp-content/uploads/2024/10/HTD-Type-Timing-Belts-copy.-.png",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_gen_sleeves) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-35488",
-      "family_name": "تسمه 8M BRAVO",
-      "slot_name": "03-detail.webp",
-      "duplicate_photo_key": "pt_htd_struct",
-      "source_url": "https://www.protorque.net/_assets/images/products/htd-timing-belts/HTD-timing-belt-structure.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (pt_htd_struct) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-40407",
-      "family_name": "تسمه 8M SILVER مگادین",
-      "slot_name": "01-main.webp",
-      "duplicate_photo_key": "htd_blue_pu",
-      "source_url": "https://www.frkpower.com/Uploads/pro/products-5-57.10.3-1.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_blue_pu) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-40407",
-      "family_name": "تسمه 8M SILVER مگادین",
-      "slot_name": "02-angle.webp",
-      "duplicate_photo_key": "htd_blue_pu_cu",
-      "source_url": "https://www.frkpower.com/Uploads/pro/products-5-57.10.3-2.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_blue_pu_cu) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-40407",
-      "family_name": "تسمه 8M SILVER مگادین",
-      "slot_name": "03-detail.webp",
-      "duplicate_photo_key": "pt_pu_struct",
-      "source_url": "https://www.protorque.net/_assets/images/products/polyurethane-timing-belts/polyurethane-timing-belt-structure.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (pt_pu_struct) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-38077",
-      "family_name": "تسمه 8M مگادین",
-      "slot_name": "01-main.webp",
-      "duplicate_photo_key": "htd_blue_pu",
-      "source_url": "https://www.frkpower.com/Uploads/pro/products-5-57.10.3-1.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_blue_pu) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-38077",
-      "family_name": "تسمه 8M مگادین",
-      "slot_name": "02-angle.webp",
-      "duplicate_photo_key": "htd_blue_pu_cu",
-      "source_url": "https://www.frkpower.com/Uploads/pro/products-5-57.10.3-2.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_blue_pu_cu) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
-    },
-    {
-      "entity_type": "FAMILY_SLOT_ASSIGNMENT",
-      "entity_id": "FAM-38077",
-      "family_name": "تسمه 8M مگادین",
-      "slot_name": "03-detail.webp",
-      "duplicate_photo_key": "pt_pu_struct",
-      "source_url": "https://www.protorque.net/_assets/images/products/polyurethane-timing-belts/polyurethane-timing-belt-structure.jpg",
-      "rejection_status": "REJECTED_DUPLICATE",
-      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (pt_pu_struct) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
+      "duplicate_reason_fa": "حذف تکرار تصویر مشترک (htd_opti_hp) بین چندین خانواده در اجرای قانون ۴ (یک عکس را برای چند خانواده استفاده نکن)"
     }
   ],
   "manufacturerSources": [

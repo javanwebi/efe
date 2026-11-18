@@ -191,16 +191,39 @@ async function main() {
     sourceFamTargets.set(srcFam, entry);
   };
 
+  const BELT_AUDITED_CATEGORIES = new Set([
+    'excel-v2-1-1',
+    'excel-v2-1-2',
+    'excel-v2-1-3',
+    'excel-v2-1-5',
+  ]);
+  const isAuditedBeltSample = (s: EngineeredSkuOutput): boolean =>
+    BELT_AUDITED_CATEGORIES.has(s.proposedCategorySlug) ||
+    (s.proposedCategorySlug === 'excel-v2-1-4' &&
+      !['BELT_WELDING_DEVICE', 'BELT_PREP_TOOL'].includes(s.profile));
+  const VERIFIED_OWNER_CONVEYOR_FILES = new Set([
+    'e(859).png',
+    'e(860).png',
+    'e(862).png',
+    'e(863).png',
+    'e(864).png',
+  ]);
+  let claimedOwnerConveyorPhotos = false;
+
   let famCounter = 1;
   for (const [, group] of sortedGroups) {
     // Sort group members deterministically
     const sortedMembers = [...group].sort((a, b) => a.skuCode.localeCompare(b.skuCode, 'en'));
     const sample = sortedMembers[0];
+    const isBeltGroup = isAuditedBeltSample(sample);
 
     if (sortedMembers.length === 1) {
       const displayBrand = resolveDisplayBrand(sample.brand, sample.originalProductName);
       const famMedia = imagesJson[sample.sourceFamilyCode];
-      const imageUrl = famMedia?.files?.[0] ? `/storage/products/catalog/${famMedia.files[0]}` : null;
+      const rawFile = famMedia?.files?.[0];
+      const allowImage =
+        !isBeltGroup && rawFile;
+      const imageUrl = allowImage ? `/storage/products/catalog/${rawFile}` : null;
       const directSku: DirectSku = {
         skuCode: sample.skuCode,
         name: sample.originalProductName,
@@ -238,6 +261,8 @@ async function main() {
     const familyImages: string[] = [];
     const galleryImages: ProductGalleryImage[] = [];
     const seenImg = new Set<string>();
+    const canAttachOwnerConveyor =
+      sample.sourceFamilyCode === 'FAM-52858' && !claimedOwnerConveyorPhotos;
 
     for (const member of sortedMembers) {
       if (member.sourceFamilyCode) {
@@ -246,6 +271,11 @@ async function main() {
         const mediaEntry = imagesJson[member.sourceFamilyCode];
         if (mediaEntry?.files) {
           for (const file of mediaEntry.files) {
+            if (isBeltGroup) {
+              if (!canAttachOwnerConveyor || !VERIFIED_OWNER_CONVEYOR_FILES.has(file)) {
+                continue;
+              }
+            }
             const url = `/storage/products/catalog/${file}`;
             if (!seenImg.has(url)) {
               seenImg.add(url);
@@ -263,6 +293,9 @@ async function main() {
           }
         }
       }
+    }
+    if (canAttachOwnerConveyor && familyImages.length > 0) {
+      claimedOwnerConveyorPhotos = true;
     }
 
     const displayBrand = resolveDisplayBrand(sample.brand, sample.originalProductName);

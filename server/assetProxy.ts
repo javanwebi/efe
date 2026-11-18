@@ -4,6 +4,7 @@ import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
 const CACHE_DIR = path.resolve('/tmp/sanatpish-asset-cache');
+const PUBLIC_DIR = path.resolve(process.cwd(), 'public');
 const DELIVERABLES_DIR = path.resolve(process.cwd(), 'deliverables/belt-master-audit');
 const SERVER_DATA_DIR = path.resolve(process.cwd(), 'server/data');
 
@@ -19,33 +20,58 @@ const MIME_BY_EXT: Record<string, string> = {
 };
 
 let cachedSvgLookup: { families: Record<string, any>; skus: Record<string, any> } | null = null;
+let cachedSvgLookupMtime = 0;
 let cachedImageManifest: {
-  verifiedFamilyPhotos: Record<string, Array<{ slotIndex: number; sourceUrl: string }>>;
-  verifiedSkuPhotos: Record<string, { sourceUrl: string }>;
+  verifiedFamilyPhotos: Record<string, Array<{ slotIndex: number; sourceUrl: string; localPath?: string }>>;
+  verifiedSkuPhotos: Record<string, { sourceUrl: string; localPath?: string }>;
 } | null = null;
+let cachedImageManifestMtime = 0;
 
 function getSvgLookup() {
-  if (!cachedSvgLookup) {
-    try {
-      const raw = fs.readFileSync(path.join(SERVER_DATA_DIR, 'beltSvgLookup.json'), 'utf8');
+  const filePath = path.join(SERVER_DATA_DIR, 'beltSvgLookup.json');
+  try {
+    const stat = fs.statSync(filePath);
+    if (!cachedSvgLookup || stat.mtimeMs !== cachedSvgLookupMtime) {
+      const raw = fs.readFileSync(filePath, 'utf8');
       cachedSvgLookup = JSON.parse(raw);
-    } catch {
-      cachedSvgLookup = { families: {}, skus: {} };
+      cachedSvgLookupMtime = stat.mtimeMs;
     }
+  } catch {
+    if (!cachedSvgLookup) cachedSvgLookup = { families: {}, skus: {} };
   }
   return cachedSvgLookup!;
 }
 
 function getImageManifest() {
-  if (!cachedImageManifest) {
-    try {
-      const raw = fs.readFileSync(path.join(DELIVERABLES_DIR, 'image_manifest.json'), 'utf8');
+  const filePath = path.join(DELIVERABLES_DIR, 'image_manifest.json');
+  try {
+    const stat = fs.statSync(filePath);
+    if (!cachedImageManifest || stat.mtimeMs !== cachedImageManifestMtime) {
+      const raw = fs.readFileSync(filePath, 'utf8');
       cachedImageManifest = JSON.parse(raw);
-    } catch {
-      cachedImageManifest = { verifiedFamilyPhotos: {}, verifiedSkuPhotos: {} };
+      cachedImageManifestMtime = stat.mtimeMs;
     }
+  } catch {
+    if (!cachedImageManifest) cachedImageManifest = { verifiedFamilyPhotos: {}, verifiedSkuPhotos: {} };
   }
   return cachedImageManifest!;
+}
+
+async function sendLocalPublicFile(res: Response, relativePublicPath: string, overrideContentType?: string): Promise<boolean> {
+  const cleanRel = relativePublicPath.replace(/^\/+/, '');
+  const resolved = path.resolve(PUBLIC_DIR, cleanRel);
+  if (!resolved.startsWith(PUBLIC_DIR + path.sep)) return false;
+  try {
+    const buf = await fsPromises.readFile(resolved);
+    if (!buf.length) return false;
+    const ext = path.extname(resolved).toLowerCase();
+    res.setHeader('Content-Type', overrideContentType || MIME_BY_EXT[ext] || 'application/octet-stream');
+    res.setHeader('Cache-Control', 'public, max-age=2592000');
+    res.send(buf);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function escapeXml(str: unknown): string {
@@ -161,6 +187,124 @@ function renderFamilySpecSvg(fam: any): string {
 </svg>`;
 }
 
+function classifySectionKind(profileRaw: string, divisionRaw: string, nameRaw = ''): {
+  kind: 'round' | 'crowned' | 'hex' | 'polyv' | 'vbelt' | 'htd' | 'timing' | 'conveyor';
+  isDouble: boolean;
+  isCogged: boolean;
+} {
+  const p = String(profileRaw || '').toUpperCase();
+  const d = String(divisionRaw || '').toLowerCase();
+  const n = String(nameRaw || '');
+  const isDouble = /^(DL|DH|DXL|D5M|D8M|D14M|DA|DB|DT5|DT10|T5D|T10D)/i.test(p) || /دوطرف|دوطرفه|double/i.test(n);
+  const isCogged = /^(AX|BX|CX|ZX|XPZ|XPA|XPB|XPC|3VX|5VX|8VX)/i.test(p) || /دندانه‌دار|دنده/.test(n);
+
+  if (/CRC_CROWNED|CROWNED|BRB|TRC|SUPERGRIP|LINATEX|اسپاتول|بارکش/.test(`${p} ${n}`)) {
+    return { kind: 'crowned', isDouble: false, isCogged: false };
+  }
+  if (/^CRC$|ROUND|گرد/.test(`${p} ${n}`) && !/نقاله/.test(n)) {
+    return { kind: 'round', isDouble: false, isCogged: false };
+  }
+  if (/^(AA|BB|CC)/.test(p) || /شش[\u200c ]?ضلع|hex/i.test(n)) {
+    return { kind: 'hex', isDouble: true, isCogged: false };
+  }
+  if (/^(PH|PJ|PK|PL|PM)/.test(p) || d.includes('poly') || /چند[\u200c ]?شیار|شیاری/i.test(n)) {
+    return { kind: 'polyv', isDouble: false, isCogged: false };
+  }
+  if (d.includes('conveyor') || /PVC|PU_BELT|نقاله|کانوایر/i.test(`${p} ${n}`)) {
+    return { kind: 'conveyor', isDouble: false, isCogged: false };
+  }
+  if (d.includes('vbelt') || /^(Z|A|B|C|D|E|M|AX|BX|CX|ZX|SPA|SPB|SPC|SPZ|XPA|XPB|XPC|XPZ|3V|5V|8V|3VX|5VX)$/.test(p)) {
+    return { kind: 'vbelt', isDouble, isCogged };
+  }
+  if (/(3M|5M|8M|14M|RPP|STD|S8M|S5M|S3M|GT)/.test(p) || d.includes('htd')) {
+    return { kind: 'htd', isDouble, isCogged: false };
+  }
+  return { kind: 'timing', isDouble, isCogged: false };
+}
+
+function buildSectionShapeSvg(kind: string, isDouble: boolean, isCogged: boolean, cx: number, cy: number, scale = 1): string {
+  switch (kind) {
+    case 'round':
+      return `<g transform="translate(${cx},${cy}) scale(${scale})">
+        <circle cx="0" cy="0" r="68" fill="#16A34A" fill-opacity="0.16" stroke="#15803D" stroke-width="4"/>
+        <circle cx="0" cy="0" r="14" fill="#E56B1E" stroke="#55565A" stroke-width="2"/>
+        <line x1="-88" y1="0" x2="88" y2="0" stroke="#55565A" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <line x1="0" y1="-88" x2="0" y2="88" stroke="#55565A" stroke-width="1.5" stroke-dasharray="5,4"/>
+      </g>`;
+    case 'crowned':
+      return `<g transform="translate(${cx},${cy}) scale(${scale})">
+        <path d="M -95 45 L -95 5 Q 0 -65 95 5 L 95 45 Z" fill="#16A34A" fill-opacity="0.18" stroke="#15803D" stroke-width="4"/>
+        <circle cx="-40" cy="24" r="5" fill="#E56B1E"/><circle cx="0" cy="24" r="5" fill="#E56B1E"/><circle cx="40" cy="24" r="5" fill="#E56B1E"/>
+        <line x1="-112" y1="45" x2="112" y2="45" stroke="#55565A" stroke-width="2"/>
+      </g>`;
+    case 'hex':
+      return `<g transform="translate(${cx},${cy}) scale(${scale})">
+        <polygon points="-84,0 -48,-52 48,-52 84,0 48,52 -48,52" fill="#55565A" fill-opacity="0.18" stroke="#55565A" stroke-width="4"/>
+        <line x1="-98" y1="0" x2="98" y2="0" stroke="#E56B1E" stroke-width="2.5" stroke-dasharray="6,4"/>
+      </g>`;
+    case 'polyv':
+      return `<g transform="translate(${cx},${cy}) scale(${scale})">
+        <path d="M -110 -34 L 110 -34 L 110 8 L 88 38 L 66 8 L 44 38 L 22 8 L 0 38 L -22 8 L -44 38 L -66 8 L -88 38 L -110 8 Z" fill="#55565A" fill-opacity="0.18" stroke="#55565A" stroke-width="3.5"/>
+        <line x1="-110" y1="-16" x2="110" y2="-16" stroke="#E56B1E" stroke-width="2.5" stroke-dasharray="6,4"/>
+      </g>`;
+    case 'vbelt':
+      return `<g transform="translate(${cx},${cy}) scale(${scale})">
+        <polygon points="-96,-54 96,-54 58,54 -58,54" fill="#55565A" fill-opacity="0.18" stroke="#55565A" stroke-width="4"/>
+        <line x1="-88" y1="-26" x2="88" y2="-26" stroke="#E56B1E" stroke-width="2.5" stroke-dasharray="7,5"/>
+        ${isCogged ? `<path d="M -46 54 L -32 34 L -10 34 L 0 54 L 10 34 L 32 34 L 46 54" fill="none" stroke="#E56B1E" stroke-width="3"/>` : ''}
+      </g>`;
+    case 'conveyor':
+      return `<g transform="translate(${cx},${cy}) scale(${scale})">
+        <rect x="-125" y="-32" width="250" height="64" rx="6" fill="#0F766E" fill-opacity="0.16" stroke="#0F766E" stroke-width="3.5"/>
+        <line x1="-125" y1="-10" x2="125" y2="-10" stroke="#55565A" stroke-width="1.8" stroke-dasharray="6,4"/>
+        <line x1="-125" y1="12" x2="125" y2="12" stroke="#E56B1E" stroke-width="2" stroke-dasharray="4,4"/>
+      </g>`;
+    case 'htd':
+      return `<g transform="translate(${cx},${cy}) scale(${scale})">
+        <path d="M -135 -26 L 135 -26 L 135 8 C 118 8 112 42 94 42 C 76 42 70 8 53 8 C 36 8 30 42 12 42 C -6 42 -12 8 -29 8 C -46 8 -52 42 -70 42 C -88 42 -94 8 -111 8 L -135 8 Z" fill="#55565A" fill-opacity="0.18" stroke="#55565A" stroke-width="3.5"/>
+        ${isDouble ? `<path d="M -94 -26 C -88 -58 -70 -58 -64 -26 M -12 -26 C -6 -58 12 -58 18 -26 M 70 -26 C 76 -58 94 -58 100 -26" fill="#55565A" fill-opacity="0.14" stroke="#E56B1E" stroke-width="3"/>` : ''}
+        <line x1="-145" y1="-10" x2="145" y2="-10" stroke="#E56B1E" stroke-width="2" stroke-dasharray="6,4"/>
+      </g>`;
+    default:
+      return `<g transform="translate(${cx},${cy}) scale(${scale})">
+        <path d="M -135 -26 L 135 -26 L 135 8 L 112 8 L 96 42 L 62 42 L 46 8 L 18 8 L 2 42 L -32 42 L -48 8 L -76 8 L -92 42 L -126 42 L -135 8 Z" fill="#55565A" fill-opacity="0.18" stroke="#55565A" stroke-width="3.5"/>
+        ${isDouble ? `<path d="M -96 -26 L -82 -56 L -48 -56 L -34 -26 M 4 -26 L 18 -56 L 52 -56 L 66 -26" fill="#55565A" fill-opacity="0.14" stroke="#E56B1E" stroke-width="3"/>` : ''}
+        <line x1="-145" y1="-10" x2="145" y2="-10" stroke="#E56B1E" stroke-width="2" stroke-dasharray="6,4"/>
+      </g>`;
+  }
+}
+
+function renderFamilyCardPreviewSvg(fam: any): string {
+  const profileStr = (fam.dominantProfiles || []).join(', ') || 'STANDARD';
+  const brandStr = fam.brand || 'INDUSTRIAL';
+  const sec = classifySectionKind(profileStr, fam.dominantDivision || '', fam.familyName || '');
+  const shape = buildSectionShapeSvg(sec.kind, sec.isDouble, sec.isCogged, 240, 178, 1.0);
+  const metaParts = [
+    fam.pitchMm ? `Pitch ${fmtNum(fam.pitchMm, 'mm')}` : null,
+    fam.beltThicknessMm ? `h ${fmtNum(fam.beltThicknessMm, 'mm')}` : null,
+    `${fam.skuCount || 0} SKUs`,
+  ].filter(Boolean);
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" width="480" height="360">
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#EAE4D8" stroke-width="0.8"/>
+    </pattern>
+  </defs>
+  <rect x="0" y="0" width="480" height="360" fill="#FBF8F3"/>
+  <rect x="14" y="14" width="452" height="332" rx="16" fill="#FFFFFF" stroke="#DCD4C6" stroke-width="1.5"/>
+  <rect x="26" y="72" width="428" height="214" rx="12" fill="url(#grid)" stroke="#EFE9DC" stroke-width="1"/>
+  ${shape}
+  <rect x="26" y="24" width="170" height="34" rx="8" fill="#55565A"/>
+  <text x="111" y="46" text-anchor="middle" font-family="monospace" font-size="14" font-weight="800" fill="#FFFFFF">${escapeXml(trunc(profileStr, 18))}</text>
+  <rect x="294" y="24" width="160" height="34" rx="8" fill="#FFF3EB" stroke="#F8C8A8" stroke-width="1.2"/>
+  <text x="374" y="46" text-anchor="middle" font-family="monospace" font-size="13" font-weight="800" fill="#C95210">${escapeXml(trunc(brandStr, 18))}</text>
+  <rect x="26" y="296" width="428" height="36" rx="8" fill="#F8F5EE"/>
+  <text x="240" y="319" text-anchor="middle" font-family="monospace" font-size="12.5" font-weight="700" fill="#37383B">${escapeXml(metaParts.join('   |   ') || fam.dominantStandard || 'ISO / DIN')}</text>
+</svg>`;
+}
+
 function renderSkuDrawingSvg(sku: any, mode: 'technical' | 'profile'): string {
   const t = sku.technical || {};
   const profile = t.profile || 'STD';
@@ -177,19 +321,23 @@ function renderSkuDrawingSvg(sku: any, mode: 'technical' | 'profile'): string {
         ? `La = ${fmtNum(t.outsideLengthMm, 'mm')}`
         : sku.rawSize || 'Per Order';
 
-  const isVbelt = String(t.beltDivision || '').includes('vbelt');
-  const isDouble = String(t.sidedness || '').includes('double');
+  const sec = classifySectionKind(profile, String(t.beltDivision || ''), sku.rawName || '');
+  const shapeSvg = buildSectionShapeSvg(sec.kind, sec.isDouble, sec.isCogged, 420, 415, 1.5);
+  const topLabel =
+    sec.kind === 'round'
+      ? `Diameter (d) = ${thickStr !== '—' ? thickStr : widthStr}`
+      : sec.kind === 'vbelt' || sec.kind === 'hex'
+        ? `Top Width (b) = ${widthStr} | Angle = ${angleStr}`
+        : `Pitch (p) = ${pitchStr} | Profile = ${profile}`;
+  const bottomLabel =
+    sec.kind === 'round'
+      ? `Standard = ${trunc(t.standardReference || 'DIN / PU Weldable', 36)}`
+      : `Total Thickness = ${thickStr} | Tooth Height = ${toothHeightStr} | Width = ${widthStr}`;
 
-  const toothOrSectionGraphic = isVbelt
-    ? `<polygon points="260,340 580,340 510,540 330,540" fill="#55565A" fill-opacity="0.2" stroke="#55565A" stroke-width="3"/>
-       <line x1="240" y1="385" x2="600" y2="385" stroke="#E56B1E" stroke-width="2" stroke-dasharray="7,5"/>
-       <text x="420" y="322" text-anchor="middle" font-family="monospace" font-size="15" font-weight="700" fill="#E56B1E">Top Width (b) = ${escapeXml(widthStr)}</text>
-       <text x="420" y="575" text-anchor="middle" font-family="monospace" font-size="15" font-weight="700" fill="#1F2022">Height (h) = ${escapeXml(thickStr)} | Angle = ${escapeXml(angleStr)}</text>`
-    : `<path d="M 160 390 L 680 390 L 680 445 L 630 445 L 605 525 L 535 525 L 510 445 L 440 445 L 415 525 L 345 525 L 320 445 L 250 445 L 225 525 L 160 525 Z" fill="#55565A" fill-opacity="0.2" stroke="#55565A" stroke-width="3"/>
-       ${isDouble ? `<path d="M 225 390 L 250 325 L 320 325 L 345 390 M 415 390 L 440 325 L 510 325 L 535 390" fill="#55565A" fill-opacity="0.2" stroke="#E56B1E" stroke-width="2.5"/>` : ''}
-       <line x1="145" y1="418" x2="695" y2="418" stroke="#E56B1E" stroke-width="2" stroke-dasharray="7,5"/>
-       <text x="420" y="305" text-anchor="middle" font-family="monospace" font-size="15" font-weight="700" fill="#E56B1E">Pitch (p) = ${escapeXml(pitchStr)} | Profile = ${escapeXml(profile)}</text>
-       <text x="420" y="575" text-anchor="middle" font-family="monospace" font-size="14" font-weight="700" fill="#1F2022">Total Thickness = ${escapeXml(thickStr)} | Tooth Height = ${escapeXml(toothHeightStr)} | Width = ${escapeXml(widthStr)}</text>`;
+  const toothOrSectionGraphic = `
+    ${shapeSvg}
+    <text x="420" y="280" text-anchor="middle" font-family="monospace" font-size="15" font-weight="700" fill="#E56B1E">${escapeXml(topLabel)}</text>
+    <text x="420" y="575" text-anchor="middle" font-family="monospace" font-size="14" font-weight="700" fill="#1F2022">${escapeXml(bottomLabel)}</text>`;
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 820" width="1280" height="820">
@@ -250,6 +398,13 @@ async function proxyUpstreamAsset(
   }
   const ext = path.extname(safeRelative).toLowerCase();
   const contentType = overrideContentType || MIME_BY_EXT[ext] || 'image/jpeg';
+
+  // 1) Local /public repository comes FIRST (guaranteed offline & structured)
+  if (await sendLocalPublicFile(res, safeRelative, overrideContentType)) {
+    return;
+  }
+
+  // 2) Secondary /tmp cache
   const cacheFile = path.join(CACHE_DIR, safeRelative);
 
   try {
@@ -320,10 +475,36 @@ export function registerAssetProxyRoutes(app: Express) {
     stream.pipe(res);
   });
 
-  // 2. Dynamic Family Images & Specification Sheets
+  // 1b. Structured local belt catalog assets under /public/belt-catalog/*
+  app.get('/belt-catalog/*', async (req, res) => {
+    let rel = req.path.replace(/^\/+/, '');
+    try {
+      rel = decodeURIComponent(rel);
+    } catch {
+      // keep raw
+    }
+    if (await sendLocalPublicFile(res, rel)) return;
+    res.status(404).end();
+  });
+
+  // 2. Dynamic Family Images, Card Profile Thumbnails & Specification Sheets
   app.get('/src/assets/catalog/belts/families/:familyCode/:assetFile', async (req, res) => {
     const familyCode = decodeURIComponent(String(req.params.familyCode || ''));
     const assetFile = String(req.params.assetFile || '');
+
+    if (assetFile.startsWith('card-preview.')) {
+      const lookup = getSvgLookup();
+      const fam = lookup.families[familyCode];
+      if (!fam) {
+        res.status(404).end();
+        return;
+      }
+      const svg = renderFamilyCardPreviewSvg(fam);
+      res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      res.send(svg);
+      return;
+    }
 
     if (assetFile.startsWith('family-specifications.')) {
       const lookup = getSvgLookup();
@@ -339,15 +520,34 @@ export function registerAssetProxyRoutes(app: Express) {
       return;
     }
 
-    const slotMatch = assetFile.match(/^family-image-0([123])\.webp$/);
+    const slotMatch = assetFile.match(/^family-image-0([1234])\.(webp|jpg|jpeg|png)$/);
     if (slotMatch) {
       const slotIdx = Number(slotMatch[1]);
       const imgManifest = getImageManifest();
       const slots = imgManifest.verifiedFamilyPhotos[familyCode] || [];
       const hit = slots.find((s) => s.slotIndex === slotIdx);
-      if (!hit || !hit.sourceUrl) {
+      if (!hit || (!hit.localPath && !hit.sourceUrl)) {
         res.status(404).end();
         return;
+      }
+      // Prefer structured localPath inside /public/belt-catalog/...
+      if (hit.localPath) {
+        let localRel = hit.localPath.replace(/^\/+/, '');
+        try {
+          localRel = decodeURIComponent(localRel);
+        } catch {
+          // keep
+        }
+        if (await sendLocalPublicFile(res, localRel)) return;
+      }
+      if (hit.sourceUrl.startsWith('/belt-catalog/')) {
+        let localRel = hit.sourceUrl.replace(/^\/+/, '');
+        try {
+          localRel = decodeURIComponent(localRel);
+        } catch {
+          // keep
+        }
+        if (await sendLocalPublicFile(res, localRel)) return;
       }
       if (hit.sourceUrl.startsWith('/storage/products/')) {
         const rel = hit.sourceUrl.replace(/^\/storage\/products\//, '');
@@ -380,12 +580,21 @@ export function registerAssetProxyRoutes(app: Express) {
     const skuCode = decodeURIComponent(String(req.params.skuCode || ''));
     const assetFile = String(req.params.assetFile || '');
 
-    if (assetFile === 'real-product-image.webp') {
+    if (assetFile.startsWith('real-product-image.')) {
       const imgManifest = getImageManifest();
       const hit = imgManifest.verifiedSkuPhotos[skuCode];
-      if (!hit || !hit.sourceUrl) {
+      if (!hit || (!hit.localPath && !hit.sourceUrl)) {
         res.status(404).end();
         return;
+      }
+      if (hit.localPath) {
+        let localRel = hit.localPath.replace(/^\/+/, '');
+        try {
+          localRel = decodeURIComponent(localRel);
+        } catch {
+          // keep
+        }
+        if (await sendLocalPublicFile(res, localRel)) return;
       }
       await proxyUpstreamAsset(
         req,

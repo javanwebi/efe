@@ -39,13 +39,11 @@ const FloatingForzaDeskButton: React.FC = () => {
           quantity: 1,
         })
       }
-      className="fixed bottom-4 left-4 z-30 hidden sm:inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/95 px-3.5 py-2.5 text-xs font-black text-[#2B313A] shadow-lg backdrop-blur-xs hover:border-[#E06518] hover:text-[#E06518] transition-all cursor-pointer"
+      className="fixed bottom-4 left-4 z-30 hidden lg:inline-flex items-center justify-center w-10 h-10 rounded-full border border-slate-200 bg-white/95 text-[#E06518] shadow-md backdrop-blur-xs hover:border-[#E06518] hover:bg-orange-50 transition-all cursor-pointer"
       aria-label="میزکار FORZA و ثبت درخواست فنی"
+      title="میزکار FORZA و ثبت درخواست فنی"
     >
-      <span className="w-6 h-6 rounded-lg bg-orange-50 text-[#E06518] grid place-items-center">
-        <Sparkles className="w-3.5 h-3.5" />
-      </span>
-      <span>میزکار FORZA</span>
+      <Sparkles className="w-4 h-4" />
     </button>
   );
 };

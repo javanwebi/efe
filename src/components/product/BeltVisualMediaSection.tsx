@@ -45,7 +45,7 @@ export const BeltVisualMediaSection: React.FC<BeltVisualMediaSectionProps> = ({
       slotCode: '01-main.webp',
       url: beltFamilyMedia.familyPhotos[0],
       svgUrl: beltFamilyMedia.familyPhotos[0],
-      label: 'جایگاه ۱: نمای اصلی خانواده (01-main)',
+      label: 'تصویر ۱: نمای اصلی خانواده (01-main)',
       caption: 'نمای کلی تسمه اختصاصی همین خانواده',
       statusTag: beltFamilyMedia.familyPhotos[0] ? 'VERIFIED_FAMILY_IMAGE' : 'NOT_FOUND',
     },
@@ -54,7 +54,7 @@ export const BeltVisualMediaSection: React.FC<BeltVisualMediaSectionProps> = ({
       slotCode: '02-angle.webp',
       url: beltFamilyMedia.familyPhotos[1],
       svgUrl: beltFamilyMedia.familyPhotos[1],
-      label: 'جایگاه ۲: نمای زاویه و دندانه (02-angle)',
+      label: 'تصویر ۲: نمای زاویه و دندانه (02-angle)',
       caption: 'مقطع گام و شیارهای استاندارد',
       statusTag: beltFamilyMedia.familyPhotos[1] ? 'VERIFIED_FAMILY_IMAGE' : 'NOT_FOUND',
     },
@@ -63,22 +63,24 @@ export const BeltVisualMediaSection: React.FC<BeltVisualMediaSectionProps> = ({
       slotCode: '03-detail.webp',
       url: beltFamilyMedia.familyPhotos[2],
       svgUrl: beltFamilyMedia.familyPhotos[2],
-      label: 'جایگاه ۳: جزئیات بافت و کورد (03-detail)',
+      label: 'تصویر ۳: جزئیات بافت و کورد (03-detail)',
       caption: 'ساختار لایه‌های داخلی و نخ کششی',
       statusTag: beltFamilyMedia.familyPhotos[2] ? 'VERIFIED_FAMILY_IMAGE' : 'NOT_FOUND',
     },
     {
-      id: 'fam-spec',
-      slotCode: '04-specifications.webp',
-      url: beltFamilyMedia.specSheetWebp,
-      svgUrl: beltFamilyMedia.specSheetSvg || beltFamilyMedia.specSheetWebp,
-      label: 'جایگاه ۴: جدول مهندسی ابعاد (04-specifications)',
-      caption: 'مشخصات ثابت و بازه ابعادی خانواده',
-      statusTag: beltFamilyMedia.specSheetWebp ? 'VERIFIED_ENGINEERING_REDRAW' : 'NOT_FOUND',
+      id: 'fam-img-4',
+      slotCode: '04-closeup.webp',
+      url: beltFamilyMedia.familyPhotos[3],
+      svgUrl: beltFamilyMedia.familyPhotos[3],
+      label: 'تصویر ۴: نمای نزدیک و مارکینگ بدنه (04-closeup)',
+      caption: 'نمای نزدیک بدنه، چاپ برند و کیفیت ساخت واقعی',
+      statusTag: beltFamilyMedia.familyPhotos[3] ? 'VERIFIED_FAMILY_IMAGE' : 'NOT_FOUND',
     },
   ];
 
-  const verifiedSlotsCount = familySlots.filter((s) => Boolean(s.url)).length;
+  const verifiedRealPhotoCount = familySlots.filter((s) => Boolean(s.url)).length;
+  const hasAnyRealFamilyPhoto = beltFamilyMedia.familyPhotos.some(Boolean);
+  const missingRealSlots = familySlots.filter((s) => !s.url);
 
   return (
     <section
@@ -86,25 +88,25 @@ export const BeltVisualMediaSection: React.FC<BeltVisualMediaSectionProps> = ({
       aria-label="گالری تخصصی تصاویر و نقشه‌های مهندسی"
       className="space-y-5"
     >
-      {/* Part 1: 4 Standardized Slots for the Family */}
+      {/* Part 1: 4 Real Product Photos for the Family + Companion Spec Sheet */}
       <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-xs space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div className="space-y-0.5">
             <h2 className="text-sm sm:text-base font-black text-[#37383b] flex items-center gap-2">
               <Layers className="w-4 h-4 text-[#E06518]" />
-              <span>جایگاه‌های ۴گانه تصویر خانواده محصول ({productName})</span>
+              <span>گالری ۴تصویری واقعی خانواده محصول ({productName})</span>
             </h2>
             <p className="text-xs text-slate-500">
               خانواده مرجع:{' '}
               <strong className="font-mono text-slate-700" dir="ltr">
-                {beltFamilyMedia.familyCode}
+                <bdi dir="ltr">{beltFamilyMedia.familyCode}</bdi>
               </strong>{' '}
-              — رعایت کامل قوانین ۴ و ۵ دستور مادر (عدم تکرار عکس بین خانواده‌ها؛ جایگاه فاقد عکس اختصاصی به‌صورت شفاف خالی می‌ماند)
+              — ۴ تصویر واقعی از زوایای مختلف با فرمت محلی <bdi dir="ltr" className="font-mono">.webp</bdi> (بدون تکرار عکس بین خانواده‌ها)
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#c25111] text-[11px] font-bold">
-              {toPersianDigits(verifiedSlotsCount)} از {toPersianDigits(4)} جایگاه دارای سند تاییدشده
+              {toPersianDigits(verifiedRealPhotoCount)} از {toPersianDigits(4)} تصویر واقعی تاییدشده
             </span>
             <Link
               to="/belt-audit"
@@ -116,72 +118,194 @@ export const BeltVisualMediaSection: React.FC<BeltVisualMediaSectionProps> = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-          {familySlots.map((card) =>
-            card.url ? (
-              <button
-                key={card.id}
-                type="button"
-                onClick={() =>
-                  onOpenDocModal({
-                    title: `${card.label} — ${productName}`,
-                    webpUrl: card.url!,
-                    svgUrl: card.svgUrl || card.url!,
-                    subtitle: `${card.caption} (${card.statusTag})`,
-                  })
-                }
-                className="group rounded-2xl border border-slate-200/90 bg-white overflow-hidden text-right hover:border-[#E06518] hover:shadow-md transition-all cursor-pointer flex flex-col"
-              >
-                <div className="relative aspect-[4/3] w-full bg-[#f8fafc] p-3 flex items-center justify-center overflow-hidden border-b border-slate-100">
-                  <img
-                    src={card.url}
-                    alt={card.label}
-                    loading="lazy"
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <span
-                    className="absolute top-2 right-2 rounded-md bg-emerald-900/80 text-white px-2 py-0.5 text-[9.5px] font-mono font-bold"
-                    dir="ltr"
+        {hasAnyRealFamilyPhoto ? (
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+              {familySlots.map((card) =>
+                card.url ? (
+                  <button
+                    key={card.id}
+                    type="button"
+                    onClick={() =>
+                      onOpenDocModal({
+                        title: `${card.label} — ${productName}`,
+                        webpUrl: card.url!,
+                        svgUrl: card.svgUrl || card.url!,
+                        subtitle: `${card.caption} (${card.statusTag})`,
+                      })
+                    }
+                    className="group rounded-2xl border border-slate-200/90 bg-white overflow-hidden text-right hover:border-[#E06518] hover:shadow-md transition-all cursor-pointer flex flex-col"
                   >
-                    {card.statusTag}
-                  </span>
-                  <span className="absolute top-2.5 left-2.5 rounded-lg bg-slate-900/70 text-white p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <ZoomIn className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-                <div className="p-3 space-y-0.5 bg-[#FAF8F5] flex-1">
-                  <div className="text-xs font-black text-[#2B313A]">{card.label}</div>
-                  <div className="text-[11px] text-slate-500">{card.caption}</div>
-                </div>
-              </button>
-            ) : (
-              <div
-                key={card.id}
-                className="rounded-2xl border border-dashed border-slate-300 bg-slate-50/75 overflow-hidden text-right flex flex-col"
-              >
-                <div className="relative aspect-[4/3] w-full p-4 flex flex-col items-center justify-center text-center border-b border-slate-200/70 space-y-2">
-                  <span
-                    className="rounded-md bg-amber-100 border border-amber-300 text-amber-900 px-2 py-0.5 text-[10px] font-mono font-bold"
-                    dir="ltr"
+                    <div className="relative aspect-[4/3] w-full bg-[#f8fafc] p-3 flex items-center justify-center overflow-hidden border-b border-slate-100">
+                      <img
+                        src={card.url}
+                        alt={card.label}
+                        loading="lazy"
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <span
+                        className="absolute top-2 right-2 rounded-md bg-emerald-900/80 text-white px-2 py-0.5 text-[9.5px] font-mono font-bold"
+                        dir="ltr"
+                      >
+                        {card.statusTag}
+                      </span>
+                      <span className="absolute top-2.5 left-2.5 rounded-lg bg-slate-900/70 text-white p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ZoomIn className="w-3.5 h-3.5" />
+                      </span>
+                    </div>
+                    <div className="p-3 space-y-0.5 bg-[#FAF8F5] flex-1">
+                      <div className="text-xs font-black text-[#2B313A]">{card.label}</div>
+                      <div className="text-[11px] text-slate-500">{card.caption}</div>
+                    </div>
+                  </button>
+                ) : (
+                  <div
+                    key={card.id}
+                    className="rounded-2xl border border-dashed border-slate-300 bg-slate-50/75 overflow-hidden text-right flex flex-col justify-between p-4 space-y-3"
                   >
-                    NOT_FOUND ({card.slotCode})
-                  </span>
-                  <ImageIcon className="w-6 h-6 text-slate-400" />
-                  <p className="text-[11px] text-slate-600 font-bold leading-4">
-                    تصویر واقعی اختصاصی و غیرتکراری برای این جایگاه ثبت نشده است
-                  </p>
-                  <p className="text-[10px] text-slate-500 leading-4">
-                    طبق قوانین ۴ و ۵، از عکس استوک عمومی یا مشترک سایر خانواده‌ها استفاده نمی‌شود.
-                  </p>
+                    <div className="space-y-2">
+                      <span
+                        className="inline-block rounded-md bg-amber-100 border border-amber-300 text-amber-900 px-2 py-0.5 text-[10px] font-mono font-bold"
+                        dir="ltr"
+                      >
+                        NOT_FOUND ({card.slotCode})
+                      </span>
+                      <p className="text-[11px] text-slate-600 font-bold leading-5">
+                        تصویر واقعی اختصاصی و غیرتکراری برای این زاویه ثبت نشده است.
+                      </p>
+                    </div>
+                    <div className="pt-2 border-t border-slate-200/70">
+                      <div className="text-xs font-black text-slate-700">{card.label}</div>
+                      <div className="text-[11px] text-slate-500">{card.caption}</div>
+                    </div>
+                  </div>
+                ),
+              )}
+            </div>
+
+            {beltFamilyMedia.specSheetWebp && (
+              <div className="rounded-2xl border border-slate-200/90 bg-[#FAF8F5] p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-16 h-12 rounded-xl border border-slate-200 bg-white p-1 shrink-0 overflow-hidden flex items-center justify-center">
+                    <img
+                      src={beltFamilyMedia.specSheetWebp}
+                      alt={`جدول مشخصات مهندسی ${productName}`}
+                      loading="lazy"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="min-w-0 space-y-0.5">
+                    <div className="text-xs font-black text-[#2B313A] flex flex-wrap items-center gap-2">
+                      <span>جدول مشخصات مهندسی و استاندارد ابعاد خانواده</span>
+                      <span className="rounded bg-emerald-100 text-emerald-800 px-2 py-0.5 text-[10px] font-mono font-bold" dir="ltr">
+                        VERIFIED_ENGINEERING_REDRAW
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-500 truncate">
+                      مشخصات ثابت (متریال، کورد کششی، استاندارد ISO/DIN) و بازه ابعادی کامل خانواده
+                    </p>
+                  </div>
                 </div>
-                <div className="p-3 space-y-0.5 bg-white flex-1">
-                  <div className="text-xs font-black text-slate-700">{card.label}</div>
-                  <div className="text-[11px] text-slate-500">{card.caption}</div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    onOpenDocModal({
+                      title: `جدول مشخصات مهندسی خانواده — ${productName}`,
+                      webpUrl: beltFamilyMedia.specSheetWebp!,
+                      svgUrl: beltFamilyMedia.specSheetSvg || beltFamilyMedia.specSheetWebp!,
+                      subtitle: 'مشخصات ثابت و بازه ابعادی خانواده (VERIFIED_ENGINEERING_REDRAW)',
+                    })
+                  }
+                  className="self-start sm:self-auto shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-[#2B313A] hover:bg-[#1e232a] text-white px-3.5 py-2 text-[11px] font-bold cursor-pointer transition-colors"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>مشاهده جدول مشخصات</span>
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="space-y-3.5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              {beltFamilyMedia.cardPreviewSvg && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    onOpenDocModal({
+                      title: `شماتیک هندسی مقطع خانواده — ${productName}`,
+                      webpUrl: beltFamilyMedia.cardPreviewSvg,
+                      svgUrl: beltFamilyMedia.cardPreviewSvg,
+                      subtitle: 'نمای مهندسی مقطع استاندارد پروفیل',
+                    })
+                  }
+                  className="group rounded-2xl border border-slate-200/90 bg-white overflow-hidden text-right hover:border-[#E06518] hover:shadow-md transition-all cursor-pointer flex flex-col"
+                >
+                  <div className="relative h-48 w-full bg-[#f8fafc] p-3 flex items-center justify-center overflow-hidden border-b border-slate-100">
+                    <img
+                      src={beltFamilyMedia.cardPreviewSvg}
+                      alt={`شماتیک مقطع ${productName}`}
+                      loading="lazy"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <span className="absolute top-2 right-2 rounded-md bg-slate-800/85 text-white px-2 py-0.5 text-[9.5px] font-mono font-bold" dir="ltr">
+                      SECTION_CAD_PREVIEW
+                    </span>
+                  </div>
+                  <div className="p-3 space-y-0.5 bg-[#FAF8F5]">
+                    <div className="text-xs font-black text-[#2B313A]">شماتیک هندسی مقطع پروفیل خانواده</div>
+                    <div className="text-[11px] text-slate-500">ترسیم برداری مقطع واقعی طبق استاندارد پروفیل</div>
+                  </div>
+                </button>
+              )}
+
+              {beltFamilyMedia.specSheetWebp && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    onOpenDocModal({
+                      title: `جدول مهندسی ابعاد خانواده — ${productName}`,
+                      webpUrl: beltFamilyMedia.specSheetWebp!,
+                      svgUrl: beltFamilyMedia.specSheetSvg || beltFamilyMedia.specSheetWebp!,
+                      subtitle: 'مشخصات ثابت و بازه ابعادی خانواده (VERIFIED_ENGINEERING_REDRAW)',
+                    })
+                  }
+                  className="group rounded-2xl border border-slate-200/90 bg-white overflow-hidden text-right hover:border-[#E06518] hover:shadow-md transition-all cursor-pointer flex flex-col"
+                >
+                  <div className="relative h-48 w-full bg-[#f8fafc] p-3 flex items-center justify-center overflow-hidden border-b border-slate-100">
+                    <img
+                      src={beltFamilyMedia.specSheetWebp}
+                      alt={`جدول مشخصات ${productName}`}
+                      loading="lazy"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <span className="absolute top-2 right-2 rounded-md bg-emerald-900/80 text-white px-2 py-0.5 text-[9.5px] font-mono font-bold" dir="ltr">
+                      VERIFIED_ENGINEERING_REDRAW
+                    </span>
+                  </div>
+                  <div className="p-3 space-y-0.5 bg-[#FAF8F5]">
+                    <div className="text-xs font-black text-[#2B313A]">جدول مشخصات مهندسی ابعاد خانواده</div>
+                    <div className="text-[11px] text-slate-500">مشخصات ثابت و بازه ابعادی خانواده</div>
+                  </div>
+                </button>
+              )}
+            </div>
+
+            {missingRealSlots.length > 0 && (
+              <div className="rounded-xl border border-dashed border-amber-300/80 bg-amber-50/60 px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-[11px]">
+                <span className="font-bold text-amber-950">
+                  تصویر واقعی اختصاصی برای جایگاه‌های ۰۱ تا ۰۴ هنوز ثبت نشده است (طبق قانون ۵، عکس عمومی یا تکراری جایگزین نمی‌شود):
+                </span>
+                <div className="flex flex-wrap items-center gap-1.5" dir="ltr">
+                  {missingRealSlots.map((s) => (
+                    <span key={s.id} className="rounded bg-white border border-amber-200 px-2 py-0.5 font-mono text-[10px] font-bold text-amber-900">
+                      NOT_FOUND: {s.slotCode}
+                    </span>
+                  ))}
                 </div>
               </div>
-            ),
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Part 2: 2 Standardized Slots for the Selected SKU */}
@@ -194,7 +318,11 @@ export const BeltVisualMediaSection: React.FC<BeltVisualMediaSectionProps> = ({
                 <span>اسناد بصری ۲گانه اختصاصی کد کالا (SKU)</span>
               </h2>
               <p className="text-xs text-slate-500">
-                جایگاه ۱: عکس واقعی مارکینگ روی تسمه (`01-real-marking`) | جایگاه ۲: نقشه فنی پروفیل و ابعاد (`02-technical-drawing`)
+                جایگاه ۱: عکس واقعی مارکینگ روی تسمه (
+                <bdi dir="ltr" className="font-mono text-[11px]">01-real-marking</bdi>
+                ) | جایگاه ۲: نقشه فنی پروفیل و ابعاد (
+                <bdi dir="ltr" className="font-mono text-[11px]">02-technical-drawing</bdi>
+                )
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -207,13 +335,14 @@ export const BeltVisualMediaSection: React.FC<BeltVisualMediaSectionProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
             {/* Slot 01: Real Marking Photo */}
             <article className="rounded-2xl border border-slate-200/90 bg-white overflow-hidden flex flex-col">
               <div className="px-4 py-3 bg-[#FBF8F3] border-b border-slate-200/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
                 <div className="min-w-0">
                   <h3 className="text-xs sm:text-sm font-black text-[#37383b] leading-snug">
-                    جایگاه اول SKU (`01-real-marking`): عکس واقعی خود تسمه (کد {beltSkuMedia.skuCode})
+                    جایگاه اول SKU (<bdi dir="ltr" className="font-mono">01-real-marking</bdi>): عکس واقعی خود تسمه (کد{' '}
+                    <bdi dir="ltr" className="font-mono">{beltSkuMedia.skuCode}</bdi>)
                   </h3>
                   <p className="text-[11px] text-slate-500 mt-0.5">
                     تطبیق مستقیم برند، پروفیل و سایز چاپ‌شده روی بدنه تسمه
@@ -243,7 +372,7 @@ export const BeltVisualMediaSection: React.FC<BeltVisualMediaSectionProps> = ({
                     })
                   }
                   aria-label={`بزرگ‌نمایی تصویر واقعی کد ${beltSkuMedia.skuCode}`}
-                  className="group relative flex-1 flex items-center justify-center bg-[#f8fafc] p-3 aspect-[16/10] cursor-zoom-in"
+                  className="group relative flex items-center justify-center bg-[#f8fafc] p-3 aspect-[16/10] cursor-zoom-in"
                 >
                   <img
                     src={beltSkuMedia.realProductImage}
@@ -256,16 +385,16 @@ export const BeltVisualMediaSection: React.FC<BeltVisualMediaSectionProps> = ({
                   </span>
                 </button>
               ) : (
-                <div className="flex-1 flex flex-col items-center justify-center text-center p-6 bg-slate-50/70 aspect-[16/10] space-y-2.5">
-                  <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center">
-                    <ImageIcon className="w-6 h-6" />
+                <div className="flex flex-col items-center justify-center text-center p-5 bg-slate-50/70 space-y-2.5">
+                  <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center">
+                    <ImageIcon className="w-5 h-5" />
                   </div>
                   <div className="space-y-1 max-w-md">
-                    <p className="text-xs sm:text-sm font-black text-slate-800">
+                    <p className="text-xs font-black text-slate-800">
                       {beltSkuMedia.realImageStatusLabelFa}
                     </p>
                     <p className="text-[11px] text-slate-500 leading-5">
-                      تصویر واقعی اختصاصی با مارکینگ دقیق این کد (`{beltSkuMedia.skuCode}`) هنوز ثبت نشده است. طبق قوانین ۴ و ۵ دستور مادر، عکس سایز دیگر یا تصویر تکراری جایگزین نمی‌شود.
+                      تصویر واقعی اختصاصی با مارکینگ دقیق این کد (<bdi dir="ltr" className="font-mono">{beltSkuMedia.skuCode}</bdi>) هنوز ثبت نشده است. طبق قوانین ۴ و ۵ دستور مادر، عکس سایز دیگر یا تصویر تکراری جایگزین نمی‌شود.
                     </p>
                   </div>
                   {onJumpToFamilyGallery && (
@@ -287,7 +416,8 @@ export const BeltVisualMediaSection: React.FC<BeltVisualMediaSectionProps> = ({
               <div className="px-4 py-3 bg-[#FBF8F3] border-b border-slate-200/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
                 <div className="min-w-0">
                   <h3 className="text-xs sm:text-sm font-black text-[#37383b] leading-snug">
-                    جایگاه دوم SKU (`02-technical-drawing`): نقشه فنی پروفیل و ابعاد (کد {beltSkuMedia.skuCode})
+                    جایگاه دوم SKU (<bdi dir="ltr" className="font-mono">02-technical-drawing</bdi>): نقشه فنی پروفیل و ابعاد (کد{' '}
+                    <bdi dir="ltr" className="font-mono">{beltSkuMedia.skuCode}</bdi>)
                   </h3>
                   <p className="text-[11px] text-slate-500 mt-0.5 truncate" dir="auto">
                     {selectedSkuSize || selectedSkuName || productName}
@@ -327,7 +457,7 @@ export const BeltVisualMediaSection: React.FC<BeltVisualMediaSectionProps> = ({
                     })
                   }
                   aria-label={`بزرگ‌نمایی نقشه فنی پروفیل کد ${beltSkuMedia.skuCode}`}
-                  className="group relative flex-1 flex items-center justify-center bg-white p-3 aspect-[16/10] cursor-zoom-in"
+                  className="group relative flex items-center justify-center bg-white p-3 aspect-[16/10] cursor-zoom-in"
                 >
                   <img
                     src={beltSkuMedia.profileDrawingWebp}
@@ -336,13 +466,13 @@ export const BeltVisualMediaSection: React.FC<BeltVisualMediaSectionProps> = ({
                   />
                 </button>
               ) : (
-                <div className="flex-1 flex flex-col items-center justify-center text-center p-6 bg-rose-50/40 aspect-[16/10] space-y-2">
-                  <AlertCircle className="w-7 h-7 text-rose-500" />
-                  <p className="text-xs sm:text-sm font-black text-slate-800">
+                <div className="flex flex-col items-center justify-center text-center p-5 bg-rose-50/40 space-y-2">
+                  <AlertCircle className="w-6 h-6 text-rose-500" />
+                  <p className="text-xs font-black text-slate-800">
                     تولید نقشه فنی متوقف شده است (NEEDS_TECHNICAL_DATA)
                   </p>
                   <p className="text-[11px] text-slate-600 max-w-md leading-5">
-                    طبق قانون ۱ دستور مادر، به دلیل وجود ابهام در ابعاد/پروفیل این کد کالا (`PENDING_REVIEW`)، هیچ نقشه فنی حدسی یا بدون داده معتبر ترسیم نمی‌شود.
+                    طبق قانون ۱ دستور مادر، به دلیل وجود ابهام در ابعاد/پروفیل این کد کالا (<bdi dir="ltr" className="font-mono">PENDING_REVIEW</bdi>)، هیچ نقشه فنی حدسی یا بدون داده معتبر ترسیم نمی‌شود.
                   </p>
                 </div>
               )}

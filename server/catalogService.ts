@@ -207,7 +207,24 @@ async function buildCatalogSnapshot(): Promise<CatalogSnapshot> {
   }
 
   // Merge live DB commercial specs & images onto engineered products
+  // Strict audit rule (Laws 4 & 5): Do NOT merge unverified/duplicate legacy PostgreSQL images onto audited belt families.
+  const AUDITED_BELT_SLUGS = new Set([
+    'excel-v2-1-1',
+    'excel-v2-1-2',
+    'excel-v2-1-3',
+    'excel-v2-1-5',
+  ]);
+  const isAuditedBeltProduct = (p: Product): boolean => {
+    const slug = p.resolvedAssignment?.categorySlug || p.categorySlug;
+    if (AUDITED_BELT_SLUGS.has(slug)) return true;
+    if (slug === 'excel-v2-1-4') {
+      return !/دستگاه|قیچی|هویه|گیره/.test(`${p.name} ${p.resolvedAssignment?.submenuName || ''}`);
+    }
+    return false;
+  };
+
   for (const product of baseSnap.products) {
+    const isAuditedBelt = isAuditedBeltProduct(product);
     const matchedGallery: ProductGalleryImage[] = [...(product.galleryImages || [])];
     const seenGalleryUrls = new Set(matchedGallery.map((g) => g.url));
     const dbFamilyImgs = new Set<string>();
@@ -215,22 +232,26 @@ async function buildCatalogSnapshot(): Promise<CatalogSnapshot> {
     const attachGallery = (items: ProductGalleryImage[] | undefined) => {
       for (const g of items || []) {
         if (!g.url || seenGalleryUrls.has(g.url)) continue;
+        if (isAuditedBelt && g.scope === 'family') continue;
+        if (isAuditedBelt && !g.identityVerified) continue;
         seenGalleryUrls.add(g.url);
         matchedGallery.push(g);
         if (g.scope === 'family') dbFamilyImgs.add(g.url);
       }
     };
 
-    attachGallery(galleryByDbFamily.get(product.code));
-    for (const url of dbFamilyImagesByCode.get(product.code) || []) {
-      dbFamilyImgs.add(url);
-    }
-    for (const oldCode of product.legacyFamilyCodes || []) {
-      const dbFamCode = dbFamilyByOldCode.get(oldCode.toLowerCase());
-      if (dbFamCode) {
-        attachGallery(galleryByDbFamily.get(dbFamCode));
-        for (const url of dbFamilyImagesByCode.get(dbFamCode) || []) {
-          dbFamilyImgs.add(url);
+    if (!isAuditedBelt) {
+      attachGallery(galleryByDbFamily.get(product.code));
+      for (const url of dbFamilyImagesByCode.get(product.code) || []) {
+        dbFamilyImgs.add(url);
+      }
+      for (const oldCode of product.legacyFamilyCodes || []) {
+        const dbFamCode = dbFamilyByOldCode.get(oldCode.toLowerCase());
+        if (dbFamCode) {
+          attachGallery(galleryByDbFamily.get(dbFamCode));
+          for (const url of dbFamilyImagesByCode.get(dbFamCode) || []) {
+            dbFamilyImgs.add(url);
+          }
         }
       }
     }
@@ -238,7 +259,8 @@ async function buildCatalogSnapshot(): Promise<CatalogSnapshot> {
     const updatedVariants = (product.variants || []).map((v) => {
       const vKey = String(v.code || '').toLowerCase();
       const comm = commercialByVariant.get(vKey);
-      const varGal = galleryByVariantCode.get(vKey) || [];
+      const rawVarGal = galleryByVariantCode.get(vKey) || [];
+      const varGal = isAuditedBelt ? rawVarGal.filter((g) => g.identityVerified) : rawVarGal;
       attachGallery(varGal);
       const varUrls = Array.from(new Set([...(v.images || []), ...varGal.map((g) => g.url)]));
       return {
@@ -259,7 +281,7 @@ async function buildCatalogSnapshot(): Promise<CatalogSnapshot> {
     const familyImages = Array.from(new Set([...(product.images || []), ...dbFamilyImgs]));
     product.variants = updatedVariants;
     product.images = familyImages;
-    product.image = familyImages[0] || product.image;
+    product.image = familyImages[0] || undefined;
     product.galleryImages = matchedGallery;
     if (updatedVariants.length > 0) {
       product.prices = updatedVariants[0].prices || product.prices || { base: 0, retail: 0, wholesale: 0, dealer: 0 };

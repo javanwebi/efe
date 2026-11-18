@@ -158,7 +158,7 @@ export const BeltMasterAuditPage: React.FC = () => {
   const { reconciliation, imageAuditSummary } = data;
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6" dir="rtl">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6" dir="rtl">
       {/* Header Banner */}
       <section className="rounded-3xl bg-[#2B313A] text-white p-6 sm:p-8 shadow-md border border-slate-700 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -180,7 +180,7 @@ export const BeltMasterAuditPage: React.FC = () => {
             مرکز ممیزی مهندسی خانواده‌های تسمه، بازتخصیص کدهای کالا و بانک تصاویر تاییدشده
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 max-w-4xl leading-6">
-            اجرای کامل قوانین ۶گانه غیرقابل مذاکره: بدون جعل اطلاعات، بدون حذف هیچ کد کالا (`7,709` کد ممیزی تسمه از `10,435` کد کل انبار)، جداسازی کامل شناسه‌های `FAM-*` و `PFAM-*`، حذف `1,471` انتساب عکس تکراری بین خانواده‌ها (`REJECTED_DUPLICATE`) و حذف `454` تصویر اشتباه یا فاقد مجوز (`REJECTED_WRONG_PRODUCT`).
+            اجرای کامل قوانین ۶گانه غیرقابل مذاکره: بدون جعل اطلاعات، بدون حذف هیچ کد کالا ({toPersianDigits(reconciliation.totalAuditedBeltCohortSkus.toLocaleString('en-US'))} کد ممیزی تسمه از {toPersianDigits(reconciliation.totalWarehouseSkus.toLocaleString('en-US'))} کد کل انبار)، جداسازی کامل شناسه‌های <span dir="ltr" className="inline-block font-mono">FAM-*</span> و <span dir="ltr" className="inline-block font-mono">PFAM-*</span>، حذف {toPersianDigits(imageAuditSummary.duplicateAssignmentsRemovedCount.toLocaleString('en-US'))} انتساب عکس تکراری بین خانواده‌ها (<span dir="ltr" className="inline-block font-mono">REJECTED_DUPLICATE</span>) و حذف {toPersianDigits(imageAuditSummary.rejectedCandidateImagesCount.toLocaleString('en-US'))} تصویر اشتباه یا فاقد مجوز (<span dir="ltr" className="inline-block font-mono">REJECTED_WRONG_PRODUCT</span>).
           </p>
         </div>
 
@@ -222,7 +222,7 @@ export const BeltMasterAuditPage: React.FC = () => {
             <div className="text-xl font-black text-sky-300">
               {toPersianDigits(reconciliation.skuStatusBreakdown.OUT_OF_SCOPE)}
             </div>
-            <div className="text-[10px] text-slate-300">پولی/قالب/یاتاقان (`OUT_OF_SCOPE`)</div>
+            <div className="text-[10px] text-slate-300">پولی/قالب/یاتاقان (<bdi dir="ltr" className="font-mono">OUT_OF_SCOPE</bdi>)</div>
           </div>
 
           <div className="rounded-2xl bg-white/5 border border-white/10 p-3.5 space-y-1">
@@ -230,7 +230,7 @@ export const BeltMasterAuditPage: React.FC = () => {
             <div className="text-xl font-black text-rose-400">
               {toPersianDigits(imageAuditSummary.duplicateAssignmentsRemovedCount.toLocaleString('en-US'))}
             </div>
-            <div className="text-[10px] text-slate-300">`REJECTED_DUPLICATE` (قانون ۴)</div>
+            <div className="text-[10px] text-slate-300"><bdi dir="ltr" className="font-mono">REJECTED_DUPLICATE</bdi> (قانون ۴)</div>
           </div>
 
           <div className="rounded-2xl bg-white/5 border border-white/10 p-3.5 space-y-1">
@@ -253,7 +253,10 @@ export const BeltMasterAuditPage: React.FC = () => {
           }`}
         >
           <Layers className="w-4 h-4" />
-          <span>پایلوت اجرایی (۵ خانواده و ۱۷ کد کالا با تصاویر واقعی)</span>
+          <span>
+            پایلوت اجرایی ({toPersianDigits(data.pilotShowcase.length)} خانواده منتخب و{' '}
+            {toPersianDigits(imageAuditSummary.skusWithVerifiedRealMarkingPhoto)} کد با مارکینگ واقعی)
+          </span>
         </button>
 
         <button
@@ -279,7 +282,7 @@ export const BeltMasterAuditPage: React.FC = () => {
           }`}
         >
           <Database className="w-4 h-4" />
-          <span>مخزن سراسری `GLOBAL_UNASSIGNED_BELT_SKUS` و بازتخصیص‌ها</span>
+          <span>مخزن سراسری (GLOBAL_UNASSIGNED_BELT_SKUS) و بازتخصیص‌ها</span>
         </button>
 
         <button
@@ -302,10 +305,11 @@ export const BeltMasterAuditPage: React.FC = () => {
           <div className="rounded-2xl bg-orange-50/70 border border-orange-200 p-4 flex flex-wrap items-center justify-between gap-3">
             <div className="space-y-1">
               <h2 className="text-sm sm:text-base font-black text-slate-800">
-                مرحله ۲ دستور مادر: پایلوت ۵ خانواده منتخب از ساختارهای متنوع تسمه صنعتی (۱۷ کد کالا)
+                پایلوت اجرایی {toPersianDigits(data.pilotShowcase.length)} خانواده منتخب با ۴ تصویر واقعی و{' '}
+                {toPersianDigits(imageAuditSummary.skusWithVerifiedRealMarkingPhoto)} کد کالای تاییدشده با مارکینگ فیزیکی روی تسمه
               </h2>
               <p className="text-xs text-slate-600">
-                شامل تطبیق کامل شناسه مبدا (`FAM-*`)، شناسه مهندسی ممیزی (`FAM-*`) و شناسه اجرایی کاتالوگ (`PFAM-*`)، به همراه تصاویر واقعی اختصاصی (`HTTP 200`)، نقشه‌های فنی CAD و جایگاه‌های صادقانه `NOT_FOUND`.
+                شامل تطبیق کامل شناسه مبدا (<bdi dir="ltr" className="font-mono">FAM-*</bdi>)، شناسه مهندسی ممیزی (<bdi dir="ltr" className="font-mono">FAM-*</bdi>) و شناسه اجرایی کاتالوگ (<bdi dir="ltr" className="font-mono">PFAM-*</bdi>)، به همراه ۴ تصویر واقعی اختصاصی لوکال (<bdi dir="ltr" className="font-mono">.webp</bdi>)، جدول مشخصات مهندسی، عکس مارکینگ واقعی روی تسمه و نقشه‌های فنی CAD.
               </p>
             </div>
           </div>
@@ -389,11 +393,13 @@ export const BeltMasterAuditPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* 4 Family Image Slots */}
-              <div className="space-y-2.5">
+              {/* 4 Real Family Photo Slots + Companion Engineering Spec Sheet */}
+              <div className="space-y-3">
                 <h4 className="text-xs sm:text-sm font-black text-slate-800 flex items-center gap-1.5">
                   <ImageIcon className="w-4 h-4 text-[#E06518]" />
-                  <span>وضعیت ۴ جایگاه تصویر خانواده (`{fam.sourceFamilyId}`)</span>
+                  <span>
+                    وضعیت ۴ تصویر واقعی خانواده (<bdi dir="ltr" className="font-mono">{fam.runtimePfamId}</bdi>)
+                  </span>
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
                   {fam.familySlots.map((slot) => (
@@ -445,37 +451,39 @@ export const BeltMasterAuditPage: React.FC = () => {
                       </div>
                     </div>
                   ))}
+                </div>
 
-                  {/* Slot 4: Spec Sheet */}
-                  <div className="rounded-2xl border border-indigo-200 bg-white overflow-hidden flex flex-col">
-                    <div className="aspect-[4/3] bg-slate-50 p-2 flex items-center justify-center border-b border-slate-100 relative">
+                {/* Companion Engineering Spec Sheet */}
+                <div className="rounded-2xl border border-indigo-200/80 bg-indigo-50/40 p-3 flex flex-col sm:flex-row items-center gap-3.5 justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-24 h-16 rounded-xl bg-white border border-indigo-100 p-1.5 flex items-center justify-center shrink-0 overflow-hidden">
                       <img
                         src={fam.specSheetUrl}
-                        alt="04-specifications"
+                        alt="family-specifications"
                         className="w-full h-full object-contain"
                       />
-                      <span
-                        className="absolute top-2 right-2 px-2 py-0.5 rounded bg-indigo-900 text-white text-[9.5px] font-mono font-bold"
-                        dir="ltr"
-                      >
-                        04-specifications.svg
-                      </span>
                     </div>
-                    <div className="p-3 space-y-1 text-[11px] flex-1 flex flex-col justify-between">
-                      <p className="text-slate-700 font-medium leading-4">
-                        جدول مشخصات مهندسی و بازه ابعادی اختصاصی خانواده (`VERIFIED_ENGINEERING_REDRAW`)
+                    <div className="space-y-0.5">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-black text-slate-900">جدول مشخصات مهندسی و بازه ابعادی خانواده</span>
+                        <span className="px-2 py-0.5 rounded bg-indigo-900 text-white text-[9.5px] font-mono font-bold" dir="ltr">
+                          VERIFIED_ENGINEERING_REDRAW
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-600">
+                        تولیدشده از استاندارد مرجع و ابعاد واقعی کدهای عضو خانواده (<bdi dir="ltr" className="font-mono">family-specifications.svg</bdi>)
                       </p>
-                      <a
-                        href={fam.specSheetUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 text-indigo-700 font-bold hover:underline pt-1"
-                      >
-                        <span>مشاهده جدول با کیفیت اصلی</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
                     </div>
                   </div>
+                  <a
+                    href={fam.specSheetUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-indigo-200 hover:border-indigo-400 text-indigo-800 text-xs font-bold shrink-0 transition-colors"
+                  >
+                    <span>مشاهده جدول با کیفیت اصلی</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
                 </div>
               </div>
 
@@ -546,7 +554,7 @@ export const BeltMasterAuditPage: React.FC = () => {
                               />
                             ) : (
                               <span className="text-[10.5px] text-slate-500 text-center px-2">
-                                جایگاه خالی (`NOT_FOUND` — بدون جایگزینی عکس سایز دیگر)
+                                جایگاه خالی (NOT_FOUND — بدون جایگزینی عکس سایز دیگر)
                               </span>
                             )}
                           </div>
@@ -679,7 +687,7 @@ export const BeltMasterAuditPage: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="space-y-1">
                 <h2 className="text-base sm:text-lg font-black text-slate-900">
-                  مخزن مرکزی کدهای نیازمند تخصیص (`GLOBAL_UNASSIGNED_BELT_SKUS`) و جدول بازتخصیص سراسری
+                  مخزن مرکزی کدهای نیازمند تخصیص (GLOBAL_UNASSIGNED_BELT_SKUS) و جدول بازتخصیص سراسری
                 </h2>
                 <p className="text-xs text-slate-600">
                   نمایش نمونه از {toPersianDigits(data.reconciliation.globalUnassignedPoolTotal.toLocaleString('en-US'))} کد کالایی که در خانواده مبدا اشتباه قرار داشتند و پس از تطبیق سراسری پروفیل، برند و فرم عرضه به خانواده مهندسی واقعی خود منتقل شدند.
@@ -690,7 +698,7 @@ export const BeltMasterAuditPage: React.FC = () => {
                 className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#E06518] text-white text-xs font-bold"
               >
                 <Download className="w-3.5 h-3.5" />
-                <span>دانلود کامل `global_unassigned_belt_skus.csv`</span>
+                <span>دانلود کامل فایل مخزن بازتخصیص (CSV)</span>
               </a>
             </div>
 
@@ -749,10 +757,10 @@ export const BeltMasterAuditPage: React.FC = () => {
               <div className="space-y-1">
                 <h2 className="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
                   <AlertTriangle className="w-5 h-5 text-rose-600" />
-                  <span>نمونه تصاویر ردشده به علت عدم تطابق محصول یا برند (`rejected_images.csv`)</span>
+                  <span>نمونه تصاویر ردشده به علت عدم تطابق محصول یا برند (rejected_images.csv)</span>
                 </h2>
                 <p className="text-xs text-slate-600">
-                  شامل ۲۱ تصویر کاتالوگ `e(...).png` (مربوط به پولی، قطعه تفلونی، براکت و دیافراگم) که در دیتابیس قبلی اشتباهاً به خانواده‌های تسمه متصل شده بودند + تصاویر دندانه دوطرفه روی خانواده‌های یک‌طرفه.
+                  شامل ۲۱ تصویر کاتالوگ <bdi dir="ltr" className="font-mono">e(...).png</bdi> (مربوط به پولی، قطعه تفلونی، براکت و دیافراگم) که در دیتابیس قبلی اشتباهاً به خانواده‌های تسمه متصل شده بودند + تصاویر دندانه دوطرفه روی خانواده‌های یک‌طرفه.
                 </p>
               </div>
               <a
@@ -760,7 +768,7 @@ export const BeltMasterAuditPage: React.FC = () => {
                 className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-600 text-white text-xs font-bold"
               >
                 <Download className="w-3.5 h-3.5" />
-                <span>دانلود کامل `rejected_images.csv` ({toPersianDigits(imageAuditSummary.rejectedCandidateImagesCount)} مورد)</span>
+                <span>دانلود کامل rejected_images.csv ({toPersianDigits(imageAuditSummary.rejectedCandidateImagesCount)} مورد)</span>
               </a>
             </div>
 
@@ -803,7 +811,7 @@ export const BeltMasterAuditPage: React.FC = () => {
           {/* Official Manufacturer Sources */}
           <div className="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-xs space-y-4">
             <h2 className="text-base sm:text-lg font-black text-slate-900">
-              بانک منابع رسمی سازندگان بین‌المللی تسمه (`manufacturer_sources.json`)
+              بانک منابع رسمی سازندگان بین‌المللی تسمه (<bdi dir="ltr" className="font-mono">manufacturer_sources.json</bdi>)
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {data.manufacturerSources.map((m) => (
@@ -825,7 +833,7 @@ export const BeltMasterAuditPage: React.FC = () => {
           </div>
         </section>
       )}
-    </main>
+    </div>
   );
 };
 export default BeltMasterAuditPage;
