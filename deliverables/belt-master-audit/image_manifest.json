@@ -1,0 +1,180 @@
+{
+  "generatedAt": "2026-11-18T14:12:07.698Z",
+  "policy": "ZERO_DUPLICATE_FAMILY_IMAGES_AND_STRICT_PROVENANCE",
+  "summary": {
+    "totalBeltFamiliesAudited": 614,
+    "familiesWithVerifiedUniqueRealPhotos": 6,
+    "totalVerifiedUniqueFamilyPhotoSlots": 10,
+    "familiesWithEngineeringSpecSheet": 609,
+    "skusWithVerifiedRealMarkingPhoto": 3,
+    "skusWithVerifiedTechnicalDrawing": 7630,
+    "skusHeldWithoutDrawingPendingDimensions": 9,
+    "rejectedCandidateImagesCount": 454,
+    "duplicateAssignmentsRemovedCount": 1471
+  },
+  "verifiedFamilyPhotos": {
+    "FAM-34388": [
+      {
+        "key": "imp_opti_loop",
+        "slotIndex": 1,
+        "slotName": "01-main.webp",
+        "sourceUrl": "https://cdn03.plentyone.com/evlxcyoplb75/item/images/67976/full/67976_1.jpg",
+        "sourcePageUrl": "https://www.hug-technik.com/zahnriemen-540-l-075-optibelt-zr.html",
+        "manufacturer": "Arntz Optibelt Group (Germany)",
+        "verificationStatus": "VERIFIED_FAMILY_IMAGE",
+        "httpStatus": 200,
+        "noteFa": "تصویر اختصاصی حلقه تسمه تایمینگ اینچی Optibelt ZR پروفیل L (مطابق با کدهای 52050 و 52009 در خانواده FAM-34388)"
+      },
+      {
+        "key": "hug_opti_zr_angle",
+        "slotIndex": 2,
+        "slotName": "02-angle.webp",
+        "sourceUrl": "https://cdn03.plentyone.com/evlxcyoplb75/item/images/67976/full/67976_2.jpg",
+        "sourcePageUrl": "https://www.hug-technik.com/zahnriemen-540-l-075-optibelt-zr.html",
+        "manufacturer": "Arntz Optibelt Group (Germany)",
+        "verificationStatus": "VERIFIED_FAMILY_IMAGE",
+        "httpStatus": 200,
+        "noteFa": "نمای زاویه و دندانه‌های ذوزنقه‌ای اینچی Optibelt ZR پروفیل L از همان محصول مرجع"
+      },
+      {
+        "key": "imp_opti_cut",
+        "slotIndex": 3,
+        "slotName": "03-detail.webp",
+        "sourceUrl": "https://envmart.com/260262-default_xl/optibelt-l-section-rubber-timing-belt-127-mm-width-647-mm-length-68-teeth-fibreglass-cord-255-l-050.jpg",
+        "sourcePageUrl": "https://envmart.com/260262-default_xl/optibelt-l-section-rubber-timing-belt-127-mm-width-647-mm-length-68-teeth-fibreglass-cord-255-l-050.jpg",
+        "manufacturer": "Arntz Optibelt Group (Germany)",
+        "verificationStatus": "VERIFIED_FAMILY_IMAGE",
+        "httpStatus": 200,
+        "noteFa": "نمای نزدیک ساختار بدنه کلروپرن و کورد فایبرگلاس تسمه تایمینگ Optibelt ZR پروفیل L"
+      }
+    ],
+    "FAM-10538": [
+      {
+        "key": "bando_1400h100",
+        "slotIndex": 1,
+        "slotName": "01-main.webp",
+        "sourceUrl": "https://www.zoro.com/static/cms/product/large/Z2u95zncpEx_.JPG",
+        "sourcePageUrl": "https://www.zoro.com/i/G4488016/",
+        "manufacturer": "Bando Chemical Industries (Japan)",
+        "verificationStatus": "VERIFIED_FAMILY_IMAGE",
+        "httpStatus": 200,
+        "noteFa": "تصویر اختصاصی حلقه تسمه تایمینگ اینچی Bando Synchro-Link پروفیل H (تخصیص یک‌به‌یک فقط به خانواده FAM-10538)"
+      }
+    ],
+    "FAM-38872": [
+      {
+        "key": "htd_opti_cut",
+        "slotIndex": 3,
+        "slotName": "03-detail.webp",
+        "sourceUrl": "https://www.nk-technics.com/images/stories/virtuemart/product/optibelt-omega-rubber-timing-belt.jpg",
+        "sourcePageUrl": "https://www.optibelt.com/en/products/timing-belts/chloroprene/optibelt-omega/",
+        "manufacturer": "Arntz Optibelt Group (Germany)",
+        "verificationStatus": "VERIFIED_FAMILY_IMAGE",
+        "httpStatus": 200,
+        "noteFa": "نمای ساختار لایه‌ها و دندانه منحنی‌الخط تسمه تایمینگ Optibelt Omega پروفیل 8M HTD (تخصیص یک‌به‌یک به FAM-38872)"
+      }
+    ],
+    "FAM-40331": [
+      {
+        "key": "vb_cog_bando_cut",
+        "slotIndex": 3,
+        "slotName": "03-detail.webp",
+        "sourceUrl": "https://ik.imagekit.io/xphwcncc40f/wp-content/uploads/2014/09/bando.de_20-V-Belt-RPF_FHD.jpg",
+        "sourcePageUrl": "https://www.bando.de/produkte/antriebsriemen/keilriemen/",
+        "manufacturer": "Bando Chemical Industries (Japan)",
+        "verificationStatus": "VERIFIED_FAMILY_IMAGE",
+        "httpStatus": 200,
+        "noteFa": "تصویر رسمی کاتالوگ Bando Europe از ساختار دنده‌دار لبه‌خام (RPF Cogged V-Belt) روی پولی"
+      }
+    ],
+    "FAM-52319": [
+      {
+        "key": "pu_round_loop",
+        "slotIndex": 1,
+        "slotName": "01-main.webp",
+        "sourceUrl": "https://www.beltingonline.com/wp-content/uploads/1970/01/volta-rpn.png",
+        "sourcePageUrl": "https://www.volta-belting.com/",
+        "manufacturer": "Volta Belting Technology",
+        "verificationStatus": "VERIFIED_FAMILY_IMAGE",
+        "httpStatus": 200,
+        "noteFa": "تصویر اختصاصی تسمه گرد پلی‌یورتان جوش‌پذیر سبز (تخصیص یک‌به‌یک فقط به خانواده FAM-52319)"
+      }
+    ],
+    "FAM-52858": [
+      {
+        "key": "owner_e859",
+        "slotIndex": 1,
+        "slotName": "01-main.webp",
+        "sourceUrl": "/storage/products/catalog/e(859).png",
+        "sourcePageUrl": "https://sanatpish.com/storage/products/catalog/e(859).png",
+        "manufacturer": "کاتالوگ رسمی ۱۰۷ صفحه‌ای اطلس صنعت پیش (صفحه ۹۴)",
+        "verificationStatus": "VERIFIED_FAMILY_IMAGE",
+        "httpStatus": 200,
+        "noteFa": "تصویر واقعی تاییدشده در ممیزی چشمی کاتالوگ صاحب کالا (status: matched-product-type, familyCode: FAM-52858 نوار نقاله)"
+      },
+      {
+        "key": "owner_e860",
+        "slotIndex": 2,
+        "slotName": "02-angle.webp",
+        "sourceUrl": "/storage/products/catalog/e(860).png",
+        "sourcePageUrl": "https://sanatpish.com/storage/products/catalog/e(860).png",
+        "manufacturer": "کاتالوگ رسمی ۱۰۷ صفحه‌ای اطلس صنعت پیش (صفحه ۹۴)",
+        "verificationStatus": "VERIFIED_FAMILY_IMAGE",
+        "httpStatus": 200,
+        "noteFa": "نمای زاویه دوم سطح نوار نقاله از کاتالوگ رسمی صاحب کالا (familyCode: FAM-52858)"
+      },
+      {
+        "key": "owner_e862",
+        "slotIndex": 3,
+        "slotName": "03-detail.webp",
+        "sourceUrl": "/storage/products/catalog/e(862).png",
+        "sourcePageUrl": "https://sanatpish.com/storage/products/catalog/e(862).png",
+        "manufacturer": "کاتالوگ رسمی ۱۰۷ صفحه‌ای اطلس صنعت پیش (صفحه ۹۴)",
+        "verificationStatus": "VERIFIED_FAMILY_IMAGE",
+        "httpStatus": 200,
+        "noteFa": "نمای بافت و آج سطح نوار نقاله از کاتالوگ رسمی صاحب کالا (familyCode: FAM-52858)"
+      }
+    ]
+  },
+  "verifiedSkuPhotos": {
+    "41349": {
+      "key": "sku_41349_real",
+      "familyId": "FAM-10111",
+      "proposedFamilyId": "FAM-TIMING-IMP-DH-SLEEVE-STD-BANDO",
+      "sourceUrl": "https://i.ebayimg.com/images/g/g9QAAOSw3kRlG7s-/s-l1200.jpg",
+      "sourcePageUrl": "https://www.ebay.com/itm/266441566039",
+      "manufacturer": "Bando Chemical Industries (Japan)",
+      "visibleMarking": "BANDO SYNCHRO-LINK 1400DH SLEEVE",
+      "verificationStatus": "VERIFIED_REAL_PRODUCT_IMAGE",
+      "licenseNote": "VERIFIED_PHYSICAL_MARKING_EVIDENCE (نیازمند جایگزینی با عکاسی انبار صنعت پیش جهت مجوز تجاری دائم)",
+      "httpStatus": 200,
+      "noteFa": "تصویر واقعی آستین برش‌نخورده تسمه تایمینگ دوطرفه Bando Synchro-Link 1400DH منطبق با SKU 41349"
+    },
+    "52009": {
+      "key": "sku_52009_real",
+      "familyId": "FAM-34388",
+      "proposedFamilyId": "FAM-TIMING-IMP-L-ENDLESS-STD-OPTIBELT",
+      "sourceUrl": "https://i.ebayimg.com/images/g/xNwAAOSwVAtnVAjb/s-l1600.jpg",
+      "sourcePageUrl": "https://www.ebay.co.uk/itm/286187495140",
+      "manufacturer": "Arntz Optibelt Group (Germany)",
+      "visibleMarking": "optibelt-ZR 300 L | Made in Germany",
+      "verificationStatus": "VERIFIED_REAL_PRODUCT_IMAGE",
+      "licenseNote": "VERIFIED_PHYSICAL_MARKING_EVIDENCE (نیازمند جایگزینی با عکاسی انبار صنعت پیش جهت مجوز تجاری دائم)",
+      "httpStatus": 200,
+      "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt-ZR 300 L | Made in Germany» منطبق با SKU 52009"
+    },
+    "52050": {
+      "key": "sku_52050_real",
+      "familyId": "FAM-34388",
+      "proposedFamilyId": "FAM-TIMING-IMP-L-ENDLESS-STD-OPTIBELT",
+      "sourceUrl": "https://cdn03.plentyone.com/evlxcyoplb75/item/images/67976/full/67976_3.jpg",
+      "sourcePageUrl": "https://www.hug-technik.com/zahnriemen-540-l-075-optibelt-zr.html",
+      "manufacturer": "Arntz Optibelt Group (Germany)",
+      "visibleMarking": "optibelt ZR 540 L 075",
+      "verificationStatus": "VERIFIED_REAL_PRODUCT_IMAGE",
+      "licenseNote": "VERIFIED_CATALOG_PRODUCT_PHOTO_NO_WATERMARK (HUG Technik Germany)",
+      "httpStatus": 200,
+      "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt ZR 540 L 075» منطبق با SKU 52050"
+    }
+  }
+}
