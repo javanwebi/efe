@@ -83,8 +83,8 @@ test('belt media preserves family aliases and withholds unapproved photos and dr
   const family = getBeltFamilyMedia('FAM-34388');
   assert.ok(family);
   assert.equal(family.familyCode, pfam);
-  assert.deepEqual(family.familyPhotos, [null, null, null, null]);
-  assert.equal(family.primaryThumbnail, null);
+  assert.match(family.familyPhotos[0] || '', /\/01-main\.webp$/);
+  assert.equal(family.primaryThumbnail, family.familyPhotos[0]);
   assert.equal(family.specSheetWebp, null);
 
   const sku = getBeltSkuMedia(pfam, '52009');
@@ -93,6 +93,9 @@ test('belt media preserves family aliases and withholds unapproved photos and dr
   assert.equal(sku.realProductImage, null);
   assert.equal(sku.technicalDrawingStatus, 'NEEDS_TECHNICAL_DATA');
   assert.equal(sku.profileDrawingWebp, null);
+  const verified = getBeltSkuMedia(pfam, '39130');
+  assert.equal(verified?.realImageStatus, 'VERIFIED_REAL_SKU_PHOTO');
+  assert.equal(verified?.realProductImage, '/belt-catalog/skus/39130/01-real-marking.webp');
   assert.equal(getBeltSkuMedia('PFAM-تسمه-تایمینگ-م-FORZA-AT20-015', '52009'), null);
 
   const fallback = [{ id: 'generic', scope: 'family' as const, url: '/generic.webp' }];

@@ -1,6 +1,146 @@
 {
-  "families": {},
-  "skus": {},
+  "families": {
+    "PFAM-تسمه-V-شکل-بار-OPTIBELT-SPA-174": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%A8%D8%A7%D8%B1-OPTIBELT-SPA-174/01-main.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%A8%D8%A7%D8%B1-OPTIBELT-SPA-174/02-angle.webp",
+      null,
+      null
+    ],
+    "PFAM-تسمه-V-شکل-بار-SWR-SPB-022": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%A8%D8%A7%D8%B1-SWR-SPB-022/01-main.webp",
+      null,
+      null,
+      null
+    ],
+    "PFAM-تسمه-V-شکل-بار-SWR-XPA-061": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%A8%D8%A7%D8%B1-SWR-XPA-061/01-main.webp",
+      null,
+      null,
+      null
+    ],
+    "PFAM-تسمه-V-شکل-بار-SWR-XPB-028": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%A8%D8%A7%D8%B1-SWR-XPB-028/01-main.webp",
+      null,
+      null,
+      null
+    ],
+    "PFAM-تسمه-V-شکل-دند-DONGIL-AX-066": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%AF%D9%86%D8%AF-DONGIL-AX-066/01-main.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%AF%D9%86%D8%AF-DONGIL-AX-066/02-angle.webp",
+      null,
+      null
+    ],
+    "PFAM-تسمه-V-شکل-کلا-DONGIL-A-016": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%DA%A9%D9%84%D8%A7-DONGIL-A-016/01-main.webp",
+      null,
+      null,
+      null
+    ],
+    "PFAM-تسمه-V-شکل-کلا-DONGIL-B-004": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%DA%A9%D9%84%D8%A7-DONGIL-B-004/01-main.webp",
+      null,
+      null,
+      null
+    ],
+    "PFAM-تسمه-V-شکل-کلا-DONGIL-C-009": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%DA%A9%D9%84%D8%A7-DONGIL-C-009/01-main.webp",
+      null,
+      null,
+      null
+    ],
+    "PFAM-تسمه-V-شکل-کلا-MEGADYNE-C-068": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%DA%A9%D9%84%D8%A7-MEGADYNE-C-068/01-main.webp",
+      null,
+      null,
+      null
+    ],
+    "PFAM-تسمه-V-شکل-کلا-SWR-A-011": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%DA%A9%D9%84%D8%A7-SWR-A-011/01-main.webp",
+      null,
+      null,
+      null
+    ],
+    "PFAM-تسمه-تایمینگ-ذ-BANDO-H-554": [
+      null,
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-BANDO-H-554/02-angle.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-BANDO-H-554/03-detail.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-BANDO-H-554/04-closeup.webp"
+    ],
+    "PFAM-تسمه-تایمینگ-ذ-GENERIC-DH-236": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-GENERIC-DH-236/01-main.webp",
+      null,
+      null,
+      null
+    ],
+    "PFAM-تسمه-تایمینگ-ذ-MEGADYNE-H-106": [
+      null,
+      null,
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-MEGADYNE-H-106/03-detail.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-MEGADYNE-H-106/04-closeup.webp"
+    ],
+    "PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-H-077/01-main.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-H-077/02-angle.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-H-077/03-detail.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-H-077/04-closeup.webp"
+    ],
+    "PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-L-148/01-main.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-L-148/02-angle.webp",
+      null,
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-L-148/04-closeup.webp"
+    ],
+    "PFAM-تسمه-تایمینگ-م-MEGADYNE-8M-360": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-8M-360/01-main.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-8M-360/02-angle.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-8M-360/03-detail.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-8M-360/04-closeup.webp"
+    ],
+    "PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134": [
+      null,
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-T5-134/02-angle.webp",
+      null,
+      null
+    ],
+    "PFAM-تسمه-تایمینگ-م-OPTIBELT-8M-234": [
+      null,
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-OPTIBELT-8M-234/02-angle.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-OPTIBELT-8M-234/03-detail.webp",
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-OPTIBELT-8M-234/04-closeup.webp"
+    ],
+    "PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113": [
+      null,
+      null,
+      null,
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%86%D9%86%D8%AF%D8%B4%DB%8C%D8%A7%D8%B1%DB%8C-OPTIBELT-PJ-113/04-closeup.webp"
+    ],
+    "PFAM-تسمه-گرد-جوشی-FOREIGN-CRC-386": [
+      "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%AF%D8%B1%D8%AF-%D8%AC%D9%88%D8%B4%DB%8C-FOREIGN-CRC-386/01-main.webp",
+      null,
+      null,
+      null
+    ],
+    "PFAM-نوار-نقاله-PVC-GENERIC-PVC-STONE-SU-013": [
+      "/belt-catalog/families/PFAM-%D9%86%D9%88%D8%A7%D8%B1-%D9%86%D9%82%D8%A7%D9%84%D9%87-PVC-GENERIC-PVC-STONE-SU-013/01-main.webp",
+      "/belt-catalog/families/PFAM-%D9%86%D9%88%D8%A7%D8%B1-%D9%86%D9%82%D8%A7%D9%84%D9%87-PVC-GENERIC-PVC-STONE-SU-013/02-angle.webp",
+      null,
+      null
+    ]
+  },
+  "skus": {
+    "1075": "/belt-catalog/skus/1075/01-real-marking.webp",
+    "32121": "/belt-catalog/skus/32121/01-real-marking.webp",
+    "33016": "/belt-catalog/skus/33016/01-real-marking.webp",
+    "33042": "/belt-catalog/skus/33042/01-real-marking.webp",
+    "34029": "/belt-catalog/skus/34029/01-real-marking.webp",
+    "35271": "/belt-catalog/skus/35271/01-real-marking.webp",
+    "38082": "/belt-catalog/skus/38082/01-real-marking.webp",
+    "39130": "/belt-catalog/skus/39130/01-real-marking.webp",
+    "52050": "/belt-catalog/skus/52050/01-real-marking.webp",
+    "53283": "/belt-catalog/skus/53283/01-real-marking.webp",
+    "53301": "/belt-catalog/skus/53301/01-real-marking.webp",
+    "714": "/belt-catalog/skus/714/01-real-marking.webp"
+  },
   "categories": {},
   "documents": {}
 }

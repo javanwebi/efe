@@ -37,7 +37,7 @@ export interface BeltCatalogManifest {
 const manifest = beltManifestRaw as unknown as BeltCatalogManifest;
 const EXCLUDED_FAMILY_SET = new Set<string>(manifest.excludedFamilyIds || []);
 const EXCLUDED_MIXED_SKU_SET = new Set<string>(manifest.excludedMixedSkuIds || []);
-const familyPhotosByCode: Record<string, BeltFamilyMedia['familyPhotos']> = verifiedMedia.families;
+const familyPhotosByCode: Record<string, readonly (string | null)[]> = verifiedMedia.families;
 const skuPhotosByCode: Record<string, string> = verifiedMedia.skus;
 
 type DrawingStatus = 'VERIFIED_OFFICIAL_DRAWING' | 'ENGINEERING_REDRAW';

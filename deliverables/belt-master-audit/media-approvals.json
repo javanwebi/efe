@@ -1,1 +1,308 @@
-{}
+{
+  "/belt-catalog/skus/32121/01-real-marking.webp": {
+    "sha256": "27c975451de776bfc307be2679e21a220396e7dfbd044a80f7684a7ab9d98044",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Optibelt RB 6PJ 1168; supplier identifies six ribs and 1168 mm, consistent with the visible longitudinal ribs and printed PJ marking.",
+    "visualVerification": "verified",
+    "manufacturerModel": "Made in Germany optibelt-RB PJ 1168 (6 Ribs)"
+  },
+  "/belt-catalog/skus/33016/01-real-marking.webp": {
+    "sha256": "a222f5bacc9bfb697c994a1e9001eaa1e40f6b6381635ff1f55365d4b0cbb1b9",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Megadyne Isoran 1120 RPP8 20 mm; printed RPP8 on the rubber timing belt and 20 mm listed against this photograph.",
+    "visualVerification": "verified",
+    "manufacturerModel": "MEGADYNE ISORAN 1120 RPP8 (20mm)"
+  },
+  "/belt-catalog/skus/33042/01-real-marking.webp": {
+    "sha256": "662bb5a5efa359df4d79ef8796b509a0d85c2b34665f64fbf30f159d77553d57",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Megadyne Isoran 1040 RPP8 30 mm; printed RPP8, visible curved teeth and 30 mm listed against this photograph.",
+    "visualVerification": "verified",
+    "manufacturerModel": "MEGADYNE ISORAN 1040 RPP8 (30mm)"
+  },
+  "/belt-catalog/skus/34029/01-real-marking.webp": {
+    "sha256": "f8ae5bb38e3c20c15ccc90ef007af7b15dd5bbbe426186a01abf4c0e64a1c66c",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Optibelt RB 6PJ 1270; supplier designation and belt markings agree on PJ, six ribs and 1270 mm.",
+    "visualVerification": "verified",
+    "manufacturerModel": "Made in Germany optibelt-RB PJ 1270 (6 Ribs)"
+  },
+  "/belt-catalog/skus/35271/01-real-marking.webp": {
+    "sha256": "1b43e6f406246cf7e7f98741a5e4688af345eac9959020675e5a8aed72c5019c",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Optibelt Omega 1280 8M 25 mm; matching printed series/length and supplier width, with curved rubber teeth.",
+    "visualVerification": "verified",
+    "manufacturerModel": "optibelt OMEGA 1280 8M (25mm)"
+  },
+  "/belt-catalog/skus/38082/01-real-marking.webp": {
+    "sha256": "0b8fca9023c44209073df66ff397637346c1a65e4d9c126b559e83536d8b066d",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Dongil Super Star 4PK 990; matching DRB logo and 4PK 990 designation in retained product image and original distributor asset.",
+    "visualVerification": "verified",
+    "manufacturerModel": "SUPER STAR 4PK 990 MADE IN KOREA (DRB DONGIL)"
+  },
+  "/belt-catalog/skus/39130/01-real-marking.webp": {
+    "sha256": "87b528da673c13326006786218830d28d5a6de977072e02d7bfa130974da4e37",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Optibelt ZR 285 L 075 printed on belt, matching the internal designation and 19.05 mm nominal width. The physical 075 marking resolves the supplier title suffix.",
+    "visualVerification": "verified",
+    "manufacturerModel": "optibelt-ZR 285 L 075"
+  },
+  "/belt-catalog/skus/52050/01-real-marking.webp": {
+    "sha256": "bd554e49868cb2723f1aca3f06452fcf217b2069b7c7d9a7560b631d80a1f425",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Optibelt ZR 540 L 075 printed on the retained photograph, matching the SKU designation and 19.05 mm nominal width.",
+    "visualVerification": "verified",
+    "manufacturerModel": "optibelt ZR 540 L 075"
+  },
+  "/belt-catalog/skus/53283/01-real-marking.webp": {
+    "sha256": "8b28d9176107865405ee62129e93c88b0f39cd66a8d167fae1588231fc3bad1c",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Optibelt ZR 360 H 100 visibly printed; H trapezoidal timing teeth and the 100 width code match the internal 25.4 mm item despite the supplier title suffix.",
+    "visualVerification": "verified",
+    "manufacturerModel": "optibelt-ZR 360 H 100"
+  },
+  "/belt-catalog/skus/53301/01-real-marking.webp": {
+    "sha256": "64d8d4e0f7c3d10f0215f96db76756183287702470844a58a5b66d6322f84289",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Optibelt ZR 1000 H 100 visibly printed on the rubber timing belt; 100 width code matches catalog 25.4 mm.",
+    "visualVerification": "verified",
+    "manufacturerModel": "Optibelt-ZR 1000H 100 | DO NOT CRIMP"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%AF%D8%B1%D8%AF-%D8%AC%D9%88%D8%B4%DB%8C-FOREIGN-CRC-386/01-main.webp": {
+    "sha256": "6ef675061eb2efa56e757d3bf3a5e943a8bcf238ba502b1acbd6cbe32222862b",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Two physical coils of smooth round weldable polyurethane belting. The source identifies round urethane belting and the profile is visibly circular.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-L-148/01-main.webp": {
+    "sha256": "ba964e3c262b9b08892d57c6c4fc49d3e1d438bc6c22a39937448aaacd1caf87",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical toothed endless loop from the distributor listing for Optibelt ZR 540 L 075.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-L-148/02-angle.webp": {
+    "sha256": "13b8edefe03bccb297b5969cd9eeebf72dc2b2ce574b7a3002b508542af79e62",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physically curved rubber timing belt with trapezoidal teeth and printed Optibelt ZR 270 L.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-L-148/04-closeup.webp": {
+    "sha256": "17a9d1364056ab0cd3c462a7d2e64e3e4c812531619222c2fcfa6e2cef1f93fc",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Optibelt ZR 420 L marking and trapezoidal teeth are visible on the close view of a physical loop.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-OPTIBELT-8M-234/02-angle.webp": {
+    "sha256": "7ed1877d15875d9badcf7e3cc02e35d65fab887e7ccb68b6035ae93f5c27a787",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical Optibelt OMEGA 1096 8M belt segment with printed pitch designation.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-OPTIBELT-8M-234/03-detail.webp": {
+    "sha256": "7686348026a9baa1a03122f2744c4ddc9bcf43d2f5a02d5d071e173410e621f8",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical OMEGA 880 8M belts documented by FEC; 8M identified on the sample, and this view shows the teeth.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-OPTIBELT-8M-234/04-closeup.webp": {
+    "sha256": "e2a8ea51c979e1a1b14ad55490364b67556a85a5724afafc6d978dd778cf0b55",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Red OMEGA HP branding and 2000 8M product designation on the photographed belt.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%DA%86%D9%86%D8%AF%D8%B4%DB%8C%D8%A7%D8%B1%DB%8C-OPTIBELT-PJ-113/04-closeup.webp": {
+    "sha256": "a37492ecf3437e61f23829dbe675e5713d89adaac0c000b86ecd0cd3af6ea7f7",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical Optibelt RB PJ 610 ring with longitudinal ribs and matching listing designation.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-GENERIC-DH-236/01-main.webp": {
+    "sha256": "6a2d49eeabbb8908de3009e078450def307c4f9d5964aa218d50f556a2c6fa6a",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical endless loop with teeth visible on both faces; source identifies double-sided timing belts and the visible trapezoidal profile agrees with DH.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D9%86%D9%88%D8%A7%D8%B1-%D9%86%D9%82%D8%A7%D9%84%D9%87-PVC-GENERIC-PVC-STONE-SU-013/01-main.webp": {
+    "sha256": "a7788741961d14447048465e13814e73d762cc5888c220597e6d523a98dc60fc",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical assembled PVC conveyor loop in the owner catalog, with visible green patterned cover.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D9%86%D9%88%D8%A7%D8%B1-%D9%86%D9%82%D8%A7%D9%84%D9%87-PVC-GENERIC-PVC-STONE-SU-013/02-angle.webp": {
+    "sha256": "89d693e4a1e12568cf3e06c316809dcc2ea39e50f1da1f11b717e0580e7e0611",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical blue patterned PVC conveyor swatch from the owner stone conveyor catalog set.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-H-077/01-main.webp": {
+    "sha256": "9d703fd7712d53856a068f8ed9e70865336611f21a2158e2097c7d8f390a838e",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Optibelt ZR 240 H marking and physical trapezoidal H loop on the tagged sample.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-H-077/02-angle.webp": {
+    "sha256": "79290d0da8ec89c538832eb23c29c1a06d5a35bc413cdce3d717228b23f6e836",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Optibelt ZR 660 H physical coiled belt, showing the toothed interior and labeled length on the matching supplier page.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-H-077/03-detail.webp": {
+    "sha256": "457bfe29ac5350e1f3a37025a484a719778bb7c9800fe2c3280fcb844ae8585f",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Distinct 800 H coiled physical belt in the Optibelt ZR supplier listing.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-OPTIBELT-H-077/04-closeup.webp": {
+    "sha256": "e3589833224bf4709d1e2ecbeab061282bc64c84da1b58fe8a82cc4e86d455b1",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical wide Optibelt ZR 1000 H marked coil, supplier listing specifies 75 mm.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-8M-360/01-main.webp": {
+    "sha256": "ee725438cf5df20ee9a29ea2516b6e1dc226a63cd18a83b011fa97d794495fb4",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical coiled Megadyne Isoran 880 RPP8 with tooth geometry visible in the first supplier view.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-8M-360/02-angle.webp": {
+    "sha256": "5af6883658ec6b6d228378d72070ae816dac34fcef2079184df0fbee5626fed8",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Distinct supplier camera angle of the marked 880 RPP8 coil showing the toothed interior.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-8M-360/03-detail.webp": {
+    "sha256": "be5390d2ffcce6dc825d58626ee6903a4134595e386094abc96094b2eadfb6cd",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical Megadyne 1440 RPP8 coil with paper tag and visible rubber teeth.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-8M-360/04-closeup.webp": {
+    "sha256": "7a87438a04366d7fbf0cb43ee464128525e392ba06853bd56550fa5b1a0480fb",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Distinct rear angle showing Megadyne Isoran RPP8 marking and the outside of the coil.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-BANDO-H-554/02-angle.webp": {
+    "sha256": "ba628cee8fc6f1a1410e2dfc58186a65df7f95b0dcae43aecc33500e9cce8524",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical coiled Bando timing belt from exact-brand 1000 H supplier listing.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-BANDO-H-554/03-detail.webp": {
+    "sha256": "76aad0323c26ab6b8c4ac24e8e36c0970e55ad1af1cef3a8807b2184cef83831",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical 700 H Bando belt shown with wide body and visible teeth.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-BANDO-H-554/04-closeup.webp": {
+    "sha256": "91efbbf4e880078aa733306e81f434cbe3d37f7d6cafc17c348807e7f4676bef",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical 420 H Bando belt in a separate coil with trapezoidal teeth.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%A8%D8%A7%D8%B1-OPTIBELT-SPA-174/01-main.webp": {
+    "sha256": "60aecfe8dfaed7f0570cd96ed3d8177012d98d3d3dd8392807bc5f203ceb9061",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical Optibelt SK SPA 2582 Lw loop laid flat in the product photograph.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%A8%D8%A7%D8%B1-OPTIBELT-SPA-174/02-angle.webp": {
+    "sha256": "8dd63998d798614c31c6113e3b2d425558c11828b571d04079da0bfebcc681cd",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Separate close view of the SPA 2582 Lw marks and fabric-wrapped belt.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%DA%A9%D9%84%D8%A7-MEGADYNE-C-068/01-main.webp": {
+    "sha256": "f9318895815959b69d858bf08fe5c80219752a2c4cd9dffe08c02d4d86913ae3",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical Megadyne Oleostatic Gold C wrapped V-belt, with C designation in the marking.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D9%85-MEGADYNE-T5-134/02-angle.webp": {
+    "sha256": "8e0722ccad66d016e5658059c4033a00251efa0cf6cfc98884b33c4672a557b8",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical Megadyne T5 340 polyurethane endless loop from product listing; retains one view of the three similar legacy images.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-MEGADYNE-H-106/03-detail.webp": {
+    "sha256": "22dde1a42e54dc88382a7a3c359112aa710a203f81df2fcf4ef11cabc2c3755b",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical Megadyne Isoran 420 H timing belt in the distributor product listing.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-%D8%AA%D8%A7%DB%8C%D9%85%DB%8C%D9%86%DA%AF-%D8%B0-MEGADYNE-H-106/04-closeup.webp": {
+    "sha256": "bce606ffa37a1284260349a489760d0894f2c6200a074987c7a87b8e5fbe6529",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Separate camera angle of the Megadyne Isoran 420 H coiled belt showing its back and teeth.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%DA%A9%D9%84%D8%A7-DONGIL-B-004/01-main.webp": {
+    "sha256": "c0cb82608c5e95f225702e00ce1b43ad487f6fe1189496bea552e5b6f239fa0e",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical wrapped black V-belt in original DRB Super Star packaging expressly marked B20.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%DA%A9%D9%84%D8%A7-DONGIL-A-016/01-main.webp": {
+    "sha256": "6e9a0d72614dcb6efb9a71b1444e669b6e072dbbe89418e4d120666c4f26347a",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Endless wrapped A-profile belt photographed on the Dongil A-section distributor listing; narrow classical V section without cogs.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%AF%D9%86%D8%AF-DONGIL-AX-066/01-main.webp": {
+    "sha256": "09bed9432eb014f5ba995edc93a41e29a3139df58958c057ec0ef338d80fdcbd",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical DRB Super Star REC AX-48 belts with visible cogs and branded AX marking, from Dongil distributor Kimia Rad.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%AF%D9%86%D8%AF-DONGIL-AX-066/02-angle.webp": {
+    "sha256": "ce86a52e711aa962f25c7105ebf0a4f21c4db81e3f1df7e0176c69574b23c5db",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Independent photograph of a physical Dongil Super Star REC AX-25 coil with labeled size and exposed cog teeth.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%DA%A9%D9%84%D8%A7-SWR-A-011/01-main.webp": {
+    "sha256": "a3e560cd9b42d57dfacbed0ca7cca6c1633031ef86edeae181d6211c073657e2",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Photograph of a classical A-section wrapped V-belt coil with visible SWR blue label, sourced from the distributor’s SWR A-section product page.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%A8%D8%A7%D8%B1-SWR-SPB-022/01-main.webp": {
+    "sha256": "7e7c47e2b879c109292e7261b0ff0dcb438987e3f7c148b692ae9ffbcde2dd91",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical wrapped wedge belt with SWR blue branding from the distributor listing identifying the SPB section; exact length is not legible on this file.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/skus/714/01-real-marking.webp": {
+    "sha256": "b32784b3b27568dc678c960e08ac218c6e834db17ba62b178a7b8d80a90d15e3",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Manufacturer-supplied photograph. Physical wrapped belts visibly marked DONGIL SUPER STAR B-50, matching snapshot SKU 714 and classical B designation.",
+    "visualVerification": "verified",
+    "manufacturerModel": "Dongil Super Star B-50"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%A8%D8%A7%D8%B1-SWR-XPA-061/01-main.webp": {
+    "sha256": "342c45ec8aa7b0cf8994038774b11576fcd5cf9cac78f90150a28b05dd0ebf39",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Visible SWR branding, XPA marking and molded raw-edge cogs on a physical belt. Listing supplies XPA profile.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%D8%A8%D8%A7%D8%B1-SWR-XPB-028/01-main.webp": {
+    "sha256": "6e353c9ba73118b103c23714adf8b1e8416cc4b08d10e2cfe6088a83ec6e4c20",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "SWR marking and molded cogs are visible on the physical narrow wedge belt in the XPB listing. Length is not legible and this is a family photograph.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/families/PFAM-%D8%AA%D8%B3%D9%85%D9%87-V-%D8%B4%DA%A9%D9%84-%DA%A9%D9%84%D8%A7-DONGIL-C-009/01-main.webp": {
+    "sha256": "f1298a5eb84ae6f29b2e7e7edeb32dab984cd52621d4a69e6d9d54e9cdc40817",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Visible Dongil Super Star marking and repeated C section symbols on a physical fabric-wrapped classical V-belt.",
+    "visualVerification": "verified"
+  },
+  "/belt-catalog/skus/1075/01-real-marking.webp": {
+    "sha256": "fbe506eccd14262ed8a4e5846e80c9c579f0455f1ac368f972cdb7515b220469",
+    "reviewDate": "2026-11-19",
+    "identityEvidence": "Physical belts show the DONGIL SUPER STAR REC BX-85 marking and raw-edge cog cross section, matching SKU 1075 and the BX85 listing.",
+    "visualVerification": "verified",
+    "manufacturerModel": "Dongil Super Star REC BX-85"
+  }
+}

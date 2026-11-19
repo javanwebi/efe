@@ -18,11 +18,11 @@
 | Records flagged for reconciliation or technical review | 441 |
 | Prior SKU rows with pitch × tooth count consistent with recorded pitch length (within 0.5 mm) | 1853 |
 | Prior SKU rows with a pitch-length conflict or non-integer tooth count | 7 |
-| Published exact SKU photos | 0 |
-| Runtime SKUs without publishable photos | 8094 |
-| Published family photos | 0 |
-| Families with four published photos | 0 |
-| Candidates pending image-use rights | 96 |
+| Published exact SKU photos | 12 |
+| Runtime SKUs without publishable photos | 8082 |
+| Published family photos | 37 |
+| Families with four published photos | 2 |
+| Candidates pending visual review | 58 |
 | Candidates pending SKU or family identity review | 0 |
 | Historical photo paths missing locally | 0 |
 | Candidate assignments rejected for identical bytes | 0 |
@@ -40,4 +40,4 @@ These are prior audit labels. Runtime family assignments and SKU membership are
 preserved. Per-SKU manufacturer research and dimensional validation remain open.
 The pitch-length check uses prior audit fields and tests internal arithmetic consistency.
 Visually similar photos require follow-up even when SHA-256 hashes differ.
-A prior marking note does not establish rights or the manufacturer-to-internal-SKU mapping.
+A prior marking note does not establish the manufacturer-to-internal-SKU mapping.

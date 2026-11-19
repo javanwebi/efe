@@ -643,7 +643,6 @@ sku,family
 10747,PFAM-تسمه-تایمینگ-م-HC-8M-550
 10748,PFAM-تسمه-تایمینگ-م-HC-8M-550
 10749,PFAM-تسمه-V-شکل-کلا-HC-B-593
-1075,PFAM-تسمه-V-شکل-دند-DONGIL-BX-054
 10750,PFAM-تسمه-V-شکل-کلا-HC-B-593
 1076,PFAM-تسمه-V-شکل-دند-DONGIL-BX-054
 1077,PFAM-تسمه-V-شکل-دند-خارجی-BX-031
@@ -3113,7 +3112,6 @@ sku,family
 321,PFAM-تسمه-V-شکل-کلا-DONGIL-A-016
 32111,DIRECT-32111
 32120,PFAM-تسمه-تایمینگ-م-GENERIC-8M-248
-32121,PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113
 32122,PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148
 32124,PFAM-تسمه-تایمینگ-ذ-MARSHAL-H-015
 32132,PFAM-تسمه-تایمینگ-م-POWER-14M-357
@@ -3276,12 +3274,10 @@ sku,family
 330,PFAM-تسمه-V-شکل-کلا-DONGIL-A-016
 33008,DIRECT-33008
 33009,PFAM-بلبرینگ-شیارعم-KG-6300-SERIES-669
-33016,PFAM-تسمه-تایمینگ-م-MEGADYNE-8M-360
 33032,PFAM-تسمه-تایمینگ-ذ-MEGAFLEX-H-029
 33033,PFAM-تسمه-تایمینگ-ذ-BERAVO-H-059
 33036,PFAM-بلبرینگ-شیارعم-GENERIC-6200-SERIES-295
 33039,DIRECT-33039
-33042,PFAM-تسمه-تایمینگ-م-MEGADYNE-8M-360
 33045,PFAM-ضربه-گیر-صنعتی-GENERIC-BUMPER-STACK-649
 33046,PFAM-تسمه-V-شکل-کلا-GENERIC-C-167
 33049,PFAM-تسمه-V-شکل-کلا-OPTIBELT-Z-258
@@ -3492,7 +3488,6 @@ sku,family
 34021,PFAM-تسمه-تایمینگ-م-UNSPECIF-AT20-244
 34022,PFAM-تسمه-تایمینگ-ذ-POWER-H-032
 34028,PFAM-تسمه-تایمینگ-پ-GENERIC-H-079
-34029,PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113
 34032,PFAM-بلبرینگ-شیارعم-GENERIC-DEEP-GROOVE-169
 34033,PFAM-تسمه-تایمینگ-پ-GENERIC-H-012
 34041,PFAM-نوار-نقاله-PVC-GENERIC-PVC-SURFACE-087
@@ -3854,7 +3849,6 @@ sku,family
 35260,PFAM-تسمه-V-شکل-بار-SWR-XPZ-105
 35263,PFAM-تسمه-V-شکل-کلا-GENERIC-C-111
 35268,PFAM-تسمه-تایمینگ-م-GENERIC-11M-545
-35271,PFAM-تسمه-تایمینگ-م-OPTIBELT-8M-234
 35278,PFAM-تسمه-V-شکل-بار-SWR-XPZ-105
 35279,PFAM-تسمه-V-شکل-بار-SWR-XPZ-105
 35280,PFAM-تسمه-تایمینگ-ذ-MEGAFLEX-H-064
@@ -4981,7 +4975,6 @@ sku,family
 38079,DIRECT-38079
 38080,PFAM-تسمه-چندشیاری-OPTIBELT-PK-261
 38081,PFAM-تسمه-چندشیاری-خارجی-PJ-636
-38082,PFAM-تسمه-چندشیاری-DONGIL-PK-195
 38083,PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113
 38084,PFAM-تسمه-چندشیاری-OPTIBELT-PL-638
 38085,PFAM-تسمه-V-شکل-کلا-DONGIL-C-009
@@ -5534,7 +5527,6 @@ sku,family
 39127,PFAM-تسمه-V-شکل-کلا-GNR-B-010
 39128,PFAM-تسمه-V-شکل-کلا-GNR-B-010
 39129,PFAM-تسمه-V-شکل-کلا-GNR-B-010
-39130,PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148
 39133,PFAM-تسمه-V-شکل-کلا-GNR-C-026
 39134,DIRECT-39134
 39136,PFAM-تسمه-تایمینگ-م-POWER-8M-361
@@ -7202,7 +7194,6 @@ sku,family
 52,PFAM-تسمه-V-شکل-کلا-DONGIL-Z-062
 52006,PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148
 52009,PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148
-52050,PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148
 52191,PFAM-تسمه-تایمینگ-م-UNSPECIF-AT20-244
 52192,DIRECT-52192
 52193,PFAM-تسمه-تایمینگ-م-UNSPECIF-AT20-244
@@ -7466,11 +7457,9 @@ sku,family
 53276,PFAM-تسمه-تایمینگ-ذ-MEGAFLEX-H-029
 53280,PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077
 53281,PFAM-تسمه-تایمینگ-ذ-GENERIC-H-025
-53283,PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077
 53295,PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077
 53297,PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077
 53300,PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077
-53301,PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077
 53302,PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077
 53306,PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077
 53361,PFAM-تسمه-تایمینگ-ذ-MEGAFLEX-H-029
@@ -7835,7 +7824,6 @@ sku,family
 711,PFAM-تسمه-V-شکل-کلا-DONGIL-B-004
 712,PFAM-تسمه-V-شکل-کلا-DONGIL-B-004
 713,PFAM-تسمه-V-شکل-کلا-DONGIL-B-004
-714,PFAM-تسمه-V-شکل-کلا-DONGIL-B-004
 715,PFAM-تسمه-V-شکل-کلا-DONGIL-B-004
 716,PFAM-تسمه-V-شکل-کلا-DONGIL-B-004
 717,PFAM-تسمه-V-شکل-کلا-DONGIL-B-004

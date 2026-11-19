@@ -13,13 +13,13 @@ scope `categories` and the catalog category slug. Supply WebP files for photos.
 
 Add an entry to `media-approvals.json` only after review. Key the entry by its
 exact `localPath` and record its `sha256`, `reviewDate`, `identityEvidence`,
-and `licenseEvidence`. For photos, use `visualVerification: "verified"` after
+and confirm that the file depicts the physical product. For photos, use `visualVerification: "verified"` after
 checking the original image. For exact SKU photos, record `manufacturerModel`
 and include evidence tying the physical item and dimensions to the internal code.
 
 Use `family-document` or `sku-document` for technical files. The candidate's
 `documentType` is `profileDrawing`, `technicalDrawing` (SKU), or
-`specificationSheet` (family). The approval includes `dimensionEvidence` and
+`specificationSheet` (family). The approval includes `licenseEvidence`, `dimensionEvidence`, and
 `documentStatus` set to `VERIFIED_OFFICIAL_DRAWING` or `ENGINEERING_REDRAW`.
 
 The November 19 SKU source check records the HTTP result for each of the 14

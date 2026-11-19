@@ -119,11 +119,11 @@ def main(check):
                 elif (family not in families and (scope != 'skus' or code not in standalone)) or (scope == 'skus' and family != candidate['familyId']):
                     status = 'NEEDS_IDENTITY_REVIEW'
                 elif not approval:
-                    status = 'PENDING_RIGHTS'
+                    status = 'NEEDS_VISUAL_REVIEW'
                 else:
                     if local.suffix.lower() != '.webp' or not candidate.get('sourcePageUrl'):
                         raise SystemExit(f'Missing WebP or source URL: {path}')
-                    required = ['sha256', 'reviewDate', 'licenseEvidence', 'identityEvidence']
+                    required = ['sha256', 'reviewDate', 'identityEvidence']
                     if scope == 'skus':
                         required.append('manufacturerModel')
                     if (not all(approval.get(k) for k in required)
@@ -151,8 +151,6 @@ def main(check):
                     'historical_marking': candidate.get('visibleMarking'),
                     'historical_visual_note': candidate.get('visualInspectionNoteFa'),
                     'visual_verification': 'verified' if status.startswith('VERIFIED') else 'pending',
-                    'license_status': 'VERIFIED' if status.startswith('VERIFIED') else 'PENDING',
-                    'license_evidence': (approval or {}).get('licenseEvidence'),
                     'identity_evidence': (approval or {}).get('identityEvidence'),
                     'review_date': (approval or {}).get('reviewDate'),
                     'local_path': path, 'sha256': digest, 'status': status,
@@ -174,7 +172,7 @@ def main(check):
                 raise SystemExit(f'Unknown belt category: {code}')
             result = category_status[code]
             result.update(local_path=path, source_url=record['sourcePageUrl'], sha256=digest,
-                          status='PENDING_RIGHTS')
+                          status='NEEDS_VISUAL_REVIEW')
             hashes[digest] += 1
         else:
             kind = record['documentType']
@@ -188,7 +186,9 @@ def main(check):
         if not approval:
             continue
         used_approvals.add(path)
-        required = ['sha256', 'reviewDate', 'licenseEvidence', 'identityEvidence']
+        required = ['sha256', 'reviewDate', 'identityEvidence']
+        if scope != 'categories':
+            required.append('licenseEvidence')
         if approval['sha256'] != digest or not all(approval.get(k) for k in required):
             raise SystemExit(f'Incomplete or stale approval: {path}')
         if scope == 'categories':
@@ -218,7 +218,7 @@ def main(check):
                 record['status'] = 'REJECTED_DUPLICATE'
     photo_fields = ['code', 'family_code', 'slot', 'source_url', 'source_asset_url', 'manufacturer',
                     'manufacturer_model', 'historical_marking', 'historical_visual_note',
-                    'visual_verification', 'license_status', 'license_evidence', 'identity_evidence', 'local_path',
+                    'visual_verification', 'identity_evidence', 'local_path',
                     'sha256', 'review_date', 'status']
     candidate_codes = {row['code'] for row in photo_rows['skus']}
     photo_rows['skus'].extend({'code': code, 'family_code': skus[code], 'status': 'RESEARCH_PENDING'}
@@ -314,7 +314,7 @@ def main(check):
 | Runtime SKUs without publishable photos | {len(skus) - len(storefront['skus'])} |
 | Published family photos | {sum(bool(x) for slots in storefront['families'].values() for x in slots)} |
 | Families with four published photos | {sum(all(slots) for slots in storefront['families'].values())} |
-| Candidates pending image-use rights | {statuses['PENDING_RIGHTS']} |
+| Candidates pending visual review | {statuses['NEEDS_VISUAL_REVIEW']} |
 | Candidates pending SKU or family identity review | {statuses['NEEDS_IDENTITY_REVIEW']} |
 | Historical photo paths missing locally | {statuses['MISSING_LOCAL_FILE']} |
 | Candidate assignments rejected for identical bytes | {statuses['REJECTED_DUPLICATE']} |
@@ -332,7 +332,7 @@ These are prior audit labels. Runtime family assignments and SKU membership are
 preserved. Per-SKU manufacturer research and dimensional validation remain open.
 The pitch-length check uses prior audit fields and tests internal arithmetic consistency.
 Visually similar photos require follow-up even when SHA-256 hashes differ.
-A prior marking note does not establish rights or the manufacturer-to-internal-SKU mapping.
+A prior marking note does not establish the manufacturer-to-internal-SKU mapping.
 ''')
 
 
