@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Package } from 'lucide-react';
 import { STORE_ASSETS } from '../../assets/images';
 
@@ -7,44 +7,44 @@ interface ProductImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   fallbackSrc?: string;
   disableFallback?: boolean;
   alt: string;
+  missingLabel?: string;
 }
 
-export const ProductImage: React.FC<ProductImageProps> = ({
+export const ProductImage: React.FC<ProductImageProps> = (props) => (
+  <ProductImageView key={JSON.stringify([props.src, props.fallbackSrc, props.disableFallback])} {...props} />
+);
+
+const ProductImageView: React.FC<ProductImageProps> = ({
   src,
   fallbackSrc = STORE_ASSETS.categories.belts,
   disableFallback = false,
   alt,
+  missingLabel,
   className = '',
   onError,
   ...rest
 }) => {
-  const initialSrc = (src && String(src).trim()) || (disableFallback ? '' : fallbackSrc);
-  const [currentSrc, setCurrentSrc] = useState(initialSrc);
-  const [failed, setFailed] = useState(!initialSrc);
-
-  useEffect(() => {
-    const next = (src && String(src).trim()) || (disableFallback ? '' : fallbackSrc);
-    setCurrentSrc(next);
-    setFailed(!next);
-  }, [src, fallbackSrc, disableFallback]);
+  const fallback = disableFallback ? '' : fallbackSrc;
+  const [currentSrc, setCurrentSrc] = useState(src?.trim() || fallback);
 
   const handleError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    if (!disableFallback && fallbackSrc && currentSrc !== fallbackSrc) {
-      setCurrentSrc(fallbackSrc);
+    if (fallback && currentSrc !== fallback) {
+      setCurrentSrc(fallback);
       return;
     }
-    setFailed(true);
+    setCurrentSrc('');
     onError?.(event);
   };
 
-  if (failed || !currentSrc) {
+  if (!currentSrc) {
     return (
       <div
         className={`flex flex-col items-center justify-center bg-slate-50 text-slate-400 ${className}`}
         role="img"
-        aria-label={alt || 'تصویر محصول'}
+        aria-label={missingLabel || alt || 'تصویر محصول'}
       >
-        <Package className="w-8 h-8 opacity-45" />
+        <Package className="w-8 h-8 opacity-45" aria-hidden="true" />
+        {missingLabel && <span className="mt-2 px-3 text-center text-xs font-semibold text-slate-600">{missingLabel}</span>}
       </div>
     );
   }

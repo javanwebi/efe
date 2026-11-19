@@ -7,7 +7,7 @@ import { ProductImage } from './ProductImage';
 import { formatPrice, toPersianDigits } from '../../utils/formatters';
 import { resolveDisplayBrand } from '../../utils/catalogBrands';
 import { resolveSiteProductImage } from '../../utils/siteProductImages';
-import { getBeltFamilyMedia } from '../../utils/beltCatalogMedia';
+import { getBeltFamilyMedia, isBeltMediaCategory } from '../../utils/beltCatalogMedia';
 
 interface ProductCardProps {
   product: Product;
@@ -21,8 +21,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     product.images?.[0] || product.image,
     { variants: product.variants, legacyFamilyCodes: product.legacyFamilyCodes },
   );
+  const usesBeltMedia = Boolean(beltMedia) || isBeltMediaCategory(product.categorySlug || '');
   const imageSrc =
-    beltMedia?.primaryThumbnail ||
+    usesBeltMedia ? beltMedia?.primaryThumbnail :
     product.images?.[0] ||
     product.image ||
     resolveSiteProductImage(product, `${product.subcategory} ${product.categoryName}`);
@@ -46,6 +47,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       >
         <ProductImage
           src={imageSrc}
+          disableFallback={usesBeltMedia}
           alt={product.name}
           loading="lazy"
           className="max-h-36 w-full object-contain transition-transform duration-300 group-hover:scale-105"

@@ -1,3 +1,4 @@
+import verifiedMedia from '../generated/verifiedBeltMedia.json';
 import beltManifestRaw from '../generated/beltCatalogManifest';
 import type { Product, ProductGalleryImage } from '../types';
 
@@ -36,8 +37,29 @@ export interface BeltCatalogManifest {
 const manifest = beltManifestRaw as unknown as BeltCatalogManifest;
 const EXCLUDED_FAMILY_SET = new Set<string>(manifest.excludedFamilyIds || []);
 const EXCLUDED_MIXED_SKU_SET = new Set<string>(manifest.excludedMixedSkuIds || []);
-const PENDING_REVIEW_SKU_SET = new Set<string>(manifest.pendingReviewSkuIds || []);
-const EXACT_REAL_SKU_SET = new Set<string>(manifest.exactRealSkuIds || []);
+const familyPhotosByCode: Record<string, BeltFamilyMedia['familyPhotos']> = verifiedMedia.families;
+const skuPhotosByCode: Record<string, string> = verifiedMedia.skus;
+
+type DrawingStatus = 'VERIFIED_OFFICIAL_DRAWING' | 'ENGINEERING_REDRAW';
+type DocumentEntry = { path: string; status: DrawingStatus };
+const documentsByCode: Record<string, Partial<Record<'technicalDrawing' | 'profileDrawing' | 'specificationSheet', DocumentEntry>>> =
+  verifiedMedia.documents;
+const categoryPhotos: Record<string, string> = verifiedMedia.categories;
+const beltCategorySlugs = new Set(['excel-v2-1-1', 'excel-v2-1-2', 'excel-v2-1-3', 'excel-v2-1-4', 'excel-v2-1-5', 'excel-v2-2-1']);
+
+export function isBeltMediaCategory(slug: string): boolean {
+  return beltCategorySlugs.has(slug);
+}
+
+export function getBeltCategoryPhoto(slug: string): string | null {
+  return publicAsset(categoryPhotos[slug]);
+}
+
+export const missingBeltSkuPhotoLabel = 'تصویر واقعی اختصاصی این کد کالا هنوز تأیید نشده است.';
+
+function publicAsset(path?: string | null): string | null {
+  return path ? (import.meta.env?.BASE_URL || '/') + path.slice(1) : null;
+}
 
 export interface BeltFamilyMedia {
   familyCode: string;
@@ -45,8 +67,8 @@ export interface BeltFamilyMedia {
   dominantDivision: string;
   existingDbImage: string | null;
   hasVerifiedRealPhoto: boolean;
-  cardPreviewSvg: string;
-  primaryThumbnail: string;
+  cardPreviewSvg: string | null;
+  primaryThumbnail: string | null;
   familyPhotos: [string | null, string | null, string | null, string | null];
   specSheetWebp: string | null;
   specSheetSvg: string | null;
@@ -59,25 +81,10 @@ export interface BeltSkuMedia {
   technicalDrawingSvg: string | null;
   profileDrawingWebp: string | null;
   profileDrawingSvg: string | null;
-  technicalDrawingStatus: 'VERIFIED_ENGINEERING_REDRAW' | 'NEEDS_TECHNICAL_DATA';
+  technicalDrawingStatus: DrawingStatus | 'NEEDS_TECHNICAL_DATA';
   realProductImage: string | null;
-  realImageStatus: 'EXACT_SKU_IMAGE_FOUND' | 'REAL_IMAGE_NOT_FOUND';
+  realImageStatus: 'VERIFIED_REAL_SKU_PHOTO' | 'REAL_IMAGE_NOT_FOUND';
   realImageStatusLabelFa: string;
-}
-
-function normalizeOfficialDbImage(candidate?: string | null): string | null {
-  const clean = String(candidate || '').trim();
-  if (
-    /^\/belt-catalog\/owner-conveyor\/e\([1-9]\d{0,3}\)\.(png|webp|jpg)$/i.test(clean) ||
-    /^\/storage\/products\/(catalog\/e\([1-9]\d{0,3}\)\.png|thumbs\/e\([1-9]\d{0,3}\)\.webp)$/i.test(clean)
-  ) {
-    return clean;
-  }
-  return null;
-}
-
-export function getBeltManifestTotals() {
-  return manifest.totals;
 }
 
 export interface BeltFamilyHints {
@@ -152,30 +159,24 @@ export function getBeltFamilyMedia(
   const manifestFamilyCode = resolveBeltManifestFamilyCode(familyCode, hints);
   if (!manifestFamilyCode) return null;
   const entry = manifest.families[manifestFamilyCode];
-  // Only accept entry.db if it passed strict visual verification in the manifest
-  const dbImg = normalizeOfficialDbImage(entry.db);
-  const base = `/src/assets/catalog/belts/families/${encodeURIComponent(manifestFamilyCode)}`;
-  const photo1 = entry.p[0] ? `${base}/family-image-01.webp` : null;
-  const photo2 = entry.p[1] ? `${base}/family-image-02.webp` : null;
-  const photo3 = entry.p[2] ? `${base}/family-image-03.webp` : null;
-  const photo4 = entry.p[3] ? `${base}/family-image-04.webp` : null;
-  const hasVerifiedRealPhoto = Boolean(dbImg || photo1 || photo2 || photo3 || photo4);
-  const cardPreviewSvg = `${base}/card-preview.svg`;
-  const hasSpecSheet = entry.d !== 'service-ambiguous';
-  const specSheetWebp = hasSpecSheet ? `${base}/family-specifications.webp` : null;
-  const specSheetSvg = hasSpecSheet ? `${base}/family-specifications.svg` : null;
+  const [first, second, third, fourth] = familyPhotosByCode[manifestFamilyCode] || [];
+  const familyPhotos: BeltFamilyMedia['familyPhotos'] = [
+    publicAsset(first), publicAsset(second), publicAsset(third), publicAsset(fourth),
+  ];
+  const primaryThumbnail = familyPhotos.find(Boolean) || null;
+  const documents = documentsByCode[manifestFamilyCode];
 
   return {
     familyCode: manifestFamilyCode,
     menuCategorySlug: entry.s,
     dominantDivision: entry.d,
-    existingDbImage: dbImg,
-    hasVerifiedRealPhoto,
-    cardPreviewSvg,
-    primaryThumbnail: dbImg || photo1 || photo2 || photo3 || photo4 || cardPreviewSvg || '',
-    familyPhotos: [photo1, photo2, photo3, photo4],
-    specSheetWebp,
-    specSheetSvg,
+    existingDbImage: null,
+    hasVerifiedRealPhoto: Boolean(primaryThumbnail),
+    cardPreviewSvg: publicAsset(documents?.profileDrawing?.path),
+    primaryThumbnail,
+    familyPhotos,
+    specSheetWebp: null,
+    specSheetSvg: publicAsset(documents?.specificationSheet?.path),
   };
 }
 
@@ -189,124 +190,49 @@ export function getBeltSkuMedia(
   const mappedFamily = manifest.skus[cleanSku];
   if (!mappedFamily) return null;
   const cleanFamily = String(familyCode || '').trim();
-  if (cleanFamily && cleanFamily !== mappedFamily) {
-    const resolvedFamily = resolveBeltManifestFamilyCode(cleanFamily, hints);
-    const belongsToVariants = Boolean(
-      hints?.variants?.some((v) => String(v?.code || '').trim() === cleanSku),
-    );
-    if (resolvedFamily !== mappedFamily && !(cleanFamily.startsWith('PFAM-') && belongsToVariants)) {
-      return null;
-    }
-  }
-  const base = `/src/assets/catalog/belts/skus/${encodeURIComponent(cleanSku)}`;
-  const hasExactReal = EXACT_REAL_SKU_SET.has(cleanSku);
-  const isPendingReview = PENDING_REVIEW_SKU_SET.has(cleanSku);
+  if (cleanFamily && cleanFamily !== mappedFamily
+      && resolveBeltManifestFamilyCode(cleanFamily, hints) !== mappedFamily) return null;
 
+  const realProductImage = publicAsset(skuPhotosByCode[cleanSku]);
+  const documents = documentsByCode[cleanSku];
   return {
     skuCode: cleanSku,
     familyCode: mappedFamily,
-    technicalDrawingWebp: isPendingReview ? null : `${base}/technical-drawing.webp`,
-    technicalDrawingSvg: isPendingReview ? null : `${base}/technical-drawing.svg`,
-    profileDrawingWebp: isPendingReview ? null : `${base}/profile-drawing.webp`,
-    profileDrawingSvg: isPendingReview ? null : `${base}/profile-drawing.svg`,
-    technicalDrawingStatus: isPendingReview ? 'NEEDS_TECHNICAL_DATA' : 'VERIFIED_ENGINEERING_REDRAW',
-    realProductImage: hasExactReal ? `${base}/real-product-image.webp` : null,
-    realImageStatus: hasExactReal ? 'EXACT_SKU_IMAGE_FOUND' : 'REAL_IMAGE_NOT_FOUND',
-    realImageStatusLabelFa: hasExactReal
-      ? 'تصویر واقعی کالای فیزیکی تأییدشده (VERIFIED_REAL_PRODUCT_IMAGE)'
-      : 'تصویر واقعی اختصاصی یافت نشد (NOT_FOUND — طبق قانون ۵ بدون جایگزینی تصویر تکراری)',
+    technicalDrawingWebp: null,
+    technicalDrawingSvg: publicAsset(documents?.technicalDrawing?.path),
+    profileDrawingWebp: null,
+    profileDrawingSvg: publicAsset(documents?.profileDrawing?.path),
+    technicalDrawingStatus: documents?.technicalDrawing?.status || documents?.profileDrawing?.status || 'NEEDS_TECHNICAL_DATA',
+    realProductImage,
+    realImageStatus: realProductImage ? 'VERIFIED_REAL_SKU_PHOTO' : 'REAL_IMAGE_NOT_FOUND',
+    realImageStatusLabelFa: realProductImage ? 'عکس واقعی این کد کالا' : missingBeltSkuPhotoLabel,
   };
 }
 
 export function buildBeltGalleryImages(
-  product: Pick<Product, 'code' | 'legacyFamilyCodes' | 'name' | 'image' | 'images' | 'variants'>,
+  product: Pick<Product, 'code' | 'legacyFamilyCodes' | 'name' | 'variants'>,
   baseGallery: ProductGalleryImage[],
   activeSkuCode?: string | null,
 ): ProductGalleryImage[] {
-  const hints: BeltFamilyHints = {
-    variants: product.variants,
-    legacyFamilyCodes: product.legacyFamilyCodes,
-  };
-  const familyMedia = getBeltFamilyMedia(
-    product.code,
-    product.images?.find((u) => Boolean(normalizeOfficialDbImage(u))) || product.image,
-    hints,
-  );
-  if (!familyMedia) return baseGallery;
-  const result: ProductGalleryImage[] = [];
-  const seenKeys = new Set<string>();
-  const pushUnique = (img: ProductGalleryImage) => {
-    const key = `${img.scope}:${img.variantCode || ''}:${img.url}`;
-    if (!img.url || seenKeys.has(key)) return;
-    seenKeys.add(key);
-    result.push({ ...img, order: result.length + 1 });
-  };
-  if (familyMedia.existingDbImage) {
-    pushUnique({
-      id: `belt-db-${product.code}`,
-      url: familyMedia.existingDbImage,
-      scope: 'family',
-      title: `تصویر اصلی کاتالوگ خانواده ${product.name}`,
-    });
+  const hints = { variants: product.variants, legacyFamilyCodes: product.legacyFamilyCodes };
+  const family = getBeltFamilyMedia(product.code, null, hints);
+  if (!family) return baseGallery;
+  if (activeSkuCode) {
+    const sku = getBeltSkuMedia(undefined, activeSkuCode);
+    return sku?.realProductImage ? [{
+      id: 'belt-sku-' + sku.skuCode,
+      url: sku.realProductImage,
+      scope: 'variant',
+      variantCode: sku.skuCode,
+      title: 'عکس واقعی کد ' + sku.skuCode,
+      order: 1,
+    }] : [];
   }
-  const photoLabels = [
-    'نمای کلی تسمه (01-main)',
-    'نمای زاویه و دندانه (02-angle)',
-    'مقطع لایه‌ها و ساختار داخلی (03-detail)',
-    'نمای نزدیک و مارکینگ بدنه (04-closeup)',
-  ];
-  familyMedia.familyPhotos.forEach((url, idx) => {
-    if (!url) return;
-    pushUnique({
-      id: `belt-fam-${product.code}-${idx + 1}`,
-      url,
-      scope: 'family',
-      title: `تصویر واقعی اختصاصی خانواده ${product.name} — ${photoLabels[idx]}`,
-    });
-  });
-  if (!familyMedia.hasVerifiedRealPhoto && familyMedia.cardPreviewSvg) {
-    pushUnique({
-      id: `belt-fam-preview-${product.code}`,
-      url: familyMedia.cardPreviewSvg,
-      scope: 'family',
-      title: `شماتیک هندسی مقطع پروفیل خانواده ${product.name}`,
-    });
-  }
-  if (familyMedia.specSheetWebp) {
-    pushUnique({
-      id: `belt-fam-spec-${product.code}`,
-      url: familyMedia.specSheetWebp,
-      scope: 'family',
-      title: `جدول مشخصات و استاندارد ابعاد خانواده ${product.name} (specifications)`,
-    });
-  }
-  for (const variant of product.variants || []) {
-    if (!variant?.code || isExcludedBeltSku(variant.code)) continue;
-    const skuMedia = getBeltSkuMedia(product.code, variant.code, hints);
-    if (skuMedia?.realProductImage) {
-      pushUnique({
-        id: `belt-sku-real-${variant.code}`,
-        url: skuMedia.realProductImage,
-        scope: 'variant',
-        variantCode: variant.code,
-        title: `تصویر واقعی کالای فیزیکی کد ${variant.code} (01-real-marking)`,
-      });
-    }
-  }
-  const targetSku = String(
-    activeSkuCode || product.variants?.find((v) => v?.code && !isExcludedBeltSku(v.code))?.code || '',
-  ).trim();
-  if (targetSku && !isExcludedBeltSku(targetSku)) {
-    const activeSkuMedia = getBeltSkuMedia(product.code, targetSku, hints);
-    if (activeSkuMedia?.profileDrawingWebp) {
-      pushUnique({
-        id: `belt-sku-profile-${targetSku}`,
-        url: activeSkuMedia.profileDrawingWebp,
-        scope: 'variant',
-        variantCode: targetSku,
-        title: `نقشه پروفیل و ابعاد مهندسی کد ${targetSku} (02-technical-drawing)`,
-      });
-    }
-  }
-  return result;
+  return family.familyPhotos.flatMap((url, index) => url ? [{
+    id: 'belt-family-' + (index + 1),
+    url,
+    scope: 'family',
+    title: 'عکس خانواده ' + product.name,
+    order: index + 1,
+  }] : []);
 }

@@ -5,7 +5,9 @@ import type { DirectSku } from '../types';
 import { useCatalog } from '../context/CatalogContext';
 import { ProductImage } from '../components/product/ProductImage';
 import { resolveDisplayBrand } from '../utils/catalogBrands';
-import { getBeltSkuMedia } from '../utils/beltCatalogMedia';
+import { getBeltFamilyMedia, getBeltSkuMedia, isBeltMediaCategory, missingBeltSkuPhotoLabel } from '../utils/beltCatalogMedia';
+import { BeltVisualMediaSection, type BeltDocModalPayload } from '../components/product/BeltVisualMediaSection';
+import { Modal } from '../components/ui/Modal';
 
 export const DirectSkuDetailPage: React.FC = () => {
   const { code = '' } = useParams<{ code: string }>();
@@ -13,6 +15,7 @@ export const DirectSkuDetailPage: React.FC = () => {
   const [item, setItem] = useState<DirectSku | null>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'not-found'>('loading');
   const [copied, setCopied] = useState(false);
+  const [mediaPreview, setMediaPreview] = useState<BeltDocModalPayload | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -66,6 +69,8 @@ export const DirectSkuDetailPage: React.FC = () => {
 
   const brandLabel = resolveDisplayBrand(item.brand, item.name);
   const beltSkuMedia = getBeltSkuMedia(undefined, item.skuCode);
+  const usesBeltMedia = Boolean(beltSkuMedia) || isBeltMediaCategory(item.categorySlug);
+  const beltFamilyMedia = getBeltFamilyMedia(beltSkuMedia?.familyCode);
 
   return (
     <div dir="rtl" className="mx-auto max-w-6xl px-4 py-8 space-y-6 text-right">
@@ -86,23 +91,14 @@ export const DirectSkuDetailPage: React.FC = () => {
         <div className="space-y-2.5">
           <div className="rounded-2xl border border-slate-200 bg-[#FAF8F5] p-4 aspect-[4/3] grid place-items-center overflow-hidden">
             <ProductImage
-              src={beltSkuMedia?.realProductImage || beltSkuMedia?.profileDrawingWebp || item.imageUrl}
+              src={usesBeltMedia ? beltSkuMedia?.realProductImage : item.imageUrl}
+              disableFallback={usesBeltMedia}
+              missingLabel={usesBeltMedia ? missingBeltSkuPhotoLabel : undefined}
               alt={item.name}
-              className="max-h-72 w-full object-contain"
+              className="h-full max-h-72 w-full object-contain"
             />
           </div>
-          {beltSkuMedia && (
-            <div className="rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-[11px] flex flex-wrap items-center justify-between gap-2">
-              <span className="font-bold text-slate-700">
-                {beltSkuMedia.realImageStatus === 'EXACT_SKU_IMAGE_FOUND'
-                  ? 'عکس واقعی مارکینگ اختصاصی تاییدشده'
-                  : 'نقشه مهندسی پروفیل و ابعاد اختصاصی (بدون عکس واقعی مارکینگ)'}
-              </span>
-              <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-white border border-slate-200 text-[#E06518]" dir="ltr">
-                {beltSkuMedia.technicalDrawingStatus}
-              </span>
-            </div>
-          )}
+
         </div>
 
         <div className="space-y-4">
@@ -165,6 +161,25 @@ export const DirectSkuDetailPage: React.FC = () => {
           </div>
         </div>
       </section>
+      {beltFamilyMedia?.familyCode.startsWith('PFAM-') && (
+        <Link
+          to={'/product/' + encodeURIComponent(beltFamilyMedia.familyCode)}
+          className="inline-block text-xs font-bold text-[#a94810]"
+        >
+          مشاهده خانواده محصول
+        </Link>
+      )}
+      {usesBeltMedia && (
+        <BeltVisualMediaSection
+          productName={item.name}
+          beltFamilyMedia={beltFamilyMedia}
+          beltSkuMedia={beltSkuMedia}
+          onOpenDocModal={setMediaPreview}
+        />
+      )}
+      <Modal isOpen={Boolean(mediaPreview)} onClose={() => setMediaPreview(null)} title={mediaPreview?.title || ''}>
+        {mediaPreview && <ProductImage src={mediaPreview.webpUrl} disableFallback alt={mediaPreview.title} className="max-h-[70vh] w-full object-contain" />}
+      </Modal>
     </div>
   );
 };
