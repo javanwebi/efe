@@ -4,6 +4,7 @@ import csv
 import hashlib
 import json
 from collections import Counter
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -24,6 +25,19 @@ def local_file(url):
     path = (ROOT / 'public' / unquote(url[1:])).resolve()
     return path if path.is_relative_to(public) and path.is_file() else None
 
+
+
+def pitch_length_check(record):
+    try:
+        pitch, length, teeth = (Decimal(record.get(field, '')) for field in
+                                ('pitch_mm', 'pitch_length_mm', 'tooth_count'))
+        if not all(value.is_finite() and value > 0 for value in (pitch, length, teeth)):
+            return 'INSUFFICIENT_DATA'
+    except InvalidOperation:
+        return 'INSUFFICIENT_DATA'
+    if teeth != teeth.to_integral_value() or abs(length - pitch * teeth) > Decimal('0.5'):
+        return 'DIMENSION_CONFLICT'
+    return 'ARITHMETIC_CONSISTENT'
 
 def main(check):
     def emit(path, content):
@@ -52,9 +66,10 @@ def main(check):
         or 'FAM-52858' in (p.get('legacyFamilyCodes') or [])
     ]
     actual_family_codes = {p['code'] for p in snapshot['products']}
-    actual_sku_codes = {v['code'] for p in snapshot['products'] for v in p.get('variants', [])}
+    snapshot_rows = {v['code']: (p, v) for p in snapshot['products'] for v in p.get('variants', [])}
     direct_codes = {d['skuCode'] for d in snapshot['directSkus']}
-    actual_sku_codes.update(direct_codes)
+    snapshot_rows.update({d['skuCode']: (d, d) for d in snapshot['directSkus']})
+    actual_sku_codes = snapshot_rows.keys()
     standalone = {code for code in direct_codes if skus.get(code) == 'DIRECT-' + code}
     dangling = {code for code, family in skus.items() if family not in families and code not in standalone}
     audit_rows = rows('complete_sku_audit.csv')
@@ -65,28 +80,30 @@ def main(check):
     differences = [code for code in common if audit[code]['proposed_runtime_pfam_id'] != skus[code]]
     pending = dangling | (skus.keys() - actual_sku_codes) | set(runtime_only) | set(differences) | set(manifest['pendingReviewSkuIds'])
     pending.update(r['sku_id'] for r in audit_rows if r['directive_audit_status'] == 'PENDING_REVIEW')
+    dimension_checks = {code: pitch_length_check(r) for code, r in audit.items()}
+    pending.update(code for code, status in dimension_checks.items() if status == 'DIMENSION_CONFLICT')
 
     historical = json.loads((AUDIT / 'image_manifest.json').read_text(encoding='utf-8'))
     approvals = json.loads((AUDIT / 'media-approvals.json').read_text(encoding='utf-8'))
     storefront = {'families': {}, 'skus': {}, 'categories': {}, 'documents': {}}
     belt_category_slugs = {f'excel-v2-1-{i}' for i in range(1, 6)} | {'excel-v2-2-1'}
     reviewed = json.loads((AUDIT / 'media-candidates.json').read_text(encoding='utf-8'))
+    sku_candidate_sets = {code: [candidate] for code, candidate in historical['verifiedSkuPhotos'].items()}
     for record in reviewed:
         scope = record['scope']
         code = record['code']
         if scope == 'families':
             historical['verifiedFamilyPhotos'].setdefault(code, []).append(record)
         elif scope == 'skus':
-            if code in historical['verifiedSkuPhotos']:
-                raise SystemExit(f'Existing SKU candidate: {code}')
-            historical['verifiedSkuPhotos'][code] = record
+            sku_candidate_sets.setdefault(code, []).append(record)
 
     photo_rows = {'families': [], 'skus': [], 'categories': []}
     hashes = Counter()
     used_approvals = set()
-    for scope, key in [('families', 'verifiedFamilyPhotos'), ('skus', 'verifiedSkuPhotos')]:
-        for code, candidates in sorted(historical[key].items()):
-            for candidate in candidates if isinstance(candidates, list) else [candidates]:
+    candidate_sets = {'families': historical['verifiedFamilyPhotos'], 'skus': sku_candidate_sets}
+    for scope, candidate_set in candidate_sets.items():
+        for code, candidates in sorted(candidate_set.items()):
+            for candidate in candidates:
                 path = candidate['localPath']
                 local = local_file(path)
                 digest = hashlib.sha256(local.read_bytes()).hexdigest() if local else ''
@@ -99,11 +116,13 @@ def main(check):
                     used_approvals.add(path)
                 if not local:
                     status = 'MISSING_LOCAL_FILE'
-                elif family not in families or (scope == 'skus' and family != candidate['familyId']):
+                elif (family not in families and (scope != 'skus' or code not in standalone)) or (scope == 'skus' and family != candidate['familyId']):
                     status = 'NEEDS_IDENTITY_REVIEW'
                 elif not approval:
                     status = 'PENDING_RIGHTS'
                 else:
+                    if local.suffix.lower() != '.webp' or not candidate.get('sourcePageUrl'):
+                        raise SystemExit(f'Missing WebP or source URL: {path}')
                     required = ['sha256', 'reviewDate', 'licenseEvidence', 'identityEvidence']
                     if scope == 'skus':
                         required.append('manufacturerModel')
@@ -132,6 +151,7 @@ def main(check):
                     'historical_marking': candidate.get('visibleMarking'),
                     'historical_visual_note': candidate.get('visualInspectionNoteFa'),
                     'visual_verification': 'verified' if status.startswith('VERIFIED') else 'pending',
+                    'license_status': 'VERIFIED' if status.startswith('VERIFIED') else 'PENDING',
                     'license_evidence': (approval or {}).get('licenseEvidence'),
                     'identity_evidence': (approval or {}).get('identityEvidence'),
                     'review_date': (approval or {}).get('reviewDate'),
@@ -172,7 +192,7 @@ def main(check):
         if approval['sha256'] != digest or not all(approval.get(k) for k in required):
             raise SystemExit(f'Incomplete or stale approval: {path}')
         if scope == 'categories':
-            if approval.get('visualVerification') != 'verified':
+            if local.suffix.lower() != '.webp' or approval.get('visualVerification') != 'verified':
                 raise SystemExit(f'Missing visual approval: {path}')
             storefront['categories'][code] = path
             result['status'] = 'VERIFIED_REAL_CATEGORY_PHOTO'
@@ -198,7 +218,7 @@ def main(check):
                 record['status'] = 'REJECTED_DUPLICATE'
     photo_fields = ['code', 'family_code', 'slot', 'source_url', 'source_asset_url', 'manufacturer',
                     'manufacturer_model', 'historical_marking', 'historical_visual_note',
-                    'visual_verification', 'license_evidence', 'identity_evidence', 'local_path',
+                    'visual_verification', 'license_status', 'license_evidence', 'identity_evidence', 'local_path',
                     'sha256', 'review_date', 'status']
     candidate_codes = {row['code'] for row in photo_rows['skus']}
     photo_rows['skus'].extend({'code': code, 'family_code': skus[code], 'status': 'RESEARCH_PENDING'}
@@ -236,6 +256,31 @@ def main(check):
          'requires_review': code in pending}
         for code in sorted(skus.keys() | audit.keys())
     ])
+    engineering_rows = []
+    engineering_fields = ['belt_division', 'profile_code', 'supply_form', 'sidedness', 'pitch_mm',
+                          'top_width_mm', 'thickness_mm', 'pitch_length_mm', 'inside_length_mm',
+                          'outside_length_mm', 'tooth_count', 'rib_count', 'standard_reference']
+    for code in sorted(skus.keys() | audit.keys()):
+        catalog, item = snapshot_rows.get(code, ({}, {}))
+        prior = audit.get(code, {})
+        engineering_rows.append({
+            'sku': code, 'name': item.get('name') or prior.get('raw_title'),
+            'catalog_size': item.get('size') or prior.get('raw_size'),
+            'catalog_model': item.get('model'),
+            'brand': item.get('brand') or prior.get('detected_brand'),
+            'category_slug': catalog.get('categorySlug'), 'subcategory': catalog.get('subcategory'),
+            'snapshot_product_family': catalog.get('code'),
+            'snapshot_legacy_family_codes': '|'.join(catalog.get('legacyFamilyCodes', [])) or item.get('sourceFamilyCode'),
+            'manifest_family_key': skus.get(code),
+            'historical_verification_tier': prior.get('verification_tier'),
+            'pitch_length_check': dimension_checks.get(code, 'INSUFFICIENT_DATA'),
+            **{field: prior.get(field) for field in engineering_fields},
+        })
+    table('sku-engineering-inventory.csv',
+          ['sku', 'name', 'catalog_size', 'catalog_model', 'brand', 'category_slug', 'subcategory',
+           'snapshot_product_family', 'snapshot_legacy_family_codes', 'manifest_family_key',
+           'historical_verification_tier', 'pitch_length_check', *engineering_fields],
+          engineering_rows)
     table('sku-without-publishable-photo.csv', ['sku', 'family'], [
         {'sku': code, 'family': skus[code]} for code in sorted(skus.keys() - storefront['skus'].keys())
     ])
@@ -263,6 +308,8 @@ def main(check):
 | Historical-only SKUs | {len(audit_only)} |
 | Common SKUs with differing proposed/runtime family IDs | {len(differences)} |
 | Records flagged for reconciliation or technical review | {len(pending)} |
+| Prior SKU rows with pitch × tooth count consistent with recorded pitch length (within 0.5 mm) | {sum(s == 'ARITHMETIC_CONSISTENT' for s in dimension_checks.values())} |
+| Prior SKU rows with a pitch-length conflict or non-integer tooth count | {sum(s == 'DIMENSION_CONFLICT' for s in dimension_checks.values())} |
 | Published exact SKU photos | {len(storefront['skus'])} |
 | Runtime SKUs without publishable photos | {len(skus) - len(storefront['skus'])} |
 | Published family photos | {sum(bool(x) for slots in storefront['families'].values() for x in slots)} |
@@ -283,6 +330,7 @@ Historical SKU classifications: {dict(summary)}.
 Historical family classifications: {dict(family_audit)}.
 These are prior audit labels. Runtime family assignments and SKU membership are
 preserved. Per-SKU manufacturer research and dimensional validation remain open.
+The pitch-length check uses prior audit fields and tests internal arithmetic consistency.
 Visually similar photos require follow-up even when SHA-256 hashes differ.
 A prior marking note does not establish rights or the manufacturer-to-internal-SKU mapping.
 ''')

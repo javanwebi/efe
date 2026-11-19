@@ -15,7 +15,9 @@
 | Runtime-only SKUs | 420 |
 | Historical-only SKUs | 35 |
 | Common SKUs with differing proposed/runtime family IDs | 8 |
-| Records flagged for reconciliation or technical review | 434 |
+| Records flagged for reconciliation or technical review | 441 |
+| Prior SKU rows with pitch × tooth count consistent with recorded pitch length (within 0.5 mm) | 1853 |
+| Prior SKU rows with a pitch-length conflict or non-integer tooth count | 7 |
 | Published exact SKU photos | 0 |
 | Runtime SKUs without publishable photos | 8094 |
 | Published family photos | 0 |
@@ -36,5 +38,6 @@ Historical SKU classifications: {'FAMILY_MISMATCH': 1629, 'CORRECT_FAMILY': 5876
 Historical family classifications: {'RESCUED_MISPLACED_BELT_FAMILY': 18, 'SINGLETON_STANDALONE_CANDIDATE': 285, 'HOMOGENEOUS_VALID_FAMILY': 145, 'HETEROGENEOUS_SPLIT_OR_REASSIGNED': 180, 'OUT_OF_SCOPE_NON_BELT_FAMILY': 8, 'PENDING_ENGINEERING_REVIEW': 4}.
 These are prior audit labels. Runtime family assignments and SKU membership are
 preserved. Per-SKU manufacturer research and dimensional validation remain open.
+The pitch-length check uses prior audit fields and tests internal arithmetic consistency.
 Visually similar photos require follow-up even when SHA-256 hashes differ.
 A prior marking note does not establish rights or the manufacturer-to-internal-SKU mapping.

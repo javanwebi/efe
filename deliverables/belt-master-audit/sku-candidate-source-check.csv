@@ -1,0 +1,15 @@
+sku,source_url,review_date,http_status,source_status,page_title,asset_filename_on_page,source_asset_fetched,source_dimensions_match_local,rgb_rms_difference_64px,identity_review_note,commercial_rights_status
+32121,https://allaoui.shop/optibelt-6pj-1168-rb-v-ribbed-belt,2026-11-19,200,PAGE_RETRIEVED,Optibelt 6PJ-1168-RB V-Ribbed Belt,True,True,True,0.00,,PENDING_RIGHTS
+33016,https://allaoui.shop/megadyne-1120-rpp8-20mm-timing-belt,2026-11-19,200,PAGE_RETRIEVED,Megadyne 1120-RPP8-20mm Timing Belt,True,True,True,0.00,,PENDING_RIGHTS
+33042,https://allaoui.shop/megadyne-1040-rpp8-30mm-timing-belt,2026-11-19,200,PAGE_RETRIEVED,Megadyne 1040-RPP8-30mm Timing Belt,True,True,True,0.00,,PENDING_RIGHTS
+34029,https://allaoui.shop/optibelt-6pj-1270-10-v-ribbed-belt,2026-11-19,200,PAGE_RETRIEVED,Optibelt 6PJ-1270-10 V-ribbed Belt,True,True,True,0.00,,PENDING_RIGHTS
+35116,https://allaoui.shop/optibelt-pj-1092-v-ribbed-belt,2026-11-19,200,PAGE_RETRIEVED,Optibelt PJ-1092 V-ribbed Belt,True,True,True,0.00,Supplier title gives PJ 1092 without rib count. Compare marking and measure the number of ribs.,PENDING_RIGHTS
+35271,https://allaoui.shop/optibelt-1280-8m-25mm-timing-belt,2026-11-19,200,PAGE_RETRIEVED,Optibelt 1280-8M-25mm Timing Belt,True,True,True,0.00,,PENDING_RIGHTS
+38082,https://pidbir.parts/en/dongil-rubber-belt-drb/4pk990,2026-11-19,404,SOURCE_RETURNED_ERROR,,,True,True,0.00,,PENDING_RIGHTS
+39130,https://allaoui.shop/optibelt-zr-285-l-20-timing-belt,2026-11-19,200,PAGE_RETRIEVED,Optibelt ZR-285-L-20 Timing Belt,True,True,True,0.00,"Local marking shows 285 L 075, historical SKU is 285L075. Supplier title ends in 20. Confirm the width and listing relationship.",PENDING_RIGHTS
+41349,https://www.ebay.com/itm/266441566039,2026-11-19,200,ACCESS_CHALLENGE,,,True,True,0.59,,PENDING_RIGHTS
+52009,https://www.ebay.co.uk/itm/286187495140,2026-11-19,200,ACCESS_CHALLENGE,,,True,True,0.75,,PENDING_RIGHTS
+52050,https://www.hug-technik.com/zahnriemen-540-l-075-optibelt-zr.html,2026-11-19,404,SOURCE_RETURNED_ERROR,,,True,True,0.88,,PENDING_RIGHTS
+53283,https://allaoui.shop/optibelt-360-h-20-toothed-belt,2026-11-19,200,PAGE_RETRIEVED,Optibelt 360-H-20 Toothed belt,True,True,True,0.00,"Local marking shows 360 H 100, historical SKU is 360H 100. Supplier title ends in 20. Confirm the width and listing relationship.",PENDING_RIGHTS
+53301,https://allaoui.shop/optibelt-zr-1000-h-100-25-timing-belt,2026-11-19,200,PAGE_RETRIEVED,Optibelt ZR-1000-H-100-25 Timing Belt,True,True,True,0.00,,PENDING_RIGHTS
+58357,https://www.allaoui.shop/en/optibelt-timing-belt-1120-8m,2026-11-19,404,SOURCE_RETURNED_ERROR,,,True,True,0.00,,PENDING_RIGHTS
