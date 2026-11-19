@@ -24,7 +24,7 @@ import { useCatalog } from '../context/CatalogContext';
 import { resolveCategorySlug } from '../data/categories';
 import { resolveDisplayBrand, productHasDisplayBrand } from '../utils/catalogBrands';
 import { formatPrice, toPersianDigits } from '../utils/formatters';
-import { getBeltFamilyMedia } from '../utils/beltCatalogMedia';
+import { getBeltCategoryPhoto, getBeltFamilyMedia, isBeltMediaCategory } from '../utils/beltCatalogMedia';
 import { resolveSiteProductImage } from '../utils/siteProductImages';
 import { getCommonComparisonSpecKeys } from '../utils/partMeasurements';
 import {
@@ -341,13 +341,14 @@ export const ExcelMenuCategoryPage: React.FC = () => {
     return Array.from(keys).slice(0, 12);
   }, [productMap]);
 
-  const familyArtwork = (fam: MenuFamilySummary): string => {
+  const familyArtwork = (fam: MenuFamilySummary): string | null => {
     const prod = productMap.get(fam.code);
     const beltMedia = getBeltFamilyMedia(fam.code, prod?.images?.[0] || prod?.image, {
       variants: prod?.variants,
       legacyFamilyCodes: prod?.legacyFamilyCodes,
     });
-    if (beltMedia?.primaryThumbnail) return beltMedia.primaryThumbnail;
+    if (beltMedia) return beltMedia.primaryThumbnail;
+    if (resolvedCategory && isBeltMediaCategory(resolvedCategory.slug)) return null;
     if (prod?.images?.[0]) return prod.images[0];
     if (prod?.image) return prod.image;
     return resolveSiteProductImage(prod, `${fam.name} ${fam.submenu || ''} ${resolvedCategory?.name || ''}`);
@@ -623,11 +624,10 @@ export const ExcelMenuCategoryPage: React.FC = () => {
     );
   }
 
-  const artwork = resolveExcelCategoryArtwork(
-    resolvedCategory.slug,
-    resolvedCategory.name,
-    resolvedCategory.image,
-  );
+  const usesBeltMedia = isBeltMediaCategory(resolvedCategory.slug);
+  const artwork = usesBeltMedia
+    ? getBeltCategoryPhoto(resolvedCategory.slug)
+    : resolveExcelCategoryArtwork(resolvedCategory.slug, resolvedCategory.name, resolvedCategory.image);
   const selectedBrandsSet = new Set(brandFilter ? brandFilter.split(',').filter(Boolean) : []);
   const displayedFacetOptions = showAllFacetOptions
     ? facetProfile.primaryFacetOptions
@@ -970,7 +970,7 @@ export const ExcelMenuCategoryPage: React.FC = () => {
                       : '۰ خانواده';
                 const thumbSrc = node.isAllOption
                   ? artwork
-                  : resolveSubcategoryThumb(node.name, resolvedCategory.name, resolvedCategory.slug);
+                  : usesBeltMedia ? null : resolveSubcategoryThumb(node.name, resolvedCategory.name, resolvedCategory.slug);
                 return (
                   <button
                     key={node.key}
@@ -980,7 +980,7 @@ export const ExcelMenuCategoryPage: React.FC = () => {
                     onClick={() => updateParam('sub', node.isAllOption || isSelected ? '' : node.name)}
                   >
                     <div className="excel-subcard-media">
-                      <img src={thumbSrc} alt={node.name} loading="eager" decoding="async" />
+                      {thumbSrc ? <img src={thumbSrc} alt={node.name} loading="eager" decoding="async" /> : <Package size={28} aria-hidden="true" />}
                     </div>
                     <div className="excel-subcard-footer">
                       <div className="excel-subcard-titles">
@@ -1303,7 +1303,11 @@ export const ExcelMenuCategoryPage: React.FC = () => {
                       <article className={`excel-card ${viewMode === 'list' ? 'is-list-row' : ''}`}>
                         <div className="excel-card-media">
                           <Link to={detailHref}>
-                            <img src={artworkSrc} alt={family.name} loading="lazy" decoding="async" />
+                            {artworkSrc ? (
+                              <img src={artworkSrc} alt={family.name} loading="lazy" decoding="async" />
+                            ) : (
+                              <span className="text-xs text-slate-500">عکس خانواده هنوز تأیید نشده است.</span>
+                            )}
                           </Link>
                         </div>
 

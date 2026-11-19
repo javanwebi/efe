@@ -3,7 +3,7 @@ import { Check, FileText, Image as ImageIcon } from 'lucide-react';
 import type { ProductGalleryImage, ProductVariant } from '../../types';
 import { formatPrice, toPersianDigits } from '../../utils/formatters';
 import { normalizeCatalogText } from '../../utils/excelCategoryCatalog';
-import { getBeltSkuMedia, isExcludedBeltSku } from '../../utils/beltCatalogMedia';
+import { getBeltSkuMedia, missingBeltSkuPhotoLabel } from '../../utils/beltCatalogMedia';
 import { ProductImage } from './ProductImage';
 import { Modal } from '../ui/Modal';
 
@@ -12,7 +12,7 @@ interface ProductVariantsProps {
   selected: string;
   onSelect: (code: string) => void;
   showPrices?: boolean;
-  familyCode?: string;
+  usesBeltMedia?: boolean;
   galleryImages?: ProductGalleryImage[];
 }
 
@@ -21,7 +21,7 @@ export const ProductVariants: React.FC<ProductVariantsProps> = ({
   selected,
   onSelect,
   showPrices = true,
-  familyCode,
+  usesBeltMedia = false,
   galleryImages = [],
 }) => {
   const [query, setQuery] = useState('');
@@ -45,6 +45,8 @@ export const ProductVariants: React.FC<ProductVariantsProps> = ({
   const safePage = Math.min(page, totalPages);
 
   const getVariantLinkedImages = (v: ProductVariant): string[] => {
+    const skuMedia = getBeltSkuMedia(undefined, v.code);
+    if (usesBeltMedia || skuMedia) return skuMedia?.realProductImage ? [skuMedia.realProductImage] : [];
     const urls = new Set<string>();
     for (const u of v.images || []) {
       if (u && u.trim()) urls.add(u.trim());
@@ -59,10 +61,10 @@ export const ProductVariants: React.FC<ProductVariantsProps> = ({
 
   if (!variants.length) return null;
 
-  const previewSkuMedia =
-    previewVariant && !isExcludedBeltSku(previewVariant.code)
-      ? getBeltSkuMedia(familyCode, previewVariant.code, { variants })
-      : null;
+  const previewSkuMedia = previewVariant ? getBeltSkuMedia(undefined, previewVariant.code) : null;
+  const previewIsBelt = usesBeltMedia || Boolean(previewSkuMedia);
+  const previewDrawing = previewSkuMedia?.profileDrawingSvg || previewSkuMedia?.profileDrawingWebp ||
+    previewSkuMedia?.technicalDrawingSvg || previewSkuMedia?.technicalDrawingWebp;
 
   return (
     <div className="space-y-3 bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs">
@@ -152,6 +154,7 @@ export const ProductVariants: React.FC<ProductVariantsProps> = ({
                         <div className="w-8 h-8 rounded-lg border border-slate-200 bg-white overflow-hidden shrink-0">
                           <ProductImage
                             src={linkedImages[0]}
+                            disableFallback={usesBeltMedia || Boolean(getBeltSkuMedia(undefined, v.code))}
                             alt={v.name}
                             className="w-full h-full object-contain p-0.5"
                           />
@@ -165,7 +168,7 @@ export const ProductVariants: React.FC<ProductVariantsProps> = ({
                     ) : (
                       <span className="text-[10.5px] text-slate-400 inline-flex items-center gap-1">
                         <ImageIcon className="w-3 h-3" />
-                        <span>عمومی</span>
+                        <span>تصویر ثبت نشده</span>
                       </span>
                     )}
                   </td>
@@ -256,7 +259,7 @@ export const ProductVariants: React.FC<ProductVariantsProps> = ({
               </span>
             </div>
 
-            {previewSkuMedia ? (
+            {previewIsBelt ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="rounded-xl border border-slate-200 bg-white p-3 space-y-2">
                   <div className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
@@ -264,15 +267,16 @@ export const ProductVariants: React.FC<ProductVariantsProps> = ({
                     <span>نقشه فنی پروفیل (CAD)</span>
                   </div>
                   <div className="aspect-[16/10] bg-slate-50 rounded-lg overflow-hidden grid place-items-center p-2">
-                    {previewSkuMedia.profileDrawingWebp ? (
+                    {previewDrawing ? (
                       <ProductImage
-                        src={previewSkuMedia.profileDrawingWebp}
+                        src={previewDrawing}
+                        disableFallback
                         alt={`نقشه پروفیل ${previewVariant.code}`}
                         className="w-full h-full object-contain"
                       />
                     ) : (
                       <div className="text-center text-xs text-rose-700 px-4">
-                        نقشه فنی متوقف‌شده (NEEDS_TECHNICAL_DATA — نیازمند اندازه‌گیری فیزیکی در انبار)
+                        نقشه فنی تأییدشده هنوز در دسترس نیست.
                       </div>
                     )}
                   </div>
@@ -283,15 +287,17 @@ export const ProductVariants: React.FC<ProductVariantsProps> = ({
                     <span>تصویر واقعی محصول</span>
                   </div>
                   <div className="aspect-[16/10] bg-slate-50 rounded-lg overflow-hidden grid place-items-center p-2">
-                    {previewSkuMedia.realProductImage ? (
+                    {previewSkuMedia?.realProductImage ? (
                       <ProductImage
                         src={previewSkuMedia.realProductImage}
+                        disableFallback
+                        missingLabel={missingBeltSkuPhotoLabel}
                         alt={previewVariant.name}
                         className="w-full h-full object-contain"
                       />
                     ) : (
                       <div className="text-center text-xs text-slate-500 px-4">
-                        {previewSkuMedia.realImageStatusLabelFa}
+                        {missingBeltSkuPhotoLabel}
                       </div>
                     )}
                   </div>

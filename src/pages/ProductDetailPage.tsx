@@ -12,7 +12,6 @@ import {
   PackageCheck,
   PhoneCall,
   Share2,
-  ShieldCheck,
   ShoppingCart,
   Sparkles,
   Truck,
@@ -33,9 +32,11 @@ import { resolveDisplayBrand } from '../utils/catalogBrands';
 import { resolveSiteProductImage } from '../utils/siteProductImages';
 import {
   buildBeltGalleryImages,
+  missingBeltSkuPhotoLabel,
   getBeltFamilyMedia,
   getBeltSkuMedia,
   isExcludedBeltSku,
+  isBeltMediaCategory,
 } from '../utils/beltCatalogMedia';
 import type { TechnicalReviewPayload } from '../utils/partMeasurements';
 
@@ -92,7 +93,6 @@ export const ProductDetailPage: React.FC = () => {
   const [lazyReviews, setLazyReviews] = useState<Record<string, TechnicalReviewPayload | null>>({});
 
   const pendingVariantFocusRef = useRef<string | null>(null);
-  const gallerySectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!decodedCode) {
@@ -320,20 +320,15 @@ export const ProductDetailPage: React.FC = () => {
     product.images?.[0] || product.image,
     beltHints,
   );
-  const beltSkuMedia =
-    beltFamilyMedia && !isExcludedBeltSku(activeSkuCode)
-      ? getBeltSkuMedia(product.code, activeSkuCode, beltHints)
-      : null;
-
-  const currentGalleryImage = galleryImages[activeImageIndex];
-  const activeImageUrl =
-    currentGalleryImage?.url ||
-    beltFamilyMedia?.primaryThumbnail ||
-    product.images?.[0] ||
-    product.image ||
-    resolveSiteProductImage(product, `${product.subcategory} ${product.categoryName}`);
-
   const categorySlug = detail?.categoryMeta?.slug || product.resolvedAssignment?.categorySlug || product.categorySlug;
+  const beltSkuMedia = getBeltSkuMedia(undefined, activeSkuCode);
+  const usesBeltMedia = Boolean(beltFamilyMedia || beltSkuMedia) || isBeltMediaCategory(categorySlug || '');
+  const currentGalleryImage = galleryImages[activeImageIndex];
+  const activeImageUrl = usesBeltMedia
+    ? beltSkuMedia?.realProductImage || null
+    : currentGalleryImage?.url || product.images?.[0] || product.image ||
+      resolveSiteProductImage(product, product.subcategory + ' ' + product.categoryName);
+
   const categoryTitle = detail?.categoryMeta?.name || product.categoryName || 'قطعات صنعتی';
   const displayTitle = selectedVariant?.name || product.name;
   const isFavorited = isInWishlist(product.code);
@@ -373,7 +368,7 @@ export const ProductDetailPage: React.FC = () => {
         wholesale: activeUnitPrice,
         dealer: activeUnitPrice,
       },
-      images: [activeImageUrl],
+      images: activeImageUrl ? [activeImageUrl] : [],
     };
     addToCart(cartProduct, quantity);
     setAdded(true);
@@ -510,101 +505,81 @@ export const ProductDetailPage: React.FC = () => {
           {/* 2-Column Workspace: Right = Gallery/CAD, Left = SKU Selector & Purchase Card (Screenshot 5) */}
           <div className="product-detail-layout grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] gap-6 items-start">
             {/* Column 1 (Right in RTL): Gallery & CAD Viewer */}
-            <div ref={gallerySectionRef} className="product-detail-gallery lg:sticky lg:top-28 space-y-3">
+            <div className="product-detail-gallery lg:sticky lg:top-28 space-y-3">
               <div className="product-detail-image relative rounded-2xl border border-slate-200 bg-white overflow-hidden">
-                {/* Top-right orange badge + Top-left image counter */}
-                <div className="absolute top-3 inset-x-3 z-10 flex items-center justify-between gap-2 pointer-events-none">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#E06518] px-3 py-1 text-[11px] font-bold text-white shadow-xs">
-                    {currentGalleryImage?.scope === 'variant' && currentGalleryImage.variantCode
-                      ? `تصویر کد ${toPersianDigits(currentGalleryImage.variantCode)}`
-                      : 'تصویر خانواده محصول'}
-                  </span>
-                  {galleryImages.length > 0 && (
-                    <span className="rounded-lg border border-slate-200 bg-white/95 px-2.5 py-1 text-[11px] font-bold text-slate-700 shadow-2xs">
-                      {toPersianDigits(activeImageIndex + 1)} از {toPersianDigits(galleryImages.length)}
-                    </span>
-                  )}
-                </div>
+                {activeImageUrl ? (
+                  <>
+                    {/* Top-right orange badge + Top-left image counter */}
+                    <div className="absolute top-3 inset-x-3 z-10 flex items-center justify-between gap-2 pointer-events-none">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[#E06518] px-3 py-1 text-[11px] font-bold text-white shadow-xs">
+                        {usesBeltMedia ? `عکس کد ${toPersianDigits(activeSkuCode)}`
+                          : currentGalleryImage?.scope === 'variant' && currentGalleryImage.variantCode
+                          ? `تصویر کد ${toPersianDigits(currentGalleryImage.variantCode)}`
+                          : 'تصویر خانواده محصول'}
+                      </span>
+                      {galleryImages.length > 0 && (
+                        <span className="rounded-lg border border-slate-200 bg-white/95 px-2.5 py-1 text-[11px] font-bold text-slate-700 shadow-2xs">
+                          {toPersianDigits(activeImageIndex + 1)} از {toPersianDigits(galleryImages.length)}
+                        </span>
+                      )}
+                    </div>
 
-                <button
-                  type="button"
-                  onClick={() =>
-                    setBeltDocModal({
-                      title: currentGalleryImage?.title || displayTitle,
-                      webpUrl: activeImageUrl,
-                      svgUrl: beltSkuMedia?.technicalDrawingSvg || activeImageUrl,
-                      subtitle: selectedVariant?.size || product.name,
-                    })
-                  }
-                  aria-label="بزرگ‌نمایی تصویر یا نقشه فنی"
-                  className="w-full h-full flex items-center justify-center p-6 pt-12 pb-12 cursor-zoom-in"
-                >
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setBeltDocModal({
+                          title: currentGalleryImage?.title || displayTitle,
+                          webpUrl: activeImageUrl,
+                          svgUrl: activeImageUrl,
+                          subtitle: selectedVariant?.size || product.name,
+                        })
+                      }
+                      aria-label="بزرگ‌نمایی عکس محصول"
+                      className="w-full h-full flex items-center justify-center p-6 pt-12 pb-12 cursor-zoom-in"
+                    >
+                      <ProductImage
+                        src={activeImageUrl}
+                        alt={currentGalleryImage?.title || displayTitle}
+                        disableFallback={usesBeltMedia}
+                        missingLabel={usesBeltMedia ? missingBeltSkuPhotoLabel : undefined}
+                        className="w-full h-full object-contain"
+                      />
+                    </button>
+
+                    {/* Bottom Dark Caption Bar matching Screenshot 5 */}
+                    <div className="absolute bottom-2.5 inset-x-3 z-10 flex items-center justify-between gap-2 rounded-xl bg-[#2B313A] px-3.5 py-2 text-[11px] font-bold text-white">
+                      <span className="truncate">
+                        {currentGalleryImage?.title || displayTitle}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setBeltDocModal({
+                            title: currentGalleryImage?.title || displayTitle,
+                            webpUrl: activeImageUrl,
+                            svgUrl: activeImageUrl,
+                            subtitle: selectedVariant?.size || product.name,
+                          })
+                        }
+                        className="inline-flex items-center gap-1 text-orange-300 hover:text-white shrink-0 cursor-pointer"
+                      >
+                        <ZoomIn className="w-3.5 h-3.5" />
+                        <span>بزرگ‌نمایی</span>
+                      </button>
+                    </div>
+                  </>
+                ) : (
                   <ProductImage
-                    src={activeImageUrl}
-                    alt={currentGalleryImage?.title || displayTitle}
-                    disableFallback={Boolean(beltFamilyMedia)}
-                    className="w-full h-full object-contain"
+                    alt={displayTitle}
+                    disableFallback
+                    missingLabel={missingBeltSkuPhotoLabel}
+                    className="min-h-64 w-full"
                   />
-                </button>
-
-                {/* Bottom Dark Caption Bar matching Screenshot 5 */}
-                <div className="absolute bottom-2.5 inset-x-3 z-10 flex items-center justify-between gap-2 rounded-xl bg-[#2B313A] px-3.5 py-2 text-[11px] font-bold text-white">
-                  <span className="truncate">
-                    {currentGalleryImage?.title || `تصویر فنی کد ${toPersianDigits(activeSkuCode)}`}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setBeltDocModal({
-                        title: currentGalleryImage?.title || displayTitle,
-                        webpUrl: activeImageUrl,
-                        svgUrl: beltSkuMedia?.technicalDrawingSvg || activeImageUrl,
-                        subtitle: selectedVariant?.size || product.name,
-                      })
-                    }
-                    className="inline-flex items-center gap-1 text-orange-300 hover:text-white shrink-0 cursor-pointer"
-                  >
-                    <ZoomIn className="w-3.5 h-3.5" />
-                    <span>بزرگ‌نمایی</span>
-                  </button>
-                </div>
+                )}
               </div>
 
-              {/* Notice Banner matching Screenshot 5 yellow box */}
-              {beltSkuMedia ? (
-                beltSkuMedia.realImageStatus === 'EXACT_SKU_IMAGE_FOUND' ? (
-                  <p
-                    role="status"
-                    className="text-xs text-emerald-950 leading-6 bg-emerald-50/80 border border-emerald-200 rounded-xl px-3 py-2 flex items-start gap-2"
-                  >
-                    <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0 mt-1" />
-                    <span>
-                      تصویر فیزیکی اختصاصی برای کد{' '}
-                      <strong className="font-mono" dir="ltr">
-                        {beltSkuMedia.skuCode}
-                      </strong>{' '}
-                      تأیید و متصل شده است.
-                    </span>
-                  </p>
-                ) : (
-                  <p
-                    role="status"
-                    className="text-xs text-amber-950 leading-6 bg-amber-50/85 border border-amber-200/90 rounded-xl px-3 py-2.5 flex items-start gap-2"
-                  >
-                    <AlertCircle className="w-4 h-4 text-amber-700 shrink-0 mt-1" />
-                    <span>
-                      <strong>تصویر واقعی هنوز تأمین نشده است</strong> — برای کد{' '}
-                      <strong className="font-mono" dir="ltr">
-                        {beltSkuMedia.skuCode}
-                      </strong>{' '}
-                      عکس فیزیکی اختصاصی ثبت نشده و تصاویر بالا عکس‌های واقعی مرجع این خانواده هستند؛ نقشه فنی اختصاصی همین کد در بخش زیر نمایش داده شده است.
-                    </span>
-                  </p>
-                )
-              ) : null}
-
               {/* Thumbnails Strip */}
-              {galleryImages.length > 0 && (
+              {!usesBeltMedia && galleryImages.length > 0 && (
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-[11px] text-slate-500 px-1">
                     <span>تصویر هر کد را انتخاب کنید:</span>
@@ -632,7 +607,7 @@ export const ProductDetailPage: React.FC = () => {
                         >
                           <ProductImage
                             src={img.url}
-                            disableFallback={Boolean(beltFamilyMedia)}
+                            disableFallback={usesBeltMedia}
                             alt=""
                             loading="lazy"
                             className="w-full h-full object-contain p-2 pb-5"
@@ -710,7 +685,7 @@ export const ProductDetailPage: React.FC = () => {
                       selected={activeSkuCode}
                       onSelect={handleSelectVariant}
                       showPrices={showCommercial}
-                      familyCode={product.code}
+                      usesBeltMedia={usesBeltMedia}
                       galleryImages={galleryImages}
                     />
                   </div>
@@ -816,19 +791,12 @@ export const ProductDetailPage: React.FC = () => {
         </section>
 
         {/* Belt 4 Family Visuals + 2 SKU Visuals Section */}
-        {beltFamilyMedia && (
+        {usesBeltMedia && (
           <BeltVisualMediaSection
             productName={product.name}
             beltFamilyMedia={beltFamilyMedia}
             beltSkuMedia={beltSkuMedia}
-            selectedSkuSize={selectedVariant?.size}
-            selectedSkuName={selectedVariant?.name}
-            onOpenDocModal={(payload) => setBeltDocModal(payload)}
-            onJumpToFamilyGallery={() => {
-              const famIdx = galleryImages.findIndex((g) => g.scope === 'family');
-              if (famIdx >= 0) setActiveImageIndex(famIdx);
-              gallerySectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }}
+            onOpenDocModal={setBeltDocModal}
           />
         )}
 

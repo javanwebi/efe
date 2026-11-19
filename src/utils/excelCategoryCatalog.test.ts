@@ -78,113 +78,27 @@ test('resolveDisplayBrand strips placeholders and extracts FORZA / Megadyne', ()
   assert.equal(toPersianDigits(52692), '۵۲۶۹۲');
 });
 
-test('beltCatalogMedia resolves PFAM family codes, aliases, local verified photos, and enforces strict non-duplication', () => {
-  const pfam = 'PFAM-تسمه-تایمینگ-م-FORZA-AT20-015';
-  const hints = {
-    legacyFamilyCodes: ['FAM-52692'],
-    variants: [{ code: '52692' }, { code: '10335' }],
-  };
-  const famMedia = getBeltFamilyMedia(pfam, null, hints);
-  assert.ok(famMedia);
-  assert.equal(famMedia.familyCode, pfam);
-  assert.equal(famMedia.hasVerifiedRealPhoto, false);
-  assert.equal(famMedia.familyPhotos[0], null);
-  assert.equal(
-    famMedia.primaryThumbnail,
-    `/src/assets/catalog/belts/families/${encodeURIComponent(pfam)}/card-preview.svg`,
-  );
-  assert.notEqual(famMedia.primaryThumbnail, famMedia.specSheetWebp);
-  assert.equal(
-    famMedia.specSheetWebp,
-    `/src/assets/catalog/belts/families/${encodeURIComponent(pfam)}/family-specifications.webp`,
-  );
+test('belt media preserves family aliases and withholds unapproved photos and drawings', () => {
+  const pfam = 'PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148';
+  const family = getBeltFamilyMedia('FAM-34388');
+  assert.ok(family);
+  assert.equal(family.familyCode, pfam);
+  assert.deepEqual(family.familyPhotos, [null, null, null, null]);
+  assert.equal(family.primaryThumbnail, null);
+  assert.equal(family.specSheetWebp, null);
 
-  // All 11 upgraded families have 4 visually-verified unique real .webp photos (01-main .. 04-closeup)
-  const full4PhotoFamilies = [
-    'PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148',
-    'PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077',
-    'PFAM-تسمه-تایمینگ-م-OPTIBELT-8M-234',
-    'PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113',
-    'PFAM-تسمه-تایمینگ-م-MEGADYNE-8M-360',
-    'PFAM-تسمه-تایمینگ-ذ-MEGADYNE-H-106',
-    'PFAM-تسمه-تایمینگ-م-MEGADYNE-T5-134',
-    'PFAM-تسمه-تایمینگ-ذ-BANDO-H-554',
-    'PFAM-تسمه-گرد-جوشی-FOREIGN-CRC-386',
-    'PFAM-تسمه-جوشی-V-شک-ENGLAND-B-613',
-    'PFAM-نوار-نقاله-PVC-GENERIC-PVC-STONE-SU-013',
-  ];
-  for (const famCode of full4PhotoFamilies) {
-    const fm = getBeltFamilyMedia(famCode);
-    assert.ok(fm, `Expected family media for ${famCode}`);
-    assert.equal(fm.hasVerifiedRealPhoto, true, `Expected real photos on ${famCode}`);
-    assert.equal(fm.familyPhotos.length, 4, `Expected 4 photo slots on ${famCode}`);
-    for (let i = 0; i < 4; i++) {
-      assert.equal(
-        fm.familyPhotos[i],
-        `/src/assets/catalog/belts/families/${encodeURIComponent(famCode)}/family-image-0${i + 1}.webp`,
-        `Expected slot ${i + 1} on ${famCode}`,
-      );
-    }
-  }
+  const sku = getBeltSkuMedia(pfam, '52009');
+  assert.ok(sku);
+  assert.equal(sku.realImageStatus, 'REAL_IMAGE_NOT_FOUND');
+  assert.equal(sku.realProductImage, null);
+  assert.equal(sku.technicalDrawingStatus, 'NEEDS_TECHNICAL_DATA');
+  assert.equal(sku.profileDrawingWebp, null);
+  assert.equal(getBeltSkuMedia('PFAM-تسمه-تایمینگ-م-FORZA-AT20-015', '52009'), null);
 
-  // Optibelt ZR L alias resolution (FAM-34388 -> PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148)
-  const optiPfam = 'PFAM-تسمه-تایمینگ-ذ-OPTIBELT-L-148';
-  const optiFamMedia = getBeltFamilyMedia('FAM-34388');
-  assert.ok(optiFamMedia);
-  assert.equal(optiFamMedia.familyCode, optiPfam);
-  assert.equal(
-    optiFamMedia.familyPhotos[3],
-    `/src/assets/catalog/belts/families/${encodeURIComponent(optiPfam)}/family-image-04.webp`,
-  );
-
-  const skuMedia = getBeltSkuMedia(pfam, '52692', hints);
-  assert.ok(skuMedia);
-  assert.equal(skuMedia.profileDrawingWebp, '/src/assets/catalog/belts/skus/52692/profile-drawing.webp');
-  assert.equal(skuMedia.realProductImage, null);
-
-  // All 14 visually-verified exact physical SKU marking photos
-  const exactSkuChecks: Array<[string, string]> = [
-    [optiPfam, '52009'],
-    [optiPfam, '52050'],
-    [optiPfam, '39130'],
-    ['PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077', '53301'],
-    ['PFAM-تسمه-تایمینگ-ذ-OPTIBELT-H-077', '53283'],
-    ['PFAM-تسمه-تایمینگ-م-OPTIBELT-8M-234', '58357'],
-    ['PFAM-تسمه-تایمینگ-م-OPTIBELT-8M-234', '35271'],
-    ['PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113', '32121'],
-    ['PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113', '34029'],
-    ['PFAM-تسمه-چندشیاری-OPTIBELT-PJ-113', '35116'],
-    ['PFAM-تسمه-تایمینگ-م-MEGADYNE-8M-360', '33016'],
-    ['PFAM-تسمه-تایمینگ-م-MEGADYNE-8M-360', '33042'],
-    ['PFAM-تسمه-تایمینگ-ذ-BANDO-DH-446', '41349'],
-    ['PFAM-تسمه-چندشیاری-DONGIL-PK-195', '38082'],
-  ];
-  for (const [fCode, sCode] of exactSkuChecks) {
-    const m = getBeltSkuMedia(fCode, sCode);
-    assert.ok(m, `Expected SKU media for ${sCode}`);
-    assert.equal(m.realImageStatus, 'EXACT_SKU_IMAGE_FOUND');
-    assert.equal(m.realProductImage, `/src/assets/catalog/belts/skus/${sCode}/real-product-image.webp`);
-  }
-
-  // Pending review SKU without verified dimensions must not fabricate a technical drawing (Rule 1)
-  const pendingSku = getBeltSkuMedia('FAM-10077', '10077');
-  assert.ok(pendingSku);
-  assert.equal(pendingSku.technicalDrawingStatus, 'NEEDS_TECHNICAL_DATA');
-  assert.equal(pendingSku.technicalDrawingWebp, null);
-
-  const gallery = buildBeltGalleryImages(
-    {
-      code: pfam,
-      legacyFamilyCodes: ['FAM-52692'],
-      name: 'تسمه تایمینگ متریک',
-      images: [],
-      variants: [{ code: '52692', name: 'تسمه چمفر', size: '100AT20' }],
-    },
-    [],
-    '52692',
-  );
-  assert.ok(gallery.some((g) => g.scope === 'variant' && g.variantCode === '52692' && g.url.includes('/52692/profile-drawing.webp')));
-  assert.ok(gallery.some((g) => g.scope === 'family' && g.url.includes(`/${encodeURIComponent(pfam)}/family-specifications.webp`)));
+  const fallback = [{ id: 'generic', scope: 'family' as const, url: '/generic.webp' }];
+  const product = { code: pfam, name: 'تسمه تایمینگ', variants: [] };
+  assert.deepEqual(buildBeltGalleryImages(product, fallback, '52009'), []);
+  assert.deepEqual(buildBeltGalleryImages({ ...product, code: 'unrelated' }, fallback), fallback);
 });
 
 test('validateFamilyMenuAssignment accepts restored DB leaf names and rejects false placements', () => {
