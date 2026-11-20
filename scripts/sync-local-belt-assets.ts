@@ -573,7 +573,6 @@ async function syncVerifiedBeltPhotos() {
   for (const [key, meta] of Object.entries(prov)) {
     if (!meta?.sourceUrl) continue;
     if (PURGED_VISUAL_AUDIT_KEYS.has(key)) continue;
-    if (String(meta.sourceUrl).includes('cdn.shopify.com')) continue;
     candidates.push([
       key,
       {

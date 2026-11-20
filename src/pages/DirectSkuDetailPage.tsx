@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ChevronLeft, Copy, FileSpreadsheet, Package } from 'lucide-react';
+import { CheckCircle2, ChevronLeft, Copy, FileSpreadsheet, Package } from 'lucide-react';
 import type { DirectSku } from '../types';
 import { useCatalog } from '../context/CatalogContext';
 import { ProductImage } from '../components/product/ProductImage';
 import { resolveDisplayBrand } from '../utils/catalogBrands';
-import { getBeltSkuMedia } from '../utils/beltCatalogMedia';
+import { getBeltFamilyMedia, getBeltSkuMedia } from '../utils/beltCatalogMedia';
+
+interface DirectMediaOption {
+  key: string;
+  label: string;
+  src: string;
+}
 
 export const DirectSkuDetailPage: React.FC = () => {
   const { code = '' } = useParams<{ code: string }>();
@@ -13,6 +19,11 @@ export const DirectSkuDetailPage: React.FC = () => {
   const [item, setItem] = useState<DirectSku | null>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'not-found'>('loading');
   const [copied, setCopied] = useState(false);
+  const [activeMediaKey, setActiveMediaKey] = useState<string>('primary');
+
+  useEffect(() => {
+    setActiveMediaKey('primary');
+  }, [code]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -66,6 +77,39 @@ export const DirectSkuDetailPage: React.FC = () => {
 
   const brandLabel = resolveDisplayBrand(item.brand, item.name);
   const beltSkuMedia = getBeltSkuMedia(undefined, item.skuCode);
+  const beltFamilyMedia = beltSkuMedia ? getBeltFamilyMedia(beltSkuMedia.familyCode) : null;
+
+  const mediaOptions: DirectMediaOption[] = [];
+  if (beltSkuMedia) {
+    mediaOptions.push({
+      key: 'primary',
+      label:
+        beltSkuMedia.skuImageSourceType === 'EXACT_WEB_VERIFIED'
+          ? 'عکس واقعی مارکینگ'
+          : 'تصویر اختصاصی کد',
+      src: beltSkuMedia.realProductImage,
+    });
+    if (beltSkuMedia.realProductCloseupImage) {
+      mediaOptions.push({
+        key: 'closeup',
+        label: 'کلوزآپ مارکینگ',
+        src: beltSkuMedia.realProductCloseupImage,
+      });
+    }
+    const famLabels = ['نمای ۱ خانواده', 'نمای ۲ خانواده', 'نمای ۳ خانواده', 'نمای ۴ خانواده'];
+    (beltFamilyMedia?.familyPhotos || []).forEach((url, idx) => {
+      if (url) {
+        mediaOptions.push({
+          key: `family-${idx + 1}`,
+          label: famLabels[idx],
+          src: url,
+        });
+      }
+    });
+  }
+
+  const activeOption = mediaOptions.find((o) => o.key === activeMediaKey) || mediaOptions[0];
+  const resolvedMediaSrc = activeOption?.src || item.imageUrl;
 
   return (
     <div dir="rtl" className="mx-auto max-w-6xl px-4 py-8 space-y-6 text-right">
@@ -83,24 +127,63 @@ export const DirectSkuDetailPage: React.FC = () => {
       </nav>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-start shadow-xs">
-        <div className="space-y-2.5">
+        <div className="space-y-3">
           <div className="rounded-2xl border border-slate-200 bg-[#FAF8F5] p-4 aspect-[4/3] grid place-items-center overflow-hidden">
             <ProductImage
-              src={beltSkuMedia?.realProductImage || beltSkuMedia?.profileDrawingWebp || item.imageUrl}
+              src={resolvedMediaSrc}
+              disableFallback={Boolean(beltSkuMedia)}
               alt={item.name}
               className="max-h-72 w-full object-contain"
             />
           </div>
+
+          {mediaOptions.length > 1 && (
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+              {mediaOptions.map((opt) => {
+                const isSelected = activeOption?.key === opt.key;
+                return (
+                  <button
+                    key={opt.key}
+                    type="button"
+                    aria-pressed={isSelected}
+                    onClick={() => setActiveMediaKey(opt.key)}
+                    className={`rounded-xl border p-1.5 text-center transition-colors cursor-pointer ${
+                      isSelected
+                        ? 'border-[#E06518] bg-orange-50/40 ring-1 ring-[#E06518]/30'
+                        : 'border-slate-200 bg-white hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="aspect-[4/3] w-full bg-[#FAF8F5] rounded-lg overflow-hidden flex items-center justify-center p-1 mb-1">
+                      <img src={opt.src} alt={opt.label} className="w-full h-full object-contain" />
+                    </div>
+                    <span className="block text-[10px] font-bold text-slate-700 truncate">
+                      {opt.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
           {beltSkuMedia && (
-            <div className="rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-[11px] flex flex-wrap items-center justify-between gap-2">
-              <span className="font-bold text-slate-700">
-                {beltSkuMedia.realImageStatus === 'EXACT_SKU_IMAGE_FOUND'
-                  ? 'عکس واقعی مارکینگ اختصاصی تاییدشده'
-                  : 'نقشه مهندسی پروفیل و ابعاد اختصاصی (بدون عکس واقعی مارکینگ)'}
-              </span>
-              <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-white border border-slate-200 text-[#E06518]" dir="ltr">
-                {beltSkuMedia.technicalDrawingStatus}
-              </span>
+            <div className="rounded-xl border border-slate-200 bg-[#FAF8F5] px-3.5 py-2.5 text-[11px] space-y-1">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="font-bold text-slate-800 inline-flex items-center gap-1.5">
+                  <CheckCircle2
+                    className={`w-3.5 h-3.5 ${
+                      beltSkuMedia.skuImageSourceType === 'EXACT_WEB_VERIFIED'
+                        ? 'text-emerald-600'
+                        : 'text-[#E06518]'
+                    }`}
+                  />
+                  <span>{beltSkuMedia.realImageStatusLabelFa}</span>
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono text-slate-500" dir="ltr">
+                <span>source: {beltSkuMedia.skuImageSourceType}</span>
+                <span>·</span>
+                <span>license: {beltSkuMedia.licenseStatus}</span>
+              </div>
             </div>
           )}
         </div>

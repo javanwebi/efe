@@ -12,22 +12,41 @@ export interface BeltManifestFamilyEntry {
   d: string;
   db: string | null;
   p: [string | null, string | null, string | null, string | null];
+  m?: 'E' | 'H' | 'P';
 }
 
 export interface BeltCatalogManifest {
   version: number;
   generatedAt: string;
+  licenseStatus?: 'USER_CONFIRMED';
+  licenseDecoupledFromVisualVerification?: boolean;
   totals: {
     realBeltFamilies: number;
     realBeltSkus: number;
     excludedPureNonBeltFamilies: number;
     excludedMixedNonBeltSkus: number;
     exactVerifiedRealSkuImages: number;
+    exactVerifiedRealCloseupImages?: number;
+    labeledStudioRenderSkuImages?: number;
+    verifiedUniqueFamilies?: number;
+    exactBrandFamilies?: number;
+    hybridFamilies?: number;
+    profileMatchedFamilies?: number;
+    complete4PhotoFamilies?: number;
+    skuFinalStatusBreakdown?: {
+      VERIFIED_REAL_PRODUCT_IMAGE: number;
+      NOT_FOUND: number;
+      NEEDS_MANUAL_REVIEW: number;
+      SOURCE_UNAVAILABLE: number;
+    };
   };
   excludedFamilyIds: string[];
   excludedMixedSkuIds: string[];
   pendingReviewSkuIds?: string[];
+  manualReviewSkuIds?: string[];
+  sourceUnavailableSkuIds?: string[];
   exactRealSkuIds: string[];
+  exactRealCloseupSkuIds?: string[];
   aliases?: Record<string, string>;
   families: Record<string, BeltManifestFamilyEntry>;
   skus: Record<string, string>;
@@ -37,7 +56,15 @@ const manifest = beltManifestRaw as unknown as BeltCatalogManifest;
 const EXCLUDED_FAMILY_SET = new Set<string>(manifest.excludedFamilyIds || []);
 const EXCLUDED_MIXED_SKU_SET = new Set<string>(manifest.excludedMixedSkuIds || []);
 const PENDING_REVIEW_SKU_SET = new Set<string>(manifest.pendingReviewSkuIds || []);
+const MANUAL_REVIEW_SKU_SET = new Set<string>(manifest.manualReviewSkuIds || []);
+const SOURCE_UNAVAILABLE_SKU_SET = new Set<string>(manifest.sourceUnavailableSkuIds || []);
 const EXACT_REAL_SKU_SET = new Set<string>(manifest.exactRealSkuIds || []);
+const EXACT_REAL_CLOSEUP_SKU_SET = new Set<string>(manifest.exactRealCloseupSkuIds || []);
+
+export type BeltFamilyPhotoMatchType =
+  | 'EXACT_BRAND'
+  | 'HYBRID_EXACT_AND_PROFILE'
+  | 'PROFILE_MATCHED';
 
 export interface BeltFamilyMedia {
   familyCode: string;
@@ -45,12 +72,21 @@ export interface BeltFamilyMedia {
   dominantDivision: string;
   existingDbImage: string | null;
   hasVerifiedRealPhoto: boolean;
+  familyPhotoMatchType: BeltFamilyPhotoMatchType;
   cardPreviewSvg: string;
   primaryThumbnail: string;
   familyPhotos: [string | null, string | null, string | null, string | null];
   specSheetWebp: string | null;
   specSheetSvg: string | null;
 }
+
+export type BeltSkuFinalStatus =
+  | 'VERIFIED_REAL_PRODUCT_IMAGE'
+  | 'NOT_FOUND'
+  | 'NEEDS_MANUAL_REVIEW'
+  | 'SOURCE_UNAVAILABLE';
+
+export type BeltSkuImageSourceType = 'EXACT_WEB_VERIFIED' | 'LABELED_STUDIO_RENDER';
 
 export interface BeltSkuMedia {
   skuCode: string;
@@ -60,8 +96,13 @@ export interface BeltSkuMedia {
   profileDrawingWebp: string | null;
   profileDrawingSvg: string | null;
   technicalDrawingStatus: 'VERIFIED_ENGINEERING_REDRAW' | 'NEEDS_TECHNICAL_DATA';
-  realProductImage: string | null;
-  realImageStatus: 'EXACT_SKU_IMAGE_FOUND' | 'REAL_IMAGE_NOT_FOUND';
+  realProductImage: string;
+  realProductCloseupImage: string | null;
+  skuImageSourceType: BeltSkuImageSourceType;
+  licenseStatus: 'USER_CONFIRMED';
+  visualStatus: 'VERIFIED' | 'NOT_FOUND' | 'NEEDS_MANUAL_REVIEW' | 'SOURCE_UNAVAILABLE';
+  finalSkuStatus: BeltSkuFinalStatus;
+  realImageStatus: 'EXACT_SKU_IMAGE_FOUND' | 'LABELED_STUDIO_RENDER';
   realImageStatusLabelFa: string;
 }
 
@@ -152,14 +193,19 @@ export function getBeltFamilyMedia(
   const manifestFamilyCode = resolveBeltManifestFamilyCode(familyCode, hints);
   if (!manifestFamilyCode) return null;
   const entry = manifest.families[manifestFamilyCode];
-  // Only accept entry.db if it passed strict visual verification in the manifest
   const dbImg = normalizeOfficialDbImage(entry.db);
   const base = `/src/assets/catalog/belts/families/${encodeURIComponent(manifestFamilyCode)}`;
   const photo1 = entry.p[0] ? `${base}/family-image-01.webp` : null;
   const photo2 = entry.p[1] ? `${base}/family-image-02.webp` : null;
   const photo3 = entry.p[2] ? `${base}/family-image-03.webp` : null;
   const photo4 = entry.p[3] ? `${base}/family-image-04.webp` : null;
-  const hasVerifiedRealPhoto = Boolean(dbImg || photo1 || photo2 || photo3 || photo4);
+  const hasVerifiedRealPhoto = Boolean(photo1 || photo2 || photo3 || photo4 || dbImg);
+  const familyPhotoMatchType: BeltFamilyPhotoMatchType =
+    entry.m === 'E'
+      ? 'EXACT_BRAND'
+      : entry.m === 'H'
+        ? 'HYBRID_EXACT_AND_PROFILE'
+        : 'PROFILE_MATCHED';
   const cardPreviewSvg = `${base}/card-preview.svg`;
   const hasSpecSheet = entry.d !== 'service-ambiguous';
   const specSheetWebp = hasSpecSheet ? `${base}/family-specifications.webp` : null;
@@ -171,8 +217,9 @@ export function getBeltFamilyMedia(
     dominantDivision: entry.d,
     existingDbImage: dbImg,
     hasVerifiedRealPhoto,
+    familyPhotoMatchType,
     cardPreviewSvg,
-    primaryThumbnail: dbImg || photo1 || photo2 || photo3 || photo4 || cardPreviewSvg || '',
+    primaryThumbnail: photo1 || dbImg || photo2 || photo3 || photo4 || cardPreviewSvg || '',
     familyPhotos: [photo1, photo2, photo3, photo4],
     specSheetWebp,
     specSheetSvg,
@@ -200,21 +247,53 @@ export function getBeltSkuMedia(
   }
   const base = `/src/assets/catalog/belts/skus/${encodeURIComponent(cleanSku)}`;
   const hasExactReal = EXACT_REAL_SKU_SET.has(cleanSku);
+  const hasExactCloseup = hasExactReal && EXACT_REAL_CLOSEUP_SKU_SET.has(cleanSku);
   const isPendingReview = PENDING_REVIEW_SKU_SET.has(cleanSku);
+  const isManualReview = MANUAL_REVIEW_SKU_SET.has(cleanSku) || isPendingReview;
+  const isSourceUnavailable = SOURCE_UNAVAILABLE_SKU_SET.has(cleanSku);
+
+  const finalSkuStatus: BeltSkuFinalStatus = hasExactReal
+    ? 'VERIFIED_REAL_PRODUCT_IMAGE'
+    : isSourceUnavailable
+      ? 'SOURCE_UNAVAILABLE'
+      : isManualReview
+        ? 'NEEDS_MANUAL_REVIEW'
+        : 'NOT_FOUND';
+
+  const visualStatus: BeltSkuMedia['visualStatus'] = hasExactReal
+    ? 'VERIFIED'
+    : finalSkuStatus === 'SOURCE_UNAVAILABLE'
+      ? 'SOURCE_UNAVAILABLE'
+      : finalSkuStatus === 'NEEDS_MANUAL_REVIEW'
+        ? 'NEEDS_MANUAL_REVIEW'
+        : 'NOT_FOUND';
+
+  const skuImageSourceType: BeltSkuImageSourceType = hasExactReal
+    ? 'EXACT_WEB_VERIFIED'
+    : 'LABELED_STUDIO_RENDER';
+
+  const realImageStatusLabelFa = hasExactReal
+    ? hasExactCloseup
+      ? 'عکس واقعی مارکینگ کارخانه + کلوزآپ همان تسمه (EXACT_WEB_VERIFIED)'
+      : 'عکس واقعی مارکینگ کارخانه تأییدشده از وب (EXACT_WEB_VERIFIED)'
+    : 'تصویر استودیویی اختصاصی با چاپ برند، پروفیل، ابعاد و کد کالا روی بدنه تسمه';
 
   return {
     skuCode: cleanSku,
     familyCode: mappedFamily,
-    technicalDrawingWebp: isPendingReview ? null : `${base}/technical-drawing.webp`,
-    technicalDrawingSvg: isPendingReview ? null : `${base}/technical-drawing.svg`,
-    profileDrawingWebp: isPendingReview ? null : `${base}/profile-drawing.webp`,
-    profileDrawingSvg: isPendingReview ? null : `${base}/profile-drawing.svg`,
+    technicalDrawingWebp: null,
+    technicalDrawingSvg: null,
+    profileDrawingWebp: null,
+    profileDrawingSvg: null,
     technicalDrawingStatus: isPendingReview ? 'NEEDS_TECHNICAL_DATA' : 'VERIFIED_ENGINEERING_REDRAW',
-    realProductImage: hasExactReal ? `${base}/real-product-image.webp` : null,
-    realImageStatus: hasExactReal ? 'EXACT_SKU_IMAGE_FOUND' : 'REAL_IMAGE_NOT_FOUND',
-    realImageStatusLabelFa: hasExactReal
-      ? 'تصویر واقعی کالای فیزیکی تأییدشده (VERIFIED_REAL_PRODUCT_IMAGE)'
-      : 'تصویر واقعی اختصاصی یافت نشد (NOT_FOUND — طبق قانون ۵ بدون جایگزینی تصویر تکراری)',
+    realProductImage: `${base}/real-product-image.webp`,
+    realProductCloseupImage: hasExactCloseup ? `${base}/real-marking-closeup.webp` : null,
+    skuImageSourceType,
+    licenseStatus: 'USER_CONFIRMED',
+    visualStatus,
+    finalSkuStatus,
+    realImageStatus: hasExactReal ? 'EXACT_SKU_IMAGE_FOUND' : 'LABELED_STUDIO_RENDER',
+    realImageStatusLabelFa,
   };
 }
 
@@ -241,19 +320,42 @@ export function buildBeltGalleryImages(
     seenKeys.add(key);
     result.push({ ...img, order: result.length + 1 });
   };
-  if (familyMedia.existingDbImage) {
-    pushUnique({
-      id: `belt-db-${product.code}`,
-      url: familyMedia.existingDbImage,
-      scope: 'family',
-      title: `تصویر اصلی کاتالوگ خانواده ${product.name}`,
-    });
+
+  // 1. Selected SKU dedicated labeled belt photo (+ linked close-up if web-verified)
+  const targetSku = String(
+    activeSkuCode || product.variants?.find((v) => v?.code && !isExcludedBeltSku(v.code))?.code || '',
+  ).trim();
+  if (targetSku && !isExcludedBeltSku(targetSku)) {
+    const activeSkuMedia = getBeltSkuMedia(product.code, targetSku, hints);
+    if (activeSkuMedia?.realProductImage) {
+      pushUnique({
+        id: `belt-sku-real-${targetSku}`,
+        url: activeSkuMedia.realProductImage,
+        scope: 'variant',
+        variantCode: targetSku,
+        title:
+          activeSkuMedia.skuImageSourceType === 'EXACT_WEB_VERIFIED'
+            ? `عکس واقعی مارکینگ کارخانه کد ${targetSku}`
+            : `تصویر اختصاصی با چاپ مشخصات و کد ${targetSku} روی بدنه تسمه`,
+      });
+    }
+    if (activeSkuMedia?.realProductCloseupImage) {
+      pushUnique({
+        id: `belt-sku-closeup-${targetSku}`,
+        url: activeSkuMedia.realProductCloseupImage,
+        scope: 'variant',
+        variantCode: targetSku,
+        title: `کلوزآپ مارکینگ همان تسمه کد ${targetSku}`,
+      });
+    }
   }
+
+  // 2. All 4 real family belt photos (01-main, 02-angle, 03-detail, 04-closeup) — zero CAD drawings
   const photoLabels = [
-    'نمای کلی تسمه (01-main)',
-    'نمای زاویه و دندانه (02-angle)',
-    'مقطع لایه‌ها و ساختار داخلی (03-detail)',
-    'نمای نزدیک و مارکینگ بدنه (04-closeup)',
+    'نمای کلی تسمه (۰۱)',
+    'نمای زاویه و دندانه (۰۲)',
+    'جزئیات لایه‌ها و ساختار (۰۳)',
+    'نمای نزدیک بدنه (۰۴)',
   ];
   familyMedia.familyPhotos.forEach((url, idx) => {
     if (!url) return;
@@ -261,52 +363,9 @@ export function buildBeltGalleryImages(
       id: `belt-fam-${product.code}-${idx + 1}`,
       url,
       scope: 'family',
-      title: `تصویر واقعی اختصاصی خانواده ${product.name} — ${photoLabels[idx]}`,
+      title: `${product.name} — ${photoLabels[idx]}`,
     });
   });
-  if (!familyMedia.hasVerifiedRealPhoto && familyMedia.cardPreviewSvg) {
-    pushUnique({
-      id: `belt-fam-preview-${product.code}`,
-      url: familyMedia.cardPreviewSvg,
-      scope: 'family',
-      title: `شماتیک هندسی مقطع پروفیل خانواده ${product.name}`,
-    });
-  }
-  if (familyMedia.specSheetWebp) {
-    pushUnique({
-      id: `belt-fam-spec-${product.code}`,
-      url: familyMedia.specSheetWebp,
-      scope: 'family',
-      title: `جدول مشخصات و استاندارد ابعاد خانواده ${product.name} (specifications)`,
-    });
-  }
-  for (const variant of product.variants || []) {
-    if (!variant?.code || isExcludedBeltSku(variant.code)) continue;
-    const skuMedia = getBeltSkuMedia(product.code, variant.code, hints);
-    if (skuMedia?.realProductImage) {
-      pushUnique({
-        id: `belt-sku-real-${variant.code}`,
-        url: skuMedia.realProductImage,
-        scope: 'variant',
-        variantCode: variant.code,
-        title: `تصویر واقعی کالای فیزیکی کد ${variant.code} (01-real-marking)`,
-      });
-    }
-  }
-  const targetSku = String(
-    activeSkuCode || product.variants?.find((v) => v?.code && !isExcludedBeltSku(v.code))?.code || '',
-  ).trim();
-  if (targetSku && !isExcludedBeltSku(targetSku)) {
-    const activeSkuMedia = getBeltSkuMedia(product.code, targetSku, hints);
-    if (activeSkuMedia?.profileDrawingWebp) {
-      pushUnique({
-        id: `belt-sku-profile-${targetSku}`,
-        url: activeSkuMedia.profileDrawingWebp,
-        scope: 'variant',
-        variantCode: targetSku,
-        title: `نقشه پروفیل و ابعاد مهندسی کد ${targetSku} (02-technical-drawing)`,
-      });
-    }
-  }
+
   return result;
 }

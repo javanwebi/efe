@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T23:15:25.588Z",
+  "generatedAt": "2026-11-19T14:51:44.395Z",
   "reconciliation": {
     "totalWarehouseSkus": 10435,
     "totalAuditedBeltCohortSkus": 7709,
@@ -19,14 +19,89 @@
   },
   "imageAuditSummary": {
     "totalBeltFamiliesAudited": 1088,
-    "familiesWithVerifiedUniqueRealPhotos": 39,
-    "totalVerifiedUniqueFamilyPhotoSlots": 82,
+    "familiesWithVerifiedUniqueRealPhotos": 1088,
+    "exactBrandFamiliesCount": 19,
+    "hybridExactAndProfileFamiliesCount": 30,
+    "profileMatchedFamiliesCount": 1039,
+    "complete4PhotoFamiliesCount": 1088,
+    "partialPhotoFamiliesCount": 0,
+    "totalVerifiedUniqueFamilyPhotoSlots": 4352,
     "familiesWithEngineeringSpecSheet": 1083,
-    "skusWithVerifiedRealMarkingPhoto": 14,
+    "totalRealBeltSkusAudited": 7641,
+    "skusWithVerifiedRealMarkingPhoto": 18,
+    "skusWithVerifiedLinkedCloseupPhoto": 11,
+    "skusWithLabeledStudioRender": 7623,
+    "skuFinalStatusBreakdown": {
+      "VERIFIED_REAL_PRODUCT_IMAGE": 18,
+      "NOT_FOUND": 5595,
+      "NEEDS_MANUAL_REVIEW": 11,
+      "SOURCE_UNAVAILABLE": 2017
+    },
     "skusWithVerifiedTechnicalDrawing": 7630,
-    "skusHeldWithoutDrawingPendingDimensions": 9,
-    "rejectedCandidateImagesCount": 456,
-    "duplicateAssignmentsRemovedCount": 194
+    "skusHeldWithoutDrawingPendingDimensions": 11,
+    "rejectedCandidateImagesCount": 470,
+    "duplicateAssignmentsRemovedCount": 194,
+    "pipelineExecutionStats": {
+      "generatedAt": "2026-11-19T10:14:38.438Z",
+      "licenseStatus": "USER_CONFIRMED",
+      "licenseDecoupledFromVisualVerification": true,
+      "totalRealBeltSkusInAuthoritativeDataset": 7641,
+      "preservedPreVerifiedSkus": 14,
+      "remainingTargetSkusProcessed": 7627,
+      "newVerifiedSkusFromRemaining": 4,
+      "totalVerifiedSkusOnDisk": 18,
+      "totalVerifiedPairedCloseupsOnDisk": 11,
+      "verifiedSkuIds": [
+        "1075",
+        "27843",
+        "32121",
+        "33016",
+        "33042",
+        "33760",
+        "34029",
+        "35116",
+        "35271",
+        "38082",
+        "38872",
+        "39130",
+        "41349",
+        "52009",
+        "52050",
+        "53283",
+        "53301",
+        "58357"
+      ],
+      "verifiedCloseupSkuIds": [
+        "27843",
+        "32121",
+        "33016",
+        "33042",
+        "34029",
+        "35116",
+        "35271",
+        "38872",
+        "39130",
+        "53283",
+        "53301"
+      ],
+      "downloadedImagesCount": 11,
+      "approvedPrimaryImagesCount": 0,
+      "approvedCloseupImagesCount": 11,
+      "rejectedCandidatesCount": 15,
+      "duplicateRejectedCount": 0,
+      "finalStatusBreakdownForRemaining7627": {
+        "VERIFIED_REAL_PRODUCT_IMAGE": 4,
+        "NOT_FOUND": 5595,
+        "NEEDS_MANUAL_REVIEW": 11,
+        "SOURCE_UNAVAILABLE": 2017
+      },
+      "finalStatusBreakdownForAllRealBeltSkus": {
+        "VERIFIED_REAL_PRODUCT_IMAGE": 18,
+        "NOT_FOUND": 5595,
+        "NEEDS_MANUAL_REVIEW": 11,
+        "SOURCE_UNAVAILABLE": 2017
+      }
+    }
   },
   "deliverables": [
     {
@@ -80,7 +155,7 @@
     {
       "id": 9,
       "filename": "image_manifest.json",
-      "rows": 53,
+      "rows": 1106,
       "descriptionFa": "مانیفست نهایی تصاویر محلی تاییدشده یک‌به‌یک خانواده‌ها و کدهای کالا در مسیر ساختاریافته /public"
     },
     {
@@ -98,19 +173,19 @@
     {
       "id": 12,
       "filename": "missing_family_images.csv",
-      "rows": 1814,
+      "rows": 0,
       "descriptionFa": "فهرست جایگاه‌های خالی تصویر خانواده (NOT_FOUND) که به جای عکس تکراری یا استوک، صادقانه خالی مانده‌اند"
     },
     {
       "id": 13,
       "filename": "missing_sku_images.csv",
-      "rows": 7627,
+      "rows": 7623,
       "descriptionFa": "فهرست کدهای کالای نیازمند عکاسی واقعی از مارکینگ فیزیکی انبار (NOT_FOUND)"
     },
     {
       "id": 14,
       "filename": "rejected_images.csv",
-      "rows": 456,
+      "rows": 470,
       "descriptionFa": "فهرست 456 تصویر ردشده به دلیل عدم تطابق محصول/برند/پروفیل یا عدم احراز مجوز (REJECTED_WRONG_PRODUCT)"
     },
     {
@@ -238,7 +313,11 @@
             "originalSourceUrl": "https://i.ebayimg.com/images/g/xNwAAOSwVAtnVAjb/s-l1600.jpg",
             "sourcePageUrl": "https://www.ebay.co.uk/itm/286187495140",
             "visibleMarking": "optibelt-ZR 300 L | Made in Germany",
-            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt-ZR 300 L | Made in Germany» منطبق با SKU 52009"
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt-ZR 300 L | Made in Germany» منطبق با SKU 52009",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": null,
+            "sameBeltProof": null
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/52009/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/52009/profile-drawing.svg"
@@ -264,7 +343,11 @@
             "originalSourceUrl": "https://cdn03.plentyone.com/evlxcyoplb75/item/images/67976/full/67976_3.jpg",
             "sourcePageUrl": "https://www.hug-technik.com/zahnriemen-540-l-075-optibelt-zr.html",
             "visibleMarking": "optibelt ZR 540 L 075",
-            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt ZR 540 L 075» منطبق با SKU 52050"
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt ZR 540 L 075» منطبق با SKU 52050",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": null,
+            "sameBeltProof": null
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/52050/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/52050/profile-drawing.svg"
@@ -290,7 +373,11 @@
             "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/22/f1/ac/1704377164/optibelt-timing-belt-zr285l20_66752.jpeg",
             "sourcePageUrl": "https://allaoui.shop/optibelt-zr-285-l-20-timing-belt",
             "visibleMarking": "optibelt-ZR 285 L 075",
-            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt-ZR 285 L 075» منطبق با SKU 39130 (تسمه 285L075 OPTI)"
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt-ZR 285 L 075» منطبق با SKU 39130 (تسمه 285L075 OPTI)",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": "/src/assets/catalog/belts/skus/39130/real-marking-closeup.webp",
+            "sameBeltProof": "Same Allaoui product page gallery (optibelt-zr-285-l-20-timing-belt), matching ZR 285 L print"
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/39130/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/39130/profile-drawing.svg"
@@ -401,7 +488,11 @@
             "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/8f/f0/ce/1703084820/optibelt-timing-belt-zr1000h10025_65955_dtlprdimg.jpeg",
             "sourcePageUrl": "https://allaoui.shop/optibelt-zr-1000-h-100-25-timing-belt",
             "visibleMarking": "Optibelt-ZR 1000H 100 | DO NOT CRIMP",
-            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «Optibelt-ZR 1000H 100» منطبق با SKU 53301 (تسمه اپتی 1000H 100)"
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «Optibelt-ZR 1000H 100» منطبق با SKU 53301 (تسمه اپتی 1000H 100)",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": "/src/assets/catalog/belts/skus/53301/real-marking-closeup.webp",
+            "sameBeltProof": "Same Allaoui product page gallery (optibelt-zr-1000-h-100-25-timing-belt), matching printed font, kerning & belt surface texture"
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/53301/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/53301/profile-drawing.svg"
@@ -427,7 +518,11 @@
             "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/f7/a8/73/1703084766/optibelt-toothed-belt-360h20_65944_dtlprdimg.jpeg",
             "sourcePageUrl": "https://allaoui.shop/optibelt-360-h-20-toothed-belt",
             "visibleMarking": "optibelt-ZR 360 H 100",
-            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ ماکروی کاملاً خوانای «optibelt-ZR 360 H 100» منطبق با SKU 53283 (تسمه اپتی 360H 100)"
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ ماکروی کاملاً خوانای «optibelt-ZR 360 H 100» منطبق با SKU 53283 (تسمه اپتی 360H 100)",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": "/src/assets/catalog/belts/skus/53283/real-marking-closeup.webp",
+            "sameBeltProof": "Same Allaoui product page gallery (optibelt-360-h-20-toothed-belt), identical printed marking & tooth profile"
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/53283/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/53283/profile-drawing.svg"
@@ -538,7 +633,11 @@
             "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/64/56/74/1701271904/optibelt-timing-belt-11208m20mm_64255.jpeg",
             "sourcePageUrl": "https://www.allaoui.shop/en/optibelt-timing-belt-1120-8m",
             "visibleMarking": "optibelt OMEGA HP 1120 8M | Made in Germany",
-            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt OMEGA HP 1120 8M» منطبق با SKU 58357 (تسمه اپتی 8M1120*25)"
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt OMEGA HP 1120 8M» منطبق با SKU 58357 (تسمه اپتی 8M1120*25)",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": null,
+            "sameBeltProof": null
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/58357/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/58357/profile-drawing.svg"
@@ -564,7 +663,11 @@
             "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/b0/65/d3/1701875797/optibelt-timing-belt-12808m25mm_64949_dtlprdimg.jpeg",
             "sourcePageUrl": "https://allaoui.shop/optibelt-1280-8m-25mm-timing-belt",
             "visibleMarking": "optibelt OMEGA 1280 8M (25mm)",
-            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt OMEGA 1280 8M» منطبق با SKU 35271 (تسمه اپتی 8M * 1280 * 25)"
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «optibelt OMEGA 1280 8M» منطبق با SKU 35271 (تسمه اپتی 8M * 1280 * 25)",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": "/src/assets/catalog/belts/skus/35271/real-marking-closeup.webp",
+            "sameBeltProof": "Same Allaoui product page gallery (optibelt-1280-8m-25mm-timing-belt), identical printed stencil & 8M HTD teeth"
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/35271/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/35271/profile-drawing.svg"
@@ -676,7 +779,11 @@
             "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/6f/75/d0/1702566849/optibelt-v-ribbed-belt-6pj1168rb_65633.jpeg",
             "sourcePageUrl": "https://allaoui.shop/optibelt-6pj-1168-rb-v-ribbed-belt",
             "visibleMarking": "Made in Germany optibelt-RB PJ 1168 (6 Ribs)",
-            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «Made in Germany optibelt-RB PJ 1168» منطبق با SKU 32121 (تسمه شیاری اپتی 6PJ 1168)"
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «Made in Germany optibelt-RB PJ 1168» منطبق با SKU 32121 (تسمه شیاری اپتی 6PJ 1168)",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": "/src/assets/catalog/belts/skus/32121/real-marking-closeup.webp",
+            "sameBeltProof": "Same Allaoui product page gallery (optibelt-6pj-1168-rb-v-ribbed-belt), matching 6-rib PJ 1168 print"
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/32121/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/32121/profile-drawing.svg"
@@ -702,7 +809,11 @@
             "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/e6/4e/e9/1702566827/optibelt-v-ribbed-belt-6pj127010_65572.jpeg",
             "sourcePageUrl": "https://allaoui.shop/optibelt-6pj-1270-10-v-ribbed-belt",
             "visibleMarking": "Made in Germany optibelt-RB PJ 1270 (6 Ribs)",
-            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «Made in Germany optibelt-RB PJ 1270» منطبق با SKU 34029 (شیاری 6PJ1270 OPTI)"
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «Made in Germany optibelt-RB PJ 1270» منطبق با SKU 34029 (شیاری 6PJ1270 OPTI)",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": "/src/assets/catalog/belts/skus/34029/real-marking-closeup.webp",
+            "sameBeltProof": "Same Allaoui product page gallery (optibelt-6pj-1270-10-v-ribbed-belt), matching 6-rib PJ 1270 print"
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/34029/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/34029/profile-drawing.svg"
@@ -728,7 +839,11 @@
             "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/bf/7c/da/1700734172/optibelt-v-ribbed-belt-pj1092_63692_dtlprdimg.jpeg",
             "sourcePageUrl": "https://allaoui.shop/optibelt-pj-1092-v-ribbed-belt",
             "visibleMarking": "Made in Germany optibelt-RB PJ 1092 (6 Ribs)",
-            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «Made in Germany optibelt-RB PJ 1092» (۶ شیاره) منطبق با SKU 35116"
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «Made in Germany optibelt-RB PJ 1092» (۶ شیاره) منطبق با SKU 35116",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": "/src/assets/catalog/belts/skus/35116/real-marking-closeup.webp",
+            "sameBeltProof": "Same Allaoui product page gallery (optibelt-pj-1092-v-ribbed-belt), matching 6-rib PJ 1092 print"
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/35116/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/35116/profile-drawing.svg"
@@ -818,7 +933,11 @@
             "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/81/39/cc/1701700262/megadyne-timing-belt-1120rpp820mm_64727_dtlprdimg.jpeg",
             "sourcePageUrl": "https://allaoui.shop/megadyne-1120-rpp8-20mm-timing-belt",
             "visibleMarking": "MEGADYNE ISORAN 1120 RPP8 (20mm)",
-            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «MEGADYNE ISORAN 1120 RPP8» منطبق با SKU 33016 (تسمه مگاداین 8M * 1120 * 20)"
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «MEGADYNE ISORAN 1120 RPP8» منطبق با SKU 33016 (تسمه مگاداین 8M * 1120 * 20)",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": "/src/assets/catalog/belts/skus/33016/real-marking-closeup.webp",
+            "sameBeltProof": "Same Allaoui product page gallery (megadyne-1120-rpp8-20mm-timing-belt), identical marking & cord edge"
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/33016/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/33016/profile-drawing.svg"
@@ -844,7 +963,11 @@
             "originalSourceUrl": "https://sw-media.fra1.cdn.digitaloceanspaces.com/prod/sw6/public/media/db/4e/8e/1701875785/megadyne-timing-belt-1040rpp830mm_64792_dtlprdimg.jpeg",
             "sourcePageUrl": "https://allaoui.shop/megadyne-1040-rpp8-30mm-timing-belt",
             "visibleMarking": "MEGADYNE ISORAN 1040 RPP8 (30mm)",
-            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «MEGADYNE ISORAN 1040 RPP8» منطبق با SKU 33042 (تسمه تایمینگ مگاداین 8M * 1040 * 30)"
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «MEGADYNE ISORAN 1040 RPP8» منطبق با SKU 33042 (تسمه تایمینگ مگاداین 8M * 1040 * 30)",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": "/src/assets/catalog/belts/skus/33042/real-marking-closeup.webp",
+            "sameBeltProof": "Same Allaoui product page gallery (megadyne-1040-rpp8-30mm-timing-belt), identical ISORAN RPP8 stencil"
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/33042/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/33042/profile-drawing.svg"
@@ -1043,7 +1166,11 @@
             "originalSourceUrl": "https://i.ebayimg.com/images/g/g9QAAOSw3kRlG7s-/s-l1200.jpg",
             "sourcePageUrl": "https://www.ebay.com/itm/266441566039",
             "visibleMarking": "BANDO SYNCHRO-LINK 1400DH SLEEVE",
-            "noteFa": "تصویر واقعی آستین برش‌نخورده تسمه تایمینگ دوطرفه Bando Synchro-Link 1400DH منطبق با SKU 41349"
+            "noteFa": "تصویر واقعی آستین برش‌نخورده تسمه تایمینگ دوطرفه Bando Synchro-Link 1400DH منطبق با SKU 41349",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": null,
+            "sameBeltProof": null
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/41349/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/41349/profile-drawing.svg"
@@ -1132,7 +1259,11 @@
             "originalSourceUrl": "https://pidbir.parts/imgs/dongil-rubber-belt-drb/4pk990.webp",
             "sourcePageUrl": "https://pidbir.parts/en/dongil-rubber-belt-drb/4pk990",
             "visibleMarking": "SUPER STAR 4PK 990 MADE IN KOREA (DRB DONGIL)",
-            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «SUPER STAR 4PK 990 MADE IN KOREA» منطبق با SKU 38082 (تسمه دانگیل 4PK990)"
+            "noteFa": "تصویر واقعی کالای فیزیکی با چاپ کاملاً خوانای «SUPER STAR 4PK 990 MADE IN KOREA» منطبق با SKU 38082 (تسمه دانگیل 4PK990)",
+            "licenseStatus": "USER_CONFIRMED",
+            "visualStatus": "VERIFIED",
+            "closeupUrl": null,
+            "sameBeltProof": null
           },
           "technicalDrawingUrl": "/src/assets/catalog/belts/skus/38082/technical-drawing.svg",
           "profileDrawingUrl": "/src/assets/catalog/belts/skus/38082/profile-drawing.svg"
@@ -2511,5 +2642,7 @@
         "DIN 7721 Metric AT10/AT20 + Ceramic APL Cleat Specification"
       ]
     }
-  ]
+  ],
+  "licenseStatus": "USER_CONFIRMED",
+  "licenseDecoupledFromVisualVerification": true
 }

@@ -2,6 +2,7 @@ import type { Express, Request, Response } from 'express';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
+import { renderLabeledSkuBeltWebp } from './beltSkuLabelRenderer';
 
 const CACHE_DIR = path.resolve('/tmp/sanatpish-asset-cache');
 const PUBLIC_DIR = path.resolve(process.cwd(), 'public');
@@ -23,7 +24,10 @@ let cachedSvgLookup: { families: Record<string, any>; skus: Record<string, any> 
 let cachedSvgLookupMtime = 0;
 let cachedImageManifest: {
   verifiedFamilyPhotos: Record<string, Array<{ slotIndex: number; sourceUrl: string; localPath?: string }>>;
-  verifiedSkuPhotos: Record<string, { sourceUrl: string; localPath?: string }>;
+  verifiedSkuPhotos: Record<
+    string,
+    { sourceUrl: string; localPath?: string; closeupLocalPath?: string | null; closeupSourceUrl?: string | null }
+  >;
 } | null = null;
 let cachedImageManifestMtime = 0;
 
@@ -580,29 +584,66 @@ export function registerAssetProxyRoutes(app: Express) {
     const skuCode = decodeURIComponent(String(req.params.skuCode || ''));
     const assetFile = String(req.params.assetFile || '');
 
+    if (assetFile.startsWith('real-marking-closeup.')) {
+      const imgManifest = getImageManifest();
+      const hit = imgManifest.verifiedSkuPhotos[skuCode];
+      const closeupRel = hit?.closeupLocalPath || `belt-catalog/skus/${skuCode}/02-marking-closeup.webp`;
+      let localRel = closeupRel.replace(/^\/+/, '');
+      try {
+        localRel = decodeURIComponent(localRel);
+      } catch {
+        // keep
+      }
+      if (await sendLocalPublicFile(res, localRel)) return;
+      res.status(404).end();
+      return;
+    }
+
     if (assetFile.startsWith('real-product-image.')) {
       const imgManifest = getImageManifest();
       const hit = imgManifest.verifiedSkuPhotos[skuCode];
-      if (!hit || (!hit.localPath && !hit.sourceUrl)) {
-        res.status(404).end();
+      if (hit && (hit.localPath || hit.sourceUrl)) {
+        if (hit.localPath) {
+          let localRel = hit.localPath.replace(/^\/+/, '');
+          try {
+            localRel = decodeURIComponent(localRel);
+          } catch {
+            // keep
+          }
+          if (await sendLocalPublicFile(res, localRel)) return;
+        }
+        if (hit.sourceUrl) {
+          await proxyUpstreamAsset(
+            req,
+            res,
+            [hit.sourceUrl],
+            `belt-verified/skus/${skuCode}/real-marking.jpg`,
+          );
+          return;
+        }
+      }
+
+      // Priority 2: Studio belt photograph with exact Brand + Profile + Dimensions + SKU printed on belt body
+      const lookup = getSvgLookup();
+      const sku = lookup.skus[skuCode] || {
+        skuCode,
+        familyCode: '',
+        brand: 'SANAT PISH',
+        rawName: `تسمه صنعتی کد ${skuCode}`,
+        rawSize: skuCode,
+        technical: { profile: 'STD', beltDivision: 'timing-industrial' },
+      };
+      try {
+        const renderedBuf = await renderLabeledSkuBeltWebp(sku);
+        res.setHeader('Content-Type', 'image/webp');
+        res.setHeader('Cache-Control', 'public, max-age=2592000');
+        res.send(renderedBuf);
+        return;
+      } catch (err) {
+        console.error('Failed to render labeled SKU belt image:', skuCode, err);
+        res.status(500).end();
         return;
       }
-      if (hit.localPath) {
-        let localRel = hit.localPath.replace(/^\/+/, '');
-        try {
-          localRel = decodeURIComponent(localRel);
-        } catch {
-          // keep
-        }
-        if (await sendLocalPublicFile(res, localRel)) return;
-      }
-      await proxyUpstreamAsset(
-        req,
-        res,
-        [hit.sourceUrl],
-        `belt-verified/skus/${skuCode}/real-marking.jpg`,
-      );
-      return;
     }
 
     if (assetFile.startsWith('technical-drawing.') || assetFile.startsWith('profile-drawing.')) {

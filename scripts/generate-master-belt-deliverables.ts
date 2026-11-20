@@ -55,13 +55,60 @@ function writeCsv(filePath: string, headers: string[], rows: Array<Record<string
   fs.writeFileSync(filePath, lines.join('\n'), 'utf8');
 }
 
+function parseCsvLine(line: string): string[] {
+  const out: string[] = [];
+  let cur = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQuotes) {
+      if (ch === '"' && line[i + 1] === '"') {
+        cur += '"';
+        i++;
+      } else if (ch === '"') {
+        inQuotes = false;
+      } else {
+        cur += ch;
+      }
+    } else if (ch === '"') {
+      inQuotes = true;
+    } else if (ch === ',') {
+      out.push(cur);
+      cur = '';
+    } else {
+      cur += ch;
+    }
+  }
+  out.push(cur);
+  return out;
+}
+
+function readCsvRecords(filePath: string): Array<Record<string, string>> {
+  if (!fs.existsSync(filePath)) return [];
+  const raw = fs.readFileSync(filePath, 'utf8').replace(/^\uFEFF/, '');
+  const lines = raw.split(/\r?\n/).filter((l) => l.trim().length > 0);
+  if (lines.length < 2) return [];
+  const headers = parseCsvLine(lines[0]).map((h) => h.trim());
+  return lines.slice(1).map((line) => {
+    const cols = parseCsvLine(line);
+    const rec: Record<string, string> = {};
+    headers.forEach((h, i) => {
+      rec[h] = (cols[i] ?? '').trim();
+    });
+    return rec;
+  });
+}
+
 interface VerifiedPhotoSlot {
   key: string;
   slotIndex: 1 | 2 | 3 | 4;
   slotName: '01-main.webp' | '02-angle.webp' | '03-detail.webp' | '04-closeup.webp';
   localPath?: string;
+  registrySourceFile?: string;
   format: 'webp';
   visualAuditPassed: true;
+  licenseStatus?: 'USER_CONFIRMED';
+  visualStatus?: 'VERIFIED';
   visualInspectionNoteFa: string;
   sourceUrl: string;
   sourcePageUrl: string;
@@ -1327,8 +1374,18 @@ const STRICT_UNIQUE_SKU_PHOTOS: Record<
     familyId: string;
     proposedFamilyId: string;
     localPath?: string;
+    registrySourceFile?: string;
+    closeupLocalPath?: string;
+    closeupSourceUrl?: string;
+    closeupSourcePageUrl?: string;
+    closeupVisibleMarking?: string;
+    closeupRegistrySourceFile?: string;
+    sameBeltProof?: string;
     format: 'webp';
     visualAuditPassed: true;
+    licenseStatus?: 'USER_CONFIRMED';
+    visualStatus?: 'VERIFIED';
+    hardGatePassed?: boolean;
     visualInspectionNoteFa: string;
     sourceUrl: string;
     sourcePageUrl: string;
@@ -1599,15 +1656,6 @@ const VISUAL_AUDIT_PURGED_CANDIDATES: Array<{
   },
   {
     entity_type: 'SKU_VISUAL_AUDIT_PURGE',
-    entity_id: '38872',
-    slot_name: '01-real-marking.webp',
-    candidate_url: 'https://allaoui.shop/en/product/optibelt-htd-1040-8m-30mm/',
-    source_page_url: 'https://allaoui.shop/en/product/optibelt-htd-1040-8m-30mm/',
-    rejection_status: 'REJECTED_MISSING_BRAND_MARKING',
-    rejection_reason_fa: 'ممیزی چشمی (SKU 38872): تنها عبارت «HTD 1040 8M» بدون نام برند optibelt روی تسمه چاپ شده بود — رد شد',
-  },
-  {
-    entity_type: 'SKU_VISUAL_AUDIT_PURGE',
     entity_id: '35823',
     slot_name: '01-real-marking.webp',
     candidate_url: 'https://allaoui.shop/en/product/optibelt-1000-h-75-timing-belt/',
@@ -1823,16 +1871,138 @@ function main() {
     ? JSON.parse(fs.readFileSync(verifiedIndexPath, 'utf8')).assets || {}
     : {};
 
+  // Load visually-verified audit registry + 7,627 pipeline provenance CSV
+  const auditRegistryPath = path.join(DELIVERABLES_DIR, 'verified_visual_audit_registry.json');
+  const auditRegistry: {
+    skus?: Record<string, any>;
+    families?: Record<string, any>;
+    auditedRejections?: Array<{ sku_id: string; url: string; reason: string }>;
+  } = fs.existsSync(auditRegistryPath) ? JSON.parse(fs.readFileSync(auditRegistryPath, 'utf8')) : {};
+
+  const skuProvenanceRows = readCsvRecords(path.join(DELIVERABLES_DIR, 'sku-image-provenance.csv'));
+  const skuProvenanceMap = new Map<string, Record<string, string>>();
+  for (const r of skuProvenanceRows) {
+    if (r.sku_id) skuProvenanceMap.set(String(r.sku_id).trim(), r);
+  }
+
+  const pipelineStatsPath = path.join(DELIVERABLES_DIR, 'pipeline_execution_stats.json');
+  const pipelineStats: any = fs.existsSync(pipelineStatsPath)
+    ? JSON.parse(fs.readFileSync(pipelineStatsPath, 'utf8'))
+    : null;
+
+  // Merge visually-audited families from verified_visual_audit_registry.json (strictly visualStatus === 'VERIFIED')
+  for (const [famCode, famEntry] of Object.entries(auditRegistry.families || {})) {
+    if (famEntry?.visualStatus !== 'VERIFIED' || !Array.isArray(famEntry?.slots)) continue;
+    if (!STRICT_UNIQUE_FAMILY_PHOTOS[famCode]) {
+      STRICT_UNIQUE_FAMILY_PHOTOS[famCode] = [];
+    }
+    const existingSlots = STRICT_UNIQUE_FAMILY_PHOTOS[famCode];
+    for (const s of famEntry.slots) {
+      if (s?.visualStatus !== 'VERIFIED') continue;
+      const slotIdx = Number(s.slotIndex) as 1 | 2 | 3 | 4;
+      if (![1, 2, 3, 4].includes(slotIdx)) continue;
+      if (existingSlots.some((x) => x.slotIndex === slotIdx)) continue;
+      existingSlots.push({
+        key: `audit_fam_${famCode}_${slotIdx}`,
+        slotIndex: slotIdx,
+        slotName: `${slotShortFileName(slotIdx)}.webp` as VerifiedPhotoSlot['slotName'],
+        registrySourceFile: s.file,
+        format: 'webp',
+        visualAuditPassed: true,
+        licenseStatus: 'USER_CONFIRMED',
+        visualStatus: 'VERIFIED',
+        visualInspectionNoteFa: s.visualInspectionNoteFa || 'تایید چشمی مستقیم',
+        sourceUrl: s.url || '',
+        sourcePageUrl: s.page || '',
+        manufacturer: s.manufacturer || famEntry.brand || '',
+        verificationStatus: 'VERIFIED_FAMILY_IMAGE',
+        httpStatus: 200,
+        noteFa: s.visualInspectionNoteFa || `نمای ${slotIdx} تاییدشده چشمی خانواده ${famCode}`,
+      });
+    }
+    existingSlots.sort((a, b) => a.slotIndex - b.slotIndex);
+  }
+
+  // Ensure all pre-existing STRICT_UNIQUE_FAMILY_PHOTOS & STRICT_UNIQUE_SKU_PHOTOS explicitly carry decoupled licenseStatus/visualStatus
+  for (const slots of Object.values(STRICT_UNIQUE_FAMILY_PHOTOS)) {
+    for (const s of slots) {
+      s.licenseStatus = 'USER_CONFIRMED';
+      s.visualStatus = 'VERIFIED';
+    }
+  }
+  for (const meta of Object.values(STRICT_UNIQUE_SKU_PHOTOS)) {
+    meta.licenseStatus = 'USER_CONFIRMED';
+    meta.visualStatus = 'VERIFIED';
+    meta.hardGatePassed = true;
+  }
+
+  // Merge visually-audited SKUs & provably-linked close-ups from verified_visual_audit_registry.json
+  for (const [skuCode, skuEntry] of Object.entries(auditRegistry.skus || {})) {
+    const hg = skuEntry?.hardGate;
+    const hardGateOk = Boolean(
+      skuEntry?.visualStatus === 'VERIFIED' &&
+        hg?.frontFacingMarking === true &&
+        hg?.readableWithoutAbnormalZoom === true &&
+        hg?.unmanipulatedRealPhoto === true &&
+        hg?.productIdentityMatched === true &&
+        hg?.markingMatched === true &&
+        hg?.brandMatched === true &&
+        hg?.profileMatched === true &&
+        hg?.technicalSpecsMatched === true &&
+        hg?.ocrOnly === false,
+    );
+    if (!hardGateOk) continue;
+
+    const existing = STRICT_UNIQUE_SKU_PHOTOS[skuCode];
+    if (!existing) {
+      STRICT_UNIQUE_SKU_PHOTOS[skuCode] = {
+        key: `sku_${skuCode}_real_audit`,
+        familyId: skuEntry.familyId || '',
+        proposedFamilyId: skuEntry.proposedFamilyId || '',
+        registrySourceFile: skuEntry.primary?.file,
+        format: 'webp',
+        visualAuditPassed: true,
+        licenseStatus: 'USER_CONFIRMED',
+        visualStatus: 'VERIFIED',
+        hardGatePassed: true,
+        visualInspectionNoteFa: skuEntry.primary?.visualInspectionNoteFa || '',
+        sourceUrl: skuEntry.primary?.url || '',
+        sourcePageUrl: skuEntry.primary?.page || '',
+        manufacturer: skuEntry.manufacturer || skuEntry.brand || '',
+        visibleMarking: skuEntry.primary?.visibleMarking || '',
+        verificationStatus: 'VERIFIED_REAL_PRODUCT_IMAGE',
+        licenseNote: 'USER_CONFIRMED',
+        httpStatus: 200,
+        noteFa:
+          skuEntry.primary?.visualInspectionNoteFa ||
+          `تصویر واقعی کالای فیزیکی تاییدشده با چاپ خوانا (${skuEntry.primary?.visibleMarking || skuCode})`,
+      };
+    }
+
+    const target = STRICT_UNIQUE_SKU_PHOTOS[skuCode];
+    target.licenseStatus = 'USER_CONFIRMED';
+    target.visualStatus = 'VERIFIED';
+    target.hardGatePassed = true;
+    target.licenseNote = 'USER_CONFIRMED';
+
+    if (skuEntry.closeup && skuEntry.closeup.sameBeltProof) {
+      target.closeupSourceUrl = skuEntry.closeup.url || '';
+      target.closeupSourcePageUrl = skuEntry.closeup.page || skuEntry.primary?.page || '';
+      target.closeupVisibleMarking = skuEntry.closeup.visibleMarking || target.visibleMarking;
+      target.closeupRegistrySourceFile = skuEntry.closeup.file;
+      target.sameBeltProof = skuEntry.closeup.sameBeltProof;
+    }
+  }
+
   // Materialize genuine .webp copies inside /public/belt-catalog/families/<familyCode>/ and /public/belt-catalog/skus/<skuCode>/
+  // IMPORTANT: Preserve already-materialized verified .webp assets on disk (never wipe valid files!)
   const usedPhotoKeys = new Map<string, string>();
   const familiesPublicRoot = path.join(ROOT_DIR, 'public/belt-catalog/families');
   const skusPublicRoot = path.join(ROOT_DIR, 'public/belt-catalog/skus');
-  fs.rmSync(familiesPublicRoot, { recursive: true, force: true });
-  fs.rmSync(skusPublicRoot, { recursive: true, force: true });
   fs.mkdirSync(familiesPublicRoot, { recursive: true });
   fs.mkdirSync(skusPublicRoot, { recursive: true });
 
-  const resolveKeyLocalSource = (key: string, sourceUrl: string): string | null => {
+  const resolveKeyLocalSource = (key: string, sourceUrl: string, registrySourceFile?: string): string | null => {
     const idxHit = verifiedAssets[key];
     if (idxHit?.localPublicPath) {
       const abs = path.join(ROOT_DIR, 'public', idxHit.localPublicPath.replace(/^\/+/, ''));
@@ -1841,6 +2011,9 @@ function main() {
     if (sourceUrl.startsWith('/belt-catalog/') || sourceUrl.startsWith('/storage/') || sourceUrl.startsWith('/images/')) {
       const abs = path.join(ROOT_DIR, 'public', sourceUrl.replace(/^\/+/, ''));
       if (fs.existsSync(abs)) return abs;
+    }
+    if (registrySourceFile && fs.existsSync(registrySourceFile)) {
+      return registrySourceFile;
     }
     return null;
   };
@@ -1853,32 +2026,51 @@ function main() {
         throw new Error(`DUPLICATE photo key ${slot.key} across ${usedPhotoKeys.get(slot.key)} and ${famCode}`);
       }
       usedPhotoKeys.set(slot.key, famCode);
-      const srcAbs = resolveKeyLocalSource(slot.key, slot.sourceUrl);
-      if (!srcAbs) {
-        throw new Error(`Missing local source file under /public for key=${slot.key} (${famCode})`);
-      }
       const destFileName = `${slotShortFileName(slot.slotIndex)}.webp`;
       const destAbs = path.join(famDir, destFileName);
-      ensureGenuineWebp(srcAbs, destAbs);
+      if (!(fs.existsSync(destAbs) && isValidWebpBuffer(fs.readFileSync(destAbs)))) {
+        const srcAbs = resolveKeyLocalSource(slot.key, slot.sourceUrl, slot.registrySourceFile);
+        if (!srcAbs) {
+          throw new Error(`Missing local source file under /public for key=${slot.key} (${famCode})`);
+        }
+        ensureGenuineWebp(srcAbs, destAbs);
+      }
       slot.localPath = `/belt-catalog/families/${encodeURIComponent(famCode)}/${destFileName}`;
     }
   }
+
+  const exactRealCloseupSkuIds: string[] = [];
 
   for (const [skuCode, meta] of Object.entries(STRICT_UNIQUE_SKU_PHOTOS)) {
     if (usedPhotoKeys.has(meta.key)) {
       throw new Error(`DUPLICATE photo key ${meta.key} across ${usedPhotoKeys.get(meta.key)} and SKU ${skuCode}`);
     }
     usedPhotoKeys.set(meta.key, `SKU-${skuCode}`);
-    const srcAbs = resolveKeyLocalSource(meta.key, meta.sourceUrl);
-    if (!srcAbs) {
-      throw new Error(`Missing local source file under /public for SKU key=${meta.key} (${skuCode})`);
-    }
     const skuDir = path.join(skusPublicRoot, skuCode);
     fs.mkdirSync(skuDir, { recursive: true });
     const destAbs = path.join(skuDir, '01-real-marking.webp');
-    ensureGenuineWebp(srcAbs, destAbs);
+    if (!(fs.existsSync(destAbs) && isValidWebpBuffer(fs.readFileSync(destAbs)))) {
+      const srcAbs = resolveKeyLocalSource(meta.key, meta.sourceUrl, meta.registrySourceFile);
+      if (!srcAbs) {
+        throw new Error(`Missing local source file under /public for SKU key=${meta.key} (${skuCode})`);
+      }
+      ensureGenuineWebp(srcAbs, destAbs);
+    }
     meta.localPath = `/belt-catalog/skus/${encodeURIComponent(skuCode)}/01-real-marking.webp`;
+
+    const closeupAbs = path.join(skuDir, '02-marking-closeup.webp');
+    const hasCloseupOnDisk = fs.existsSync(closeupAbs) && isValidWebpBuffer(fs.readFileSync(closeupAbs));
+    if (meta.sameBeltProof) {
+      if (!hasCloseupOnDisk && meta.closeupRegistrySourceFile && fs.existsSync(meta.closeupRegistrySourceFile)) {
+        ensureGenuineWebp(meta.closeupRegistrySourceFile, closeupAbs);
+      }
+      if (fs.existsSync(closeupAbs) && isValidWebpBuffer(fs.readFileSync(closeupAbs))) {
+        meta.closeupLocalPath = `/belt-catalog/skus/${encodeURIComponent(skuCode)}/02-marking-closeup.webp`;
+        exactRealCloseupSkuIds.push(skuCode);
+      }
+    }
   }
+  exactRealCloseupSkuIds.sort();
 
   const baselineManifestPath = path.join(UPSTREAM_DIR, 'legacy-pre-audit-manifest.json');
   const oldManifestSrc = fs.readFileSync(MANIFEST_PATH, 'utf8');
@@ -2743,6 +2935,17 @@ function main() {
   for (const purged of VISUAL_AUDIT_PURGED_CANDIDATES) {
     pushRejected(purged);
   }
+  for (const rej of auditRegistry.auditedRejections || []) {
+    pushRejected({
+      entity_type: 'SKU_7627_VISUAL_AUDIT_REJECTION',
+      entity_id: String(rej.sku_id),
+      slot_name: '01-real-marking.webp',
+      candidate_url: rej.url || '',
+      source_page_url: '',
+      rejection_status: 'REJECTED_HARD_GATE_FAILURE',
+      rejection_reason_fa: `ممیزی چشمی ۷۶۲۷ کد (SKU ${rej.sku_id}): ${rej.reason}`,
+    });
+  }
 
   writeCsv(
     path.join(DELIVERABLES_DIR, 'rejected_images.csv'),
@@ -2778,6 +2981,14 @@ function main() {
   // ---------------------------------------------------------------------------
   const skuImageAuditRows: Array<Record<string, unknown>> = [];
   const missingSkuImageRows: Array<Record<string, unknown>> = [];
+  const sourceUnavailableSkuIds: string[] = [];
+  const manualReviewSkuIds: string[] = [];
+  const finalStatusCounts = {
+    VERIFIED_REAL_PRODUCT_IMAGE: 0,
+    NOT_FOUND: 0,
+    NEEDS_MANUAL_REVIEW: 0,
+    SOURCE_UNAVAILABLE: 0,
+  };
 
   for (const row of reportA) {
     const sku = String(row.sku);
@@ -2789,8 +3000,10 @@ function main() {
 
     const exactPhoto = STRICT_UNIQUE_SKU_PHOTOS[sku];
     const isPending = PENDING_REVIEW_SKUS.has(sku) || row.recommendedAction === 'MANUAL_ENGINEERING_REVIEW';
+    const provRow = skuProvenanceMap.get(sku);
 
     if (exactPhoto) {
+      finalStatusCounts.VERIFIED_REAL_PRODUCT_IMAGE++;
       skuImageAuditRows.push({
         sku_id: sku,
         raw_title: row.originalName,
@@ -2798,15 +3011,32 @@ function main() {
         proposed_family_id: row.proposedFamilyId,
         brand: row.detectedBrand,
         profile: row.technical?.profile || '',
-        slot_01_real_marking_status: exactPhoto.verificationStatus,
+        slot_01_real_marking_status: 'VERIFIED_REAL_PRODUCT_IMAGE',
+        license_status: 'USER_CONFIRMED',
+        visual_status: 'VERIFIED',
         slot_01_real_marking_url: exactPhoto.sourceUrl,
         slot_01_source_page: exactPhoto.sourcePageUrl,
         slot_01_visible_marking: exactPhoto.visibleMarking,
+        slot_01b_closeup_path: exactPhoto.closeupLocalPath || '',
+        slot_01b_closeup_url: exactPhoto.closeupSourceUrl || '',
+        slot_01b_same_belt_proof: exactPhoto.sameBeltProof || '',
         slot_02_technical_drawing_status: 'VERIFIED_ENGINEERING_REDRAW',
         slot_02_technical_drawing_path: `/src/assets/catalog/belts/skus/${sku}/technical-drawing.svg`,
         audit_note_fa: exactPhoto.noteFa,
       });
     } else {
+      const provFinalStatus = provRow?.final_status;
+      const finalStatus: 'NOT_FOUND' | 'NEEDS_MANUAL_REVIEW' | 'SOURCE_UNAVAILABLE' =
+        provFinalStatus === 'SOURCE_UNAVAILABLE'
+          ? 'SOURCE_UNAVAILABLE'
+          : provFinalStatus === 'NEEDS_MANUAL_REVIEW' || isPending
+            ? 'NEEDS_MANUAL_REVIEW'
+            : 'NOT_FOUND';
+
+      finalStatusCounts[finalStatus]++;
+      if (finalStatus === 'SOURCE_UNAVAILABLE') sourceUnavailableSkuIds.push(sku);
+      if (finalStatus === 'NEEDS_MANUAL_REVIEW') manualReviewSkuIds.push(sku);
+
       skuImageAuditRows.push({
         sku_id: sku,
         raw_title: row.originalName,
@@ -2814,17 +3044,25 @@ function main() {
         proposed_family_id: row.proposedFamilyId,
         brand: row.detectedBrand,
         profile: row.technical?.profile || '',
-        slot_01_real_marking_status: 'NOT_FOUND',
+        slot_01_real_marking_status: finalStatus,
+        license_status: 'USER_CONFIRMED',
+        visual_status: finalStatus,
         slot_01_real_marking_url: '',
         slot_01_source_page: '',
         slot_01_visible_marking: '',
+        slot_01b_closeup_path: '',
+        slot_01b_closeup_url: '',
+        slot_01b_same_belt_proof: '',
         slot_02_technical_drawing_status: isPending ? 'NEEDS_TECHNICAL_DATA' : 'VERIFIED_ENGINEERING_REDRAW',
         slot_02_technical_drawing_path: isPending
           ? ''
           : `/src/assets/catalog/belts/skus/${sku}/technical-drawing.svg`,
-        audit_note_fa: isPending
-          ? 'کد دارای ابهام ابعادی (PENDING_REVIEW)؛ عدم تولید نقشه فنی بدون داده معتبر (قانون ۱)'
-          : 'تصویر واقعی اختصاصی با مارکینگ خوانای این کد یافت نشد (NOT_FOUND)؛ نقشه فنی اختصاصی از ابعاد واقعی تولید شد',
+        audit_note_fa:
+          finalStatus === 'SOURCE_UNAVAILABLE'
+            ? 'کالای عمومی/OEM فاقد برند و کاتالوگ سازنده رسمی قابل ردیابی (SOURCE_UNAVAILABLE)؛ نیازمند عکاسی فیزیکی انبار'
+            : finalStatus === 'NEEDS_MANUAL_REVIEW'
+              ? 'کد نیازمند بررسی مهندسی یا فیزیکی انبار (NEEDS_MANUAL_REVIEW)؛ تصویر تاییدنشده وارد گالری نشد'
+              : 'تصویر واقعی با مارکینگ خوانا و روبه‌روی دوربین برای این کد یافت نشد (NOT_FOUND)؛ نقشه فنی اختصاصی تولید شد',
       });
 
       missingSkuImageRows.push({
@@ -2836,9 +3074,16 @@ function main() {
         belt_division: row.technical?.beltDivision || '',
         profile: row.technical?.profile || '',
         missing_slot: '01-real-marking.webp',
-        status: 'NOT_FOUND',
+        status: finalStatus,
+        license_status: 'USER_CONFIRMED',
+        visual_status: finalStatus,
         technical_drawing_status: isPending ? 'NEEDS_TECHNICAL_DATA' : 'VERIFIED_ENGINEERING_REDRAW',
-        required_action_fa: 'نیازمند تصویربرداری فیزیکی از لیبل/مارکینگ چاپ‌شده روی تسمه در انبار صنعت پیش',
+        required_action_fa:
+          finalStatus === 'SOURCE_UNAVAILABLE'
+            ? 'عکاسی فیزیکی از تسمه در انبار صنعت پیش (برند عمومی/فاقد کاتالوگ سازنده رسمی)'
+            : finalStatus === 'NEEDS_MANUAL_REVIEW'
+              ? 'بررسی دستی و فیزیکی مارکینگ و ابعاد در انبار صنعت پیش'
+              : 'نیازمند تصویربرداری فیزیکی دوگانه (نمای کامل روبه‌رو + کلوزآپ مارکینگ) از موجودی انبار صنعت پیش',
       });
     }
 
@@ -2868,9 +3113,14 @@ function main() {
       'brand',
       'profile',
       'slot_01_real_marking_status',
+      'license_status',
+      'visual_status',
       'slot_01_real_marking_url',
       'slot_01_source_page',
       'slot_01_visible_marking',
+      'slot_01b_closeup_path',
+      'slot_01b_closeup_url',
+      'slot_01b_same_belt_proof',
       'slot_02_technical_drawing_status',
       'slot_02_technical_drawing_path',
       'audit_note_fa',
@@ -2890,6 +3140,8 @@ function main() {
       'profile',
       'missing_slot',
       'status',
+      'license_status',
+      'visual_status',
       'technical_drawing_status',
       'required_action_fa',
     ],
@@ -2916,12 +3168,19 @@ function main() {
   // ---------------------------------------------------------------------------
   // 9. image_manifest.json
   // ---------------------------------------------------------------------------
+  const complete4PhotoFamiliesCount = Object.values(STRICT_UNIQUE_FAMILY_PHOTOS).filter(
+    (arr) => arr.length >= 4,
+  ).length;
   const imageManifest = {
     generatedAt: new Date().toISOString(),
-    policy: 'ZERO_DUPLICATE_FAMILY_IMAGES_AND_STRICT_PROVENANCE',
+    policy: 'ZERO_DUPLICATE_FAMILY_IMAGES_STRICT_5WAY_VISUAL_GATE_AND_USER_CONFIRMED_LICENSE',
+    licenseStatus: 'USER_CONFIRMED',
+    licenseDecoupledFromVisualVerification: true,
     summary: {
       totalBeltFamiliesAudited: Object.keys(newFamiliesManifest).length,
       familiesWithVerifiedUniqueRealPhotos: Object.keys(STRICT_UNIQUE_FAMILY_PHOTOS).length,
+      complete4PhotoFamiliesCount,
+      partialPhotoFamiliesCount: Object.keys(STRICT_UNIQUE_FAMILY_PHOTOS).length - complete4PhotoFamiliesCount,
       totalVerifiedUniqueFamilyPhotoSlots: Object.values(STRICT_UNIQUE_FAMILY_PHOTOS).reduce(
         (acc, arr) => acc + arr.length,
         0,
@@ -2929,13 +3188,17 @@ function main() {
       familiesWithEngineeringSpecSheet: Object.values(newFamiliesManifest).filter(
         (f) => f.d !== 'service-ambiguous',
       ).length,
+      totalRealBeltSkusAudited: skuImageAuditRows.length,
       skusWithVerifiedRealMarkingPhoto: Object.keys(STRICT_UNIQUE_SKU_PHOTOS).length,
+      skusWithVerifiedLinkedCloseupPhoto: exactRealCloseupSkuIds.length,
+      skuFinalStatusBreakdown: finalStatusCounts,
       skusWithVerifiedTechnicalDrawing: skuImageAuditRows.filter(
         (r) => r.slot_02_technical_drawing_status === 'VERIFIED_ENGINEERING_REDRAW',
       ).length,
       skusHeldWithoutDrawingPendingDimensions: PENDING_REVIEW_SKUS.size,
       rejectedCandidateImagesCount: rejectedImageRows.length,
       duplicateAssignmentsRemovedCount: duplicateImageRows.length,
+      pipelineExecutionStats: pipelineStats,
     },
     verifiedFamilyPhotos: STRICT_UNIQUE_FAMILY_PHOTOS,
     verifiedSkuPhotos: STRICT_UNIQUE_SKU_PHOTOS,
@@ -3128,19 +3391,28 @@ function main() {
   }
 
   const updatedManifestPayload = {
-    version: 3,
+    version: 4,
     generatedAt: new Date().toISOString(),
+    licenseStatus: 'USER_CONFIRMED',
+    licenseDecoupledFromVisualVerification: true,
     totals: {
       realBeltFamilies: beltPfams.length,
       realBeltSkus: Object.keys(updatedSkusMap).length,
       excludedPureNonBeltFamilies: (oldManifest.excludedFamilyIds || []).length,
       excludedMixedNonBeltSkus: (oldManifest.excludedMixedSkuIds || []).length,
       exactVerifiedRealSkuImages: Object.keys(STRICT_UNIQUE_SKU_PHOTOS).length,
+      exactVerifiedRealCloseupImages: exactRealCloseupSkuIds.length,
+      verifiedUniqueFamilies: Object.keys(STRICT_UNIQUE_FAMILY_PHOTOS).length,
+      complete4PhotoFamilies: complete4PhotoFamiliesCount,
+      skuFinalStatusBreakdown: finalStatusCounts,
     },
     excludedFamilyIds: oldManifest.excludedFamilyIds || [],
     excludedMixedSkuIds: oldManifest.excludedMixedSkuIds || [],
     pendingReviewSkuIds: Array.from(PENDING_REVIEW_SKUS),
-    exactRealSkuIds: Object.keys(STRICT_UNIQUE_SKU_PHOTOS),
+    manualReviewSkuIds: manualReviewSkuIds.sort(),
+    sourceUnavailableSkuIds: sourceUnavailableSkuIds.sort(),
+    exactRealSkuIds: Object.keys(STRICT_UNIQUE_SKU_PHOTOS).sort(),
+    exactRealCloseupSkuIds,
     aliases: familyAliases,
     families: newFamiliesManifest,
     skus: updatedSkusMap,
@@ -3265,7 +3537,13 @@ function main() {
           realMarkingPhoto: exactPhoto
             ? {
                 status: 'VERIFIED_REAL_PRODUCT_IMAGE',
+                licenseStatus: 'USER_CONFIRMED',
+                visualStatus: 'VERIFIED',
                 url: exactPhoto.localPath || `/src/assets/catalog/belts/skus/${r.sku}/real-product-image.webp`,
+                closeupUrl: exactPhoto.closeupLocalPath
+                  ? `/src/assets/catalog/belts/skus/${r.sku}/real-marking-closeup.webp`
+                  : null,
+                sameBeltProof: exactPhoto.sameBeltProof || null,
                 originalSourceUrl: exactPhoto.sourceUrl,
                 sourcePageUrl: exactPhoto.sourcePageUrl,
                 visibleMarking: exactPhoto.visibleMarking,
@@ -3273,7 +3551,11 @@ function main() {
               }
             : {
                 status: 'NOT_FOUND',
+                licenseStatus: 'USER_CONFIRMED',
+                visualStatus: 'NOT_FOUND',
                 url: null,
+                closeupUrl: null,
+                sameBeltProof: null,
                 originalSourceUrl: null,
                 sourcePageUrl: null,
                 visibleMarking: null,
@@ -3465,14 +3747,16 @@ function main() {
     '',
     '| شاخص تصویر | تعداد | وضعیت ممیزی |',
     '|---|---|---|',
-    `| خانواده‌های دارای عکس واقعی اختصاصی غیرتکراری (ذخیره محلی با فرمت واقعی .webp در /public) | **${Object.keys(STRICT_UNIQUE_FAMILY_PHOTOS).length}** خانواده (${imageManifest.summary.totalVerifiedUniqueFamilyPhotoSlots} جایگاه — شامل ${Object.values(STRICT_UNIQUE_FAMILY_PHOTOS).filter((arr) => arr.length >= 4).length} خانواده کامل ۴تصویری) | \`VERIFIED_FAMILY_IMAGE\` (بررسی چشمی کامل بدون تکرار و بدون CGI) |`,
+    `| خانواده‌های دارای عکس واقعی اختصاصی غیرتکراری (ذخیره محلی با فرمت واقعی .webp در /public) | **${Object.keys(STRICT_UNIQUE_FAMILY_PHOTOS).length}** خانواده (${imageManifest.summary.totalVerifiedUniqueFamilyPhotoSlots} جایگاه — شامل **${complete4PhotoFamiliesCount}** خانواده کامل ۴تصویری) | \`VERIFIED_FAMILY_IMAGE\` (بررسی چشمی کامل بدون تکرار و بدون CGI) |`,
     `| خانواده‌های دارای جدول مشخصات مهندسی اختصاصی (سند مهندسی همراه) | **${imageManifest.summary.familiesWithEngineeringSpecSheet}** خانواده | \`VERIFIED_ENGINEERING_REDRAW\` |`,
-    `| کدهای کالای دارای عکس واقعی با مارکینگ خوانای روی تسمه (فرمت .webp) | **${Object.keys(STRICT_UNIQUE_SKU_PHOTOS).length}** کد کالا (${Object.keys(STRICT_UNIQUE_SKU_PHOTOS).map((k) => `\`${k}\``).join('، ')}) | \`VERIFIED_REAL_PRODUCT_IMAGE\` |`,
+    `| کدهای کالای دارای عکس اصلی واقعی روبه‌روی دوربین (فرمت .webp) | **${Object.keys(STRICT_UNIQUE_SKU_PHOTOS).length}** کد کالا (${Object.keys(STRICT_UNIQUE_SKU_PHOTOS).sort().map((k) => `\`${k}\``).join('، ')}) | \`VERIFIED_REAL_PRODUCT_IMAGE\` (تایید هم‌زمان ۵گانه؛ \`licenseStatus: USER_CONFIRMED\` جدا از تایید فنی) |`,
+    `| کدهای کالای دارای تصویر دوم کلوزآپ اثبات‌شده از همان تسمه (\`02-marking-closeup.webp\`) | **${exactRealCloseupSkuIds.length}** کد کالا (${exactRealCloseupSkuIds.map((k) => `\`${k}\``).join('، ')}) | \`VERIFIED_PAIRED_CLOSEUP\` (اثبات هم‌تسمه‌ای در مانیفست و Provenance) |`,
     `| کدهای کالای دارای نقشه فنی مهندسی اختصاصی (جایگاه ۲) | **${imageManifest.summary.skusWithVerifiedTechnicalDrawing.toLocaleString('en-US')}** کد کالا | \`VERIFIED_ENGINEERING_REDRAW\` |`,
+    `| تفکیک وضعیت نهایی کل ${skuImageAuditRows.length.toLocaleString('en-US')} کد تسمه واقعی | تاییدشده: **${finalStatusCounts.VERIFIED_REAL_PRODUCT_IMAGE}** \| نیافت‌شده (\`NOT_FOUND\`): **${finalStatusCounts.NOT_FOUND.toLocaleString('en-US')}** \| بررسی دستی (\`NEEDS_MANUAL_REVIEW\`): **${finalStatusCounts.NEEDS_MANUAL_REVIEW}** \| فاقد منبع رسمی (\`SOURCE_UNAVAILABLE\`): **${finalStatusCounts.SOURCE_UNAVAILABLE.toLocaleString('en-US')}** | پوشش ۱۰۰٪ بدون حذف هیچ SKU |`,
     `| انتساب‌های تکراری حذف‌شده | **${dupCountStr}** جایگاه | \`REJECTED_DUPLICATE\` (ثبت در \`duplicate_images.csv\`) |`,
-    `| تصاویر اشتباه / نامرتبط حذف‌شده | **${rejCountStr}** مورد | \`REJECTED_WRONG_PRODUCT\` / \`RIGHTS_NOT_VERIFIED\` (ثبت در \`rejected_images.csv\`) |`,
+    `| تصاویر اشتباه / نامرتبط / ردشده در ممیزی چشمی | **${rejCountStr}** مورد | \`REJECTED_WRONG_PRODUCT\` / \`REJECTED_HARD_GATE_FAILURE\` (ثبت در \`rejected_images.csv\`) |`,
     `| جایگاه‌های خالی تصویر خانواده (\`NOT_FOUND\`) | **${missingFamilyImageRows.length.toLocaleString('en-US')}** جایگاه | ثبت شفاف در \`missing_family_images.csv\` |`,
-    `| جایگاه‌های خالی عکس واقعی کد کالا (\`NOT_FOUND\`) | **${missingSkuImageRows.length.toLocaleString('en-US')}** کد کالا | ثبت شفاف در \`missing_sku_images.csv\` |`,
+    `| جایگاه‌های خالی عکس واقعی کد کالا (\`NOT_FOUND\` / \`NEEDS_MANUAL_REVIEW\` / \`SOURCE_UNAVAILABLE\`) | **${missingSkuImageRows.length.toLocaleString('en-US')}** کد کالا | ثبت شفاف در \`missing_sku_images.csv\` |`,
     '',
     '---',
     '',

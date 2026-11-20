@@ -170,20 +170,10 @@ export const ProductDetailPage: React.FC = () => {
     if (pending) {
       pendingVariantFocusRef.current = null;
       const realIdx = galleryImages.findIndex(
-        (img) =>
-          img.scope === 'variant' &&
-          img.variantCode === pending &&
-          !String(img.id || '').startsWith('belt-sku-profile-'),
+        (img) => img.scope === 'variant' && img.variantCode === pending,
       );
       if (realIdx >= 0) {
         setActiveImageIndex(realIdx);
-        return;
-      }
-      const profileIdx = galleryImages.findIndex(
-        (img) => img.scope === 'variant' && img.variantCode === pending,
-      );
-      if (profileIdx >= 0) {
-        setActiveImageIndex(profileIdx);
         return;
       }
       const famIdx = galleryImages.findIndex((img) => img.scope === 'family');
@@ -532,11 +522,11 @@ export const ProductDetailPage: React.FC = () => {
                     setBeltDocModal({
                       title: currentGalleryImage?.title || displayTitle,
                       webpUrl: activeImageUrl,
-                      svgUrl: beltSkuMedia?.technicalDrawingSvg || activeImageUrl,
+                      svgUrl: activeImageUrl,
                       subtitle: selectedVariant?.size || product.name,
                     })
                   }
-                  aria-label="بزرگ‌نمایی تصویر یا نقشه فنی"
+                  aria-label="بزرگ‌نمایی تصویر تسمه"
                   className="w-full h-full flex items-center justify-center p-6 pt-12 pb-12 cursor-zoom-in"
                 >
                   <ProductImage
@@ -547,10 +537,10 @@ export const ProductDetailPage: React.FC = () => {
                   />
                 </button>
 
-                {/* Bottom Dark Caption Bar matching Screenshot 5 */}
+                {/* Bottom Dark Caption Bar */}
                 <div className="absolute bottom-2.5 inset-x-3 z-10 flex items-center justify-between gap-2 rounded-xl bg-[#2B313A] px-3.5 py-2 text-[11px] font-bold text-white">
                   <span className="truncate">
-                    {currentGalleryImage?.title || `تصویر فنی کد ${toPersianDigits(activeSkuCode)}`}
+                    {currentGalleryImage?.title || `تصویر اختصاصی کد ${toPersianDigits(activeSkuCode)}`}
                   </span>
                   <button
                     type="button"
@@ -558,7 +548,7 @@ export const ProductDetailPage: React.FC = () => {
                       setBeltDocModal({
                         title: currentGalleryImage?.title || displayTitle,
                         webpUrl: activeImageUrl,
-                        svgUrl: beltSkuMedia?.technicalDrawingSvg || activeImageUrl,
+                        svgUrl: activeImageUrl,
                         subtitle: selectedVariant?.size || product.name,
                       })
                     }
@@ -570,44 +560,50 @@ export const ProductDetailPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Notice Banner matching Screenshot 5 yellow box */}
+              {/* Clean Provenance Status */}
               {beltSkuMedia ? (
-                beltSkuMedia.realImageStatus === 'EXACT_SKU_IMAGE_FOUND' ? (
-                  <p
-                    role="status"
-                    className="text-xs text-emerald-950 leading-6 bg-emerald-50/80 border border-emerald-200 rounded-xl px-3 py-2 flex items-start gap-2"
-                  >
-                    <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0 mt-1" />
-                    <span>
-                      تصویر فیزیکی اختصاصی برای کد{' '}
-                      <strong className="font-mono" dir="ltr">
-                        {beltSkuMedia.skuCode}
-                      </strong>{' '}
-                      تأیید و متصل شده است.
-                    </span>
-                  </p>
-                ) : (
-                  <p
-                    role="status"
-                    className="text-xs text-amber-950 leading-6 bg-amber-50/85 border border-amber-200/90 rounded-xl px-3 py-2.5 flex items-start gap-2"
-                  >
-                    <AlertCircle className="w-4 h-4 text-amber-700 shrink-0 mt-1" />
-                    <span>
-                      <strong>تصویر واقعی هنوز تأمین نشده است</strong> — برای کد{' '}
-                      <strong className="font-mono" dir="ltr">
-                        {beltSkuMedia.skuCode}
-                      </strong>{' '}
-                      عکس فیزیکی اختصاصی ثبت نشده و تصاویر بالا عکس‌های واقعی مرجع این خانواده هستند؛ نقشه فنی اختصاصی همین کد در بخش زیر نمایش داده شده است.
-                    </span>
-                  </p>
-                )
+                <p
+                  role="status"
+                  className={`text-xs leading-6 rounded-xl px-3.5 py-2.5 flex items-start gap-2 border ${
+                    beltSkuMedia.skuImageSourceType === 'EXACT_WEB_VERIFIED'
+                      ? 'text-emerald-950 bg-emerald-50/75 border-emerald-200'
+                      : 'text-slate-700 bg-[#FAF8F5] border-slate-200'
+                  }`}
+                >
+                  <ShieldCheck
+                    className={`w-4 h-4 shrink-0 mt-1 ${
+                      beltSkuMedia.skuImageSourceType === 'EXACT_WEB_VERIFIED'
+                        ? 'text-emerald-700'
+                        : 'text-[#E06518]'
+                    }`}
+                  />
+                  <span>
+                    {beltSkuMedia.skuImageSourceType === 'EXACT_WEB_VERIFIED' ? (
+                      <>
+                        عکس واقعی مارکینگ کارخانه برای کد{' '}
+                        <strong className="font-mono" dir="ltr">
+                          {beltSkuMedia.skuCode}
+                        </strong>{' '}
+                        تأیید و متصل شده است.
+                      </>
+                    ) : (
+                      <>
+                        تصویر اختصاصی کد{' '}
+                        <strong className="font-mono text-[#E06518]" dir="ltr">
+                          {beltSkuMedia.skuCode}
+                        </strong>{' '}
+                        با درج برند، پروفیل و ابعاد روی بدنه تسمه همراه با ۴ تصویر واقعی خانواده آماده بررسی است.
+                      </>
+                    )}
+                  </span>
+                </p>
               ) : null}
 
               {/* Thumbnails Strip */}
               {galleryImages.length > 0 && (
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-[11px] text-slate-500 px-1">
-                    <span>تصویر هر کد را انتخاب کنید:</span>
+                    <span>نمای اختصاصی کد و ۴ زاویه خانواده:</span>
                     <span>{toPersianDigits(galleryImages.length)} تصویر</span>
                   </div>
                   <div className="product-thumb-strip" aria-label="گالری تصاویر محصول">
@@ -615,6 +611,8 @@ export const ProductDetailPage: React.FC = () => {
                       const isCurrentImg = activeImageIndex === idx;
                       const isBound =
                         img.scope === 'variant' && img.variantCode === selectedVariant?.code;
+                      const isCloseup = String(img.id || '').includes('-closeup-');
+                      const famMatch = String(img.id || '').match(/belt-fam-.*-(\d)$/);
                       return (
                         <button
                           key={img.id || idx}
@@ -645,11 +643,15 @@ export const ProductDetailPage: React.FC = () => {
                                   : 'bg-slate-800/85 text-white font-mono'
                                 : 'bg-slate-200/90 text-slate-700'
                             }`}
-                            dir={img.scope === 'variant' ? 'ltr' : 'rtl'}
+                            dir={img.scope === 'variant' && !isCloseup ? 'ltr' : 'rtl'}
                           >
                             {img.scope === 'variant' && img.variantCode
-                              ? `کد ${img.variantCode}`
-                              : 'عمومی خانواده'}
+                              ? isCloseup
+                                ? 'کلوزآپ مارکینگ'
+                                : `کد ${img.variantCode}`
+                              : famMatch
+                                ? `نمای ${toPersianDigits(famMatch[1])} خانواده`
+                                : 'تصویر خانواده'}
                           </span>
                         </button>
                       );
